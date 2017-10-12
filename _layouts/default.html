@@ -7,8 +7,9 @@
 <![endif]-->
     <input id="nm-switch" type="hidden" value="{{ site.nightMode }}">
     {{ content }}
+    <!-- dsadasdasd-->
     <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="{{ "assets/js/prism.js" | prepend: site.baseurl }}"></script>
-    <script src="{{ "assets/js/index.min.js" | prepend: site.baseurl }}"></script>
+    <script src="{{site.qiniu_url}}assets/js/prism.js"></script>
+    <script src="{{site.qiniu_url}}assets/js/index.min.js"></script>
 </body>
 </html>
