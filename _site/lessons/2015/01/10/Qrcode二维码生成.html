@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qrcode二维码生成 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="Qrcode二维码生成">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Qrcode二维码生成 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/10/Qrcode%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%94%9F%E6%88%90.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>Qrcode二维码生成</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-01-10"><i class="iconfont icon-date"></i>10 Jan 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h2 id="二维码生成">二维码生成</h2>
+<p>通常在使用当中，我们会把扫描二维码的zxing包放在一起，现在我把二维码生成的代码提取出来。生成jar文件  <br />
+<a href="http://localhost:4000/assets/jar/zxingCreateQcode.jar">jar文件</a>     <br />
+使用方法如下，支持api10 以上</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.zxing.Create2DCode</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.zxing.CreateBitmap.WriterException</span><span class="o">;</span> 
+
+<span class="k">try</span> <span class="o">{</span>
+            <span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">Create2DCode</span><span class="o">.</span><span class="na">CreateCode</span><span class="o">(</span><span class="s">"wwwww"</span><span class="o">,</span><span class="mi">500</span><span class="o">,</span><span class="mi">500</span><span class="o">));</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">WriterException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+            <span class="n">Log</span><span class="o">.</span><span class="na">d</span><span class="o">(</span><span class="s">"TAG"</span><span class="o">,</span> <span class="s">"TAG"</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="c1">//需要抛出异常</span>
+        <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">;</span>
+        <span class="n">bitmap</span> <span class="o">=</span> <span class="n">Create2DCode</span><span class="o">.</span><span class="na">CreateCode</span><span class="o">(</span><span class="s">"wwwww"</span><span class="o">,</span><span class="mi">500</span><span class="o">,</span><span class="mi">500</span><span class="o">);</span>
+        <span class="c1">//或者</span>
+        <span class="n">bitmap</span> <span class="o">=</span> <span class="n">Create2DCode</span><span class="o">.</span><span class="na">CreateCode</span><span class="o">(</span><span class="s">"wwwww"</span><span class="o">);</span>
+        <span class="n">Create2DCode</span><span class="o">.</span><span class="na">CreateCode</span><span class="o">(</span><span class="s">"要生成二维码的内容"</span><span class="o">,</span><span class="n">width</span><span class="o">,</span><span class="n">height</span><span class="o">);</span><span class="c1">//width 高度，height长度</span>
+
+</code></pre></div></div>
+
+<p>c</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/12/android%E5%85%B6%E4%B8%AD%E4%B8%89%E7%A7%8D%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android其中三种数据储存</span>
+                <p>android通常有五种数据的保存方式，三种如下，其他俩种分别是网络存储和 Content Provider1.保...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/05/zxing%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B0%8F%E6%80%BB%E7%BB%93.html" class="read-next-link"></a>
+            <section>
+                <span>zxing开源项目的小总结</span>
+                <p>ZXing是什么呢？原项目github地址   zxing是一个关于用java实现的多种格式的1D/2D条码图形处...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

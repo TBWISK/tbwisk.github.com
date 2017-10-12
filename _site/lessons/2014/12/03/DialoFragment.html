@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DialoFragment - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="DialoFragment">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="DialoFragment - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2014/12/03/DialoFragment.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>DialoFragment</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="14-12-03"><i class="iconfont icon-date"></i>03 Dec 2014</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h2 id="首先需要了解的是什么是fragment">首先需要了解的是，什么是Fragment</h2>
+<p>Fragment是碎片化之类的东西，生命周期和Activity类似，但却依赖Activity才能创建。下面是如何使用DialogFragment</p>
+
+<p>——————————————–API文档介绍
+public class FragmentActivity  <br />
+extends Activity</p>
+
+<p>Base class for activities that want to use the support-based Fragment and Loader APIs.</p>
+
+<p>When using this class as opposed to new platform’s built-in fragment and loader support, you must use the getSupportFragmentManager() and getSupportLoaderManager() methods respectively to access those features.</p>
+
+<p>Known limitations:</p>
+
+<ul>
+  <li>
+    <p>When using the <fragment> tag, this implementation can not use the parent view's ID as the new fragment's ID. You must explicitly specify an ID (or tag) in the <fragment>.</fragment></fragment></p>
+  </li>
+  <li>
+    <p>Prior to Honeycomb (3.0), an activity’s state was saved before pausing. Fragments are a significant amount of new state, and dynamic enough that one often wants them to change between pausing and stopping. These classes throw an exception if you try to change the fragment state after it has been saved, to avoid accidental loss of UI state. However this is too restrictive prior to Honeycomb, where the state is saved before pausing. To address this, when running on platforms prior to Honeycomb an exception will not be thrown if you change fragments between the state save and the activity being stopped. This means that in some cases if the activity is restored from its last saved state, this may be a snapshot slightly before what the user last saw.</p>
+  </li>
+</ul>
+
+<hr />
+<p>MainActivity代码，R.layout.activity_main 中就只有一个Button</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">ff</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">android.annotation.SuppressLint</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.annotation.TargetApi</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.Build</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.Bundle</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.app.Fragment</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.app.FragmentActivity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.app.FragmentManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.app.FragmentTransaction</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v7.app.ActionBarActivity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.util.Log</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.Menu</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.MenuItem</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.View</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.View.OnClickListener</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.Button</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MainActivity</span> <span class="kd">extends</span> <span class="n">FragmentActivity</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_main</span><span class="o">);</span>
+        
+        <span class="n">Button</span> <span class="n">button</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span><span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button</span><span class="o">);</span>
+        <span class="n">button</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+			
+			<span class="nd">@TargetApi</span><span class="o">(</span><span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">HONEYCOMB</span><span class="o">)</span> <span class="nd">@SuppressLint</span><span class="o">(</span><span class="s">"NewApi"</span><span class="o">)</span> <span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="c1">// TODO Auto-generated method stub</span>
+<span class="c1">//				  Fragment1 dialogFragment = Fragment1.newInstance(</span>
+<span class="c1">//			                "Are you sure you want to do this?");</span>
+<span class="c1">//			        dialogFragment.show(getSupportFragmentManager(), "hello");</span>
+<span class="c1">//				</span>
+				 <span class="n">android</span><span class="o">.</span><span class="na">support</span><span class="o">.</span><span class="na">v4</span><span class="o">.</span><span class="na">app</span><span class="o">.</span><span class="na">Fragment</span> <span class="n">gr</span> <span class="o">=</span> <span class="n">Fragment2</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+<span class="c1">//			        gr.show(getSupportFragmentManager(), "dialog");</span>
+				 <span class="n">android</span><span class="o">.</span><span class="na">support</span><span class="o">.</span><span class="na">v4</span><span class="o">.</span><span class="na">app</span><span class="o">.</span><span class="na">FragmentManager</span> <span class="n">fr</span> <span class="o">=</span> <span class="n">getSupportFragmentManager</span><span class="o">();</span>
+				 <span class="n">android</span><span class="o">.</span><span class="na">support</span><span class="o">.</span><span class="na">v4</span><span class="o">.</span><span class="na">app</span><span class="o">.</span><span class="na">FragmentTransaction</span>	<span class="n">fra</span><span class="o">=</span> <span class="n">fr</span><span class="o">.</span><span class="na">beginTransaction</span><span class="o">();</span>
+				 <span class="n">fra</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">gr</span><span class="o">,</span> <span class="s">"dd"</span><span class="o">);</span>
+				 <span class="n">fra</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+				 <span class="cm">/*
+				 *存在俩种实现方式，一个是 getSupportFragmentManager().beginTransaction().commit();
+				 *一个是  fra.add(Fragment, "TAG");
+				 */</span>
+			<span class="o">}</span>
+		<span class="o">});</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>弹窗的部分DialogFragment</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">ff</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">android.app.Fragment</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.os.Bundle</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.annotation.Nullable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.app.DialogFragment</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.LayoutInflater</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.View</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.view.ViewGroup</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.ImageView</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.widget.TextView</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Fragment2</span> <span class="kd">extends</span> <span class="n">DialogFragment</span><span class="o">{</span>
+	
+	<span class="kd">static</span>  <span class="n">Fragment2</span> <span class="nf">newInstance</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">Fragment2</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">View</span> <span class="nf">onCreateView</span><span class="o">(</span><span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span>
+			<span class="nd">@Nullable</span> <span class="n">ViewGroup</span> <span class="n">container</span><span class="o">,</span> <span class="nd">@Nullable</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+		
+		<span class="n">View</span> <span class="n">v</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test01</span><span class="o">,</span> <span class="n">container</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>  
+        <span class="n">View</span> <span class="n">tv</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">test</span><span class="o">);</span>  
+        <span class="o">((</span><span class="n">TextView</span><span class="o">)</span><span class="n">tv</span><span class="o">).</span><span class="na">setText</span><span class="o">(</span><span class="s">"This is an instance of MyDialogFragment"</span><span class="o">);</span> 
+        <span class="n">ImageView</span> <span class="n">image</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span><span class="n">v</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">image</span><span class="o">);</span>
+        <span class="n">image</span><span class="o">.</span><span class="na">setImageResource</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">ic_launcher</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">;</span>  
+	<span class="o">}</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>弹窗的layout代码</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span>
+    <span class="na">android:id=</span><span class="s">"@+id/lay_out"</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;TextView</span> 
+        <span class="na">android:id=</span><span class="s">"@+id/test"</span>
+        <span class="na">android:text=</span><span class="s">"oooooo"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;ImageView</span> 
+        <span class="na">android:id=</span><span class="s">"@+id/image"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+
+<p>效果图:<img src="http://localhost:4000/assets/picture/DialogFragment.jpg" alt="photo" /></p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2014/12/12/volley%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>volley简单使用</span>
+                <p>Android VolleyAndroid Volley 是什么，是一种网络通信的框架，是google 官方维护的...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2014/11/24/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%AE%80%E5%8D%95%E9%97%AE%E9%A2%98.html" class="read-next-link"></a>
+            <section>
+                <span>java多线程简单问题</span>
+                <p>CPU的运行，宏观上并行，微观上串行。进程和线程之间的问题 	一个进程是一个独立的运行环境，它可以被看作一个程序或...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

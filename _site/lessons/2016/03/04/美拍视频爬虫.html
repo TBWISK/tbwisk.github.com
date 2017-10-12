@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>美拍视频爬虫 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="美拍视频爬虫">
+    <meta name="keywords"  content="爬虫">
+    <!-- Open Graph -->
+    <meta property="og:title" content="美拍视频爬虫 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2016/03/04/%E7%BE%8E%E6%8B%8D%E8%A7%86%E9%A2%91%E7%88%AC%E8%99%AB.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#%E7%88%AC%E8%99%AB" class="post-tag">爬虫</a>
+            
+            
+        </div>
+        <h1>美拍视频爬虫</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="16-03-04"><i class="iconfont icon-date"></i>04 Mar 2016</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="1背景">1.背景</h3>
+<p>首先，这次的爬虫的对象是针对美拍的视频。 <br />
+那么，如何去爬美拍的视频呢？ <br />
+然后我们的目标是：  <br />
+1：单独一个视频去爬 <br />
+2：已经知道美拍用户的id，根据用户id去获取改用户的全部视频</p>
+
+<h3 id="2单独获取一个视频">2.单独获取一个视频</h3>
+<p>a.如何去获取一个视频呢？这个时候可以查看页面的源码。
+例如 http://www.meipai.com/media/484461748 这个页面的视频。如何去获取这个页面的视频的真实video地址呢？  <br />
+答案是：查看源码</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;title&gt;</span>浅浅的唱歌给自己听#60秒美拍##音乐# - 田紫紫Tina的美拍<span class="nt">&lt;/title&gt;</span>    
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"description"</span> <span class="na">content=</span><span class="s">"浅浅的唱歌给自己听#60秒美拍##音乐#由美拍用户田紫紫Tina发布分享，美拍女神频道推荐。"</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;meta</span> <span class="na">name=</span><span class="s">"keywords"</span> <span class="na">content=</span><span class="s">"60秒美拍,音乐,田紫紫Tina"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">"X-UA-Compatible"</span> <span class="na">content=</span><span class="s">"IE=edge,chrome=1"</span> <span class="nt">/&gt;</span>
+            <span class="c">&lt;!-- 增加og相关标签属性，便于facebook抓取页面视频信息 start--&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"video.other"</span> <span class="na">property=</span><span class="s">"og:type"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"http://www.meipai.com/media/484461748"</span> <span class="na">property=</span><span class="s">"og:url"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"浅浅的唱歌给自己听#60秒美拍##音乐#"</span> <span class="na">property=</span><span class="s">"og:title"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"http://mvimg1.meitudata.com/56d6c580712008897.jpg"</span> <span class="na">property=</span><span class="s">"og:image"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"浅浅的唱歌给自己听#60秒美拍##音乐#"</span> <span class="na">property=</span><span class="s">"og:description"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:video:release_date"</span> <span class="na">content=</span><span class="s">"03-02"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:video:director"</span> <span class="na">content=</span><span class="s">"田紫紫Tina"</span> <span class="nt">/&gt;</span>
+         
+            <span class="nt">&lt;meta</span> <span class="na">property=</span><span class="s">"og:video:tag"</span> <span class="na">content=</span><span class="s">"60秒美拍,音乐"</span> <span class="nt">/&gt;</span>
+                
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"video/mp4"</span> <span class="na">property=</span><span class="s">"og:video:type"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"https://mvvideo5.meitudata.com/56d6fa507ac516008.mp4"</span> <span class="na">property=</span><span class="s">"og:video:url"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"https://mvvideo5.meitudata.com/56d6fa507ac516008.mp4"</span> <span class="na">property=</span><span class="s">"og:video:secure_url"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"480"</span> <span class="na">property=</span><span class="s">"og:video:width"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"480"</span> <span class="na">property=</span><span class="s">"og:video:height"</span><span class="nt">&gt;</span>
+</code></pre></div></div>
+
+<p>在一开始这个页面，你会发现真实的视频地址就是 <meta /> 标签里面。那么现在要实现的就是写个网络请求，把页面捉取，然后写个正则表达式，想要的数据获取。 <br />
+当知道完思路后，那么就开始写代码了。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#coding:utf-8</span>
+<span class="c">#用于获取网页内的视频地址</span>
+<span class="c">#这个是获取 美拍视频地址</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">import</span> <span class="nn">urlparse</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="n">base_url</span> <span class="o">=</span><span class="s">"http://www.meipai.com/media/484461748"</span>
+  
+<span class="c"># import sys  </span>
+<span class="c"># reload(sys)  </span>
+<span class="c"># sys.setdefaultencoding('utf8')   </span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">Request</span><span class="p">(</span><span class="n">base_url</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+<span class="c"># print response.read()</span>
+<span class="n">reader</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="c"># print response.read()</span>
+<span class="c"># print reader</span>
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span><span class="s">"lxml"</span><span class="p">)</span>
+<span class="c"># print soup.text</span>
+<span class="c"># print images[0]['content']</span>
+<span class="n">vidoes</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">"meta"</span><span class="p">,{</span><span class="s">'property'</span><span class="p">:</span><span class="s">'og:video:url'</span><span class="p">})</span>
+<span class="k">print</span> <span class="n">vidoes</span>
+<span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">vidoes</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'content'</span><span class="p">])</span>
+
+<span class="c">#正则表达式</span>
+<span class="n">rege</span> <span class="o">=</span> <span class="s">"&lt;meta content=</span><span class="se">\"</span><span class="s">https://.*mp4"</span>
+<span class="n">items</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">rege</span><span class="p">,</span> <span class="n">reader</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">items</span>
+
+<span class="err">下面的是运行结果：</span>  
+<span class="p">[</span><span class="o">&lt;</span><span class="n">meta</span> <span class="n">content</span><span class="o">=</span><span class="s">"https://mvvideo5.meitudata.com/56d6fa507ac516008.mp4"</span> <span class="nb">property</span><span class="o">=</span><span class="s">"og:video:url"</span><span class="o">/&gt;</span><span class="p">]</span>
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">mvvideo5</span><span class="o">.</span><span class="n">meitudata</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="mi">56</span><span class="n">d6fa507ac516008</span><span class="o">.</span><span class="n">mp4</span>
+<span class="p">[</span><span class="s">'&lt;meta content="https://mvvideo5.meitudata.com/56d6fa507ac516008.mp4'</span><span class="p">,</span> <span class="s">'&lt;meta content="https://mvvideo5.meitudata.com/56d6fa507ac516008.mp4'</span><span class="p">]</span> 
+
+</code></pre></div></div>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">show</span>
+  <span class="vi">@widget</span> <span class="o">=</span> <span class="no">Widget</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:id</span><span class="p">])</span>
+  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">html</span> <span class="c1"># show.html.erb</span>
+    <span class="nb">format</span><span class="p">.</span><span class="nf">json</span> <span class="p">{</span> <span class="n">render</span> <span class="ss">json: </span><span class="vi">@widget</span> <span class="p">}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>那么简单的获取一个视频的爬虫就得到了，那么根据user ID获取视频列表的方法呢？ <br />
+下面详细讲解。</p>
+
+<h4 id="获取一个用户的全部视频">获取一个用户的全部视频</h4>
+<p>1：首先明确的是，美拍的用户跟url的关系<br />
+就好像 http://www.meipai.com/user/10810495 这个htto链接一样。 
+user后面的部分可以看成是用户的id
+那么这个时候可以利用http捉包工具，获取对应的api。
+因为美拍的页面在向下滑动的时候，自动加载新的信息。可以确认使用了ajax的对应框架。 <br />
+http://www.meipai.com/users/user_timeline?page=2&amp;count=12&amp;single_column=1&amp;uid=35079656<br />
+就好像上面的url地址一样，最后返回的是json数据 <br />
+例如： <br />
+<img src="/assets/picture/3CAAF604-4993-4F9A-806A-05BC94EF82CB.png" /></p>
+
+<p>最后想办法解析数据，然后就可以得到真实视频url的地址。那么最后就可以下载视频了。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#coding:utf-8</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c"># page = 2</span>
+<span class="c"># num = 13</span>
+<span class="k">print</span> <span class="s">"start"</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s">"1047127268"</span><span class="c">#40882577</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s">"http://www.meipai.com/users/user_timeline?page={page}&amp;count=12&amp;single_column=1&amp;uid={name}"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"{name}"</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="c"># url = base_url.replace("{page}", str(page))</span>
+<span class="c"># req = urllib2.urlopen(url)</span>
+<span class="c"># body =  req.read()</span>
+<span class="c"># js = json.loads(body)</span>
+<span class="c"># medias =  js.get("medias")</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s">"mkdir mp3/"</span><span class="o">+</span><span class="n">name</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"test"</span>
+<span class="n">mp4_url</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span> <span class="nf">getMp4Url</span><span class="p">(</span><span class="n">page</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">base_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">"{page}"</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
+    <span class="n">req</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span>  <span class="n">req</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">js</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+    <span class="c"># print body</span>
+    <span class="n">medias</span> <span class="o">=</span>  <span class="n">js</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"medias"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">medias</span><span class="p">:</span>
+        <span class="n">video</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"video"</span><span class="p">)</span>
+        <span class="n">mp4_url</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">video</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">medias</span><span class="p">)</span> <span class="o">==</span> <span class="mi">12</span><span class="p">:</span>
+        <span class="n">getMp4Url</span><span class="p">(</span><span class="n">page</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">downvideo</span><span class="p">(</span><span class="n">url</span><span class="p">,</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
+    <span class="c"># s.config['keep_alive'] = False</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'keep_alive'</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'Connection'</span><span class="p">]</span><span class="o">=</span><span class="s">'Keep-Alive'</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'User-Agent'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.106 Safari/537.36'}"</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'X-Requested-With'</span><span class="p">]</span><span class="o">=</span><span class="s">"ShockwaveFlash/20.0.0.267"</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'Cookie'</span><span class="p">]</span><span class="o">=</span><span class="s">"xa=xa"</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'Accept-Language'</span><span class="p">]</span><span class="o">=</span><span class="s">'zh-CN,zh;q=0.8,en;q=0.6'</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">'Accept-Encoding'</span><span class="p">]</span> <span class="o">=</span><span class="s">'gzip, deflate, sdch'</span>
+    <span class="c"># s.headers['Referer'] = 'http://www.flv.tv/q{1}'.replace("{1}",str(i))</span>
+    <span class="c"># s.headers['Host']='n.syasn.com'</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="c"># print r.headers</span>
+    <span class="k">with</span> <span class="nb">open</span> <span class="p">(</span><span class="s">"./mp3/"</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s">"/"</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="s">".mp4"</span><span class="p">,</span><span class="s">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">code</span><span class="p">:</span>
+        <span class="n">code</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"index :"</span><span class="p">,</span><span class="n">i</span>
+<span class="n">getMp4Url</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">"len"</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">mp4_url</span><span class="p">)</span>
+<span class="c"># os.system("command")</span>
+
+<span class="n">fi</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">"./mp3/"</span><span class="o">+</span><span class="n">name</span><span class="o">+</span><span class="s">".txt"</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s">"w"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">mp4_url</span><span class="p">:</span>
+    <span class="n">fi</span><span class="o">.</span><span class="n">writelines</span><span class="p">(</span><span class="n">item</span><span class="o">+</span><span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+<span class="n">fi</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">num</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">mp4_url</span><span class="p">:</span>
+    <span class="k">print</span> <span class="n">num</span><span class="p">,</span><span class="n">item</span> 
+    <span class="c"># downvideo(item, num)</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">num</span><span class="o">+</span><span class="mi">1</span>
+<span class="k">print</span> <span class="s">"end"</span>
+<span class="c"># print len(medias)</span>
+<span class="c"># for i in medias:</span>
+    <span class="c"># video_url =  i.get("video") </span>
+    <span class="c"># downvideo(video_url, num)</span>
+    <span class="c"># num = num+1</span>
+    <span class="c"># print video_url</span>
+
+</code></pre></div></div>
+
+<p>运行结果：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1 http://mvvideo1.meitudata.com/56e05e81a156f8543.mp4
+2 http://mvvideo2.meitudata.com/56ba89507b7a24113.mp4
+3 http://mvvideo2.meitudata.com/56b68fcfe0c1f3247.mp4
+4 http://mvvideo1.meitudata.com/56b69dbe763009024.mp4
+5 http://mvvideo2.meitudata.com/56b53681ba7fe4708.mp4
+6 http://mvvideo2.meitudata.com/56b3dc698ab77870.mp4
+7 http://mvvideo1.meitudata.com/56b2b460f05ac8358.mp4
+8 http://mvvideo2.meitudata.com/56b207ba749973068.mp4
+9 http://mvvideo1.meitudata.com/56b1d377a8d9a2375.mp4
+10 http://mvvideo2.meitudata.com/56b16b5f8f0722203.mp4
+11 http://mvvideo2.meitudata.com/56b02eb7d97ae9729.mp4
+12 http://mvvideo1.meitudata.com/5694827a60e512951.mp4
+13 http://mvvideo2.meitudata.com/569037c802f0b4335.mp4
+14 http://mvvideo2.meitudata.com/568e5c16da05b2425.mp4
+15 http://mvvideo1.meitudata.com/568d07362646c8484.mp4
+16 http://mvvideo2.meitudata.com/566b035069c593107.mp4
+17 http://mvvideo2.meitudata.com/5669c74360e8f9059.mp4
+18 http://mvvideo1.meitudata.com/56692d76694e81818.mp4
+19 http://mvvideo2.meitudata.com/5668b3993dba68223.mp4
+20 http://mvvideo2.meitudata.com/566af513f3a578748.mp4
+21 http://mvvideo1.meitudata.com/566b02ff9b0354731.mp4
+22 http://mvvideo2.meitudata.com/56661fb8787342002.mp4
+23 http://mvvideo2.meitudata.com/56680a90c34961786.mp4
+24 http://mvvideo2.meitudata.com/566827badea67914.mp4
+25 http://mvvideo1.meitudata.com/56684d6d7acc46645.mp4
+26 http://mvvideo1.meitudata.com/5661b7a8e29cd9413.mp4
+27 http://mvvideo1.meitudata.com/5661b23f4afad897.mp4
+28 http://mvvideo1.meitudata.com/56694af0719933371.mp4
+29 http://mvvideo1.meitudata.com/565836e8b699a108.mp4
+30 http://mvvideo2.meitudata.com/5669d6a226ec16302.mp4
+31 http://mvvideo2.meitudata.com/5669d880c5b518638.mp4
+32 http://mvvideo2.meitudata.com/5669d8f1925e16318.mp4
+33 http://mvvideo1.meitudata.com/5669d9ce21687448.mp4
+34 http://mvvideo1.meitudata.com/5669e60b306251274.mp4
+35 http://mvvideo2.meitudata.com/5669e72dccdcc8200.mp4
+36 http://mvvideo2.meitudata.com/5669e707b5f0a3291.mp4
+37 http://mvvideo2.meitudata.com/566a069f42b745119.mp4
+38 http://mvvideo2.meitudata.com/565040b7953a71639.mp4
+39 http://mvvideo1.meitudata.com/56503a8c28fbf5614.mp4
+40 http://mvvideo2.meitudata.com/56502a51d96f11887.mp4
+41 http://mvvideo1.meitudata.com/5650259251d1c6694.mp4
+42 http://mvvideo1.meitudata.com/566a4b8aeba7e5522.mp4
+43 http://mvvideo2.meitudata.com/564d861123f8f7577.mp4
+44 http://mvvideo1.meitudata.com/564d7a4a4a22b3289.mp4
+45 http://mvvideo1.meitudata.com/566a7bc57a3d93075.mp4
+46 http://mvvideo1.meitudata.com/564cabd33cae49337.mp4
+47 http://mvvideo2.meitudata.com/564b2ff06b598625.mp4
+48 http://mvvideo1.meitudata.com/564afc48e9ff57990.mp4
+49 http://mvvideo2.meitudata.com/564af6d5632ed5644.mp4
+50 http://mvvideo2.meitudata.com/564cdd6e035196867.mp4
+51 http://mvvideo2.meitudata.com/564cde1de660a3068.mp4
+52 http://mvvideo2.meitudata.com/564ce979d8b772775.mp4
+53 http://mvvideo1.meitudata.com/5643c0f9db4712070.mp4
+54 http://mvvideo1.meitudata.com/564d2735e188a4376.mp4
+55 http://mvvideo2.meitudata.com/564d270a818a04718.mp4
+56 http://mvvideo1.meitudata.com/56422da4776409177.mp4
+57 http://mvvideo2.meitudata.com/5637acda9945b5991.mp4
+58 http://mvvideo1.meitudata.com/563c8d0b8e0031466.mp4
+59 http://mvvideo2.meitudata.com/563c8d117e2d4296.mp4
+60 http://mvvideo2.meitudata.com/564dc502f02f1675.mp4
+61 http://mvvideo2.meitudata.com/5633d7b2d51227818.mp4
+62 http://mvvideo1.meitudata.com/5633d7c0f2bef2814.mp4
+63 http://mvvideo1.meitudata.com/5633faf91dc202085.mp4
+64 http://mvvideo2.meitudata.com/5634324d6efad6440.mp4
+65 http://mvvideo1.meitudata.com/56343e598afac7683.mp4
+66 http://mvvideo1.meitudata.com/56343e4933f108664.mp4
+67 http://mvvideo2.meitudata.com/56343e438d3b69953.mp4
+68 http://mvvideo2.meitudata.com/56343e4abe10a3502.mp4
+69 http://mvvideo1.meitudata.com/563441f0bae67919.mp4
+70 http://mvvideo2.meitudata.com/56344971b1a336725.mp4
+71 http://mvvideo2.meitudata.com/5634498f99cf09863.mp4
+72 http://mvvideo1.meitudata.com/563449a08696a3620.mp4
+73 http://mvvideo1.meitudata.com/56344d3e291467064.mp4
+74 http://mvvideo1.meitudata.com/56344d26ae1018661.mp4
+75 http://mvvideo1.meitudata.com/56344d6b038db9093.mp4
+76 http://mvvideo10.meitudata.com/560124e8ea904691.mp4
+</code></pre></div></div>
+<p>注意，注意，有时候规则会改变。需要适当的维护</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/03/25/%E5%9F%BA%E7%A1%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.html" class="read-next-link"></a>
+            <section>
+                <span>基础排序算法</span>
+                <p>1：明确有多少个基础排序算法    &lt;/br&gt;</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/01/15/wireshark%E7%9A%84%E4%BD%BF%E7%94%A8-%E4%BB%A5%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98.html" class="read-next-link"></a>
+            <section>
+                <span>wireshark的使用</span>
+                <p>a:背景这是个简单的Wireshark的使用方法。  以及简单的个人的信息安全介绍。—涉及到的内容：1：Wires...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

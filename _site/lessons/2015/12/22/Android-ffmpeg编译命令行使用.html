@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android-ffmpeg的编译命令行使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="android-ffmpeg的编译命令行使用">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android-ffmpeg的编译命令行使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/12/22/Android-ffmpeg%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>android-ffmpeg的编译命令行使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-12-22"><i class="iconfont icon-date"></i>22 Dec 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="a背景">a:背景</h3>
+<p>工作上需要，编写一个视频转换的工具，然后我选择了ffmpeg这个重量级的工具。下面讲述的是如何编译ffmpeg，如何在android上面使用ffmpeg。教程或许简单，但我编译后可用。可行性应该属于挺高的。 <br />
+配置环境： <br />
+1：android-ndk-r10e  <br />
+2：macbook os X Yosemite</p>
+
+<p>编译的目标的ffmpeg的版本是ffmpeg-2.8.3    <a href="https://github.com/FFmpeg/FFmpeg/tree/release/2.8">ffmpeg-2.8 的下载地址</a>  <br />
+ffmpeg-2.8.3的下载地址
+提供下载地址的原因，部分同学会找不到当前的版本去下载 而说一些无法编译的情况。
+边看边编译。模仿是最好的学习途径。</p>
+
+<hr />
+
+<h4 id="1配置好编译之前的环境">1：配置好编译之前的环境</h4>
+<p>a:下载和配置和ndk的环境。配置ndk的时候在mac下面比较麻烦，因为mac有个机制是当前窗口适用。所以得写在配置文件上面。 <br />
+b:下载ffmpeg，建议ffmpeg这个文件夹的源码放在ndk目录的sources下面。放在这个下面可以很好的管理一些ndk的相互依赖性。<br />
+c:对config文件进行修改。如果不修改的话，那么到时候编译出来的so文件的格式会变成libxx.so.67之类的存在。这个格式android上面不能好好的识别。 <br />
+修改方法。在configure下面找到下面的几行代码。</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLIBNAME_WITH_MAJOR='$(SLIBNAME).$(LIBMAJOR)'  
+LIB_INSTALL_EXTRA_CMD='$$(RANLIB)"$(LIBDIR)/$(LIBNAME)"'  
+SLIB_INSTALL_NAME='$(SLIBNAME_WITH_VERSION)'  
+SLIB_INSTALL_LINKS='$(SLIBNAME_WITH_MAJOR)$(SLIBNAME)' 
+</code></pre></div></div>
+<p>然后把这几行代码替换成下面这样就可以了</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SLIBNAME_WITH_MAJOR='$(SLIBPREF)$(FULLNAME)-$(LIBMAJOR)$(SLIBSUF)'  
+LIB_INSTALL_EXTRA_CMD='$$(RANLIB)"$(LIBDIR)/$(LIBNAME)"'  
+SLIB_INSTALL_NAME='$(SLIBNAME_WITH_MAJOR)'  
+SLIB_INSTALL_LINKS='$(SLIBNAME)'  
+</code></pre></div></div>
+
+<p>d:生成类库，那么如何去生成类库呢？这个时候我们需要编写一个build_android.sh 的文件，编写完毕后可以很轻松的sh build_android.sh 去编译我们的ffmpeg，生成我们所需要的文件。  <br />
+build_android.sh 文件如下。</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+NDK=/appdev/ndk/android-ndk-r10e
+SYSROOT=$NDK/platforms/android-9/arch-arm/
+TOOLCHAIN=$NDK/toolchains/arm-linux-androideabi-4.8/prebuilt/darwin-x86_64
+
+CC=/appdev/ndk/android-ndk-r10e/toolchains/arm-linux-androideabi-4.8/prebuilt/darwin-x86_64/bin
+X264_ROOT=/appdev/ndk/android-ndk-r10e/sources/x264-snapshot-20151220-2245/android/include
+
+function build_one
+{
+./configure \
+ --extra-libs=-lgcc \
+  --target-os=linux \
+  --prefix=$PREFIX \
+    --enable-cross-compile \
+    --enable-runtime-cpudetect \
+    --disable-asm \
+    --arch=$CPU \
+    --sysroot=$SYSROOT \
+    --cc=$CC/arm-linux-androideabi-gcc \
+    --cross-prefix=$TOOLCHAIN/bin/arm-linux-androideabi- \
+    --disable-stripping \
+    --nm=$TOOLCHAIN/bin/arm-linux-androideabi-nm \
+    --enable-gpl \
+    --enable-libx264 \
+    --enable-shared \
+    --disable-static \
+    --enable-small \
+    --disable-ffprobe \
+    --disable-ffplay \
+    --disable-ffmpeg --disable-ffserver --disable-debug \
+    --extra-cflags="-fPIC -DANDROID -D__thumb__ -mthumb -Wfatal-errors -Wno-deprecated -mfloat-abi=softfp -marm -march=armv7-a -I$X264_ROOT" \
+    --extra-ldflags=-L/appdev/ndk/android-ndk-r10e/sources/x264-snapshot-20151220-2245/android/lib 
+make clean
+make 
+make install
+}
+CPU=arm
+PREFIX=$(pwd)/android/$CPU
+ADDI_CFLAGS="-marm"
+build_one
+</code></pre></div></div>
+<p>在上面的配置文件需要注意的参数有 NDK SYSROOT TOOLCHAIN X264_ROOT 这几个参数。 <br />
+NDK 是ndk所在的目录下面。   X264_ROOT 是因为在我需要的功能中，需要求h264的编码格式文件进行编码。通常ffmpeg是解码的工具，但里面不包含一些编码工具，这个时候需要使用到第三方的lib库。 <br />
+在配置文件中，详情可以使用 ./configure –help 查看对应的命令。然后根据自己想要的去配置。我的项目仅仅是提供参数。</p>
+
+<p>在运行sh build_android.sh 之前，我们是不是看到了X264_ROOT，那么这个编译会需要依赖x264编译好的so文件或者是.a的链接文件。 <br />
+那么在第二大步，就是关于如何编译libx264。</p>
+
+<hr />
+
+<h4 id="2编译libx264">2：编译libx264</h4>
+<p>a:编译libx264之前，需要到官网去下载源码 http://www.videolan.org/developers/x264.html ，我编译的x264是什么版本我也不知道。所以，我也提供了我自己的下载的source给你们下载。   (x264下载)[]  <br />
+b:编译libx264的时候，你会发现有一个类似ffmpeg的configure的文件，那么我们也需要写一个sh脚本去编译它。一切为了编译方便和为了以后的维护。 <br />
+脚本文件 build.sh：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">export</span> <span class="n">NDK</span><span class="o">=/</span><span class="n">appdev</span><span class="o">/</span><span class="n">ndk</span><span class="o">/</span><span class="n">android</span><span class="o">-</span><span class="n">ndk</span><span class="o">-</span><span class="n">r10e</span>
+<span class="n">export</span> <span class="n">VERSION</span><span class="o">=</span><span class="mf">4.8</span>
+<span class="n">export</span> <span class="n">PREBUILT</span><span class="o">=</span><span class="n">$NDK</span><span class="o">/</span><span class="n">toolchains</span><span class="o">/</span><span class="n">arm</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">androideabi</span><span class="o">-</span><span class="n">$VERSION</span><span class="o">/</span><span class="n">prebuilt</span>
+<span class="n">export</span> <span class="n">PLATFORM</span><span class="o">=</span><span class="n">$NDK</span><span class="o">/</span><span class="n">platforms</span><span class="o">/</span><span class="n">android</span><span class="o">-</span><span class="mi">8</span><span class="o">/</span><span class="n">arch</span><span class="o">-</span><span class="n">arm</span>
+<span class="o">./</span><span class="n">configure</span> <span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="kd">static</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">shared</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">enable</span><span class="o">-</span><span class="n">pic</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">asm</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">cli</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">host</span><span class="o">=</span><span class="n">arm</span><span class="o">-</span><span class="n">linux</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">cross</span><span class="o">-</span><span class="n">prefix</span><span class="o">=</span><span class="n">$PREBUILT</span><span class="o">/</span><span class="n">darwin</span><span class="o">-</span><span class="n">x86_64</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">arm</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">androideabi</span><span class="o">-</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">sysroot</span><span class="o">=</span><span class="n">$PLATFORM</span> <span class="err">\</span>
+	<span class="o">--</span><span class="n">prefix</span><span class="o">=./</span><span class="n">android</span>
+<span class="n">make</span> <span class="o">&amp;&amp;</span> <span class="n">make</span> <span class="n">install</span>
+</code></pre></div></div>
+<p>运行 sh build.sh 之后，你会在./android文件夹下面看到生成的文件夹inclue 和 lib ，然后仔细看看lib 下面的so文件，你会发现里面的名字和上面提醒的一样。那么这个时候需要修改configure文件，如何去修改呢？</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">elif</span> <span class="o">[</span> <span class="s">"$SYS"</span> <span class="o">=</span> <span class="s">"MACOSX"</span> <span class="o">];</span> <span class="n">then</span>
+        <span class="n">echo</span> <span class="s">"SOSUFFIX=dylib"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+        <span class="n">echo</span> <span class="s">"SONAME=libx264.dylib.$API"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+        <span class="n">echo</span> <span class="s">"SOFLAGS=-shared -dynamiclib -Wl,-single_module -Wl,-read_only_relocs,suppress -install_name \$(DESTDIR)\$(libdir)/\$(SONAME) $SOFLAGS"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+    <span class="n">elif</span> <span class="o">[</span> <span class="s">"$SYS"</span> <span class="o">=</span> <span class="s">"SunOS"</span> <span class="o">];</span> <span class="n">then</span>
+        <span class="n">echo</span> <span class="s">"SOSUFFIX=so"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+        <span class="n">echo</span> <span class="s">"SONAME=libx264.so.$API"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+        <span class="n">echo</span> <span class="s">"SOFLAGS=-shared -Wl,-h,\$(SONAME) $SOFLAGS"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+    <span class="k">else</span>
+        <span class="n">echo</span> <span class="s">"SOSUFFIX=so"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+        <span class="n">echo</span> <span class="s">"SONAME=libx264.so.$API"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+        <span class="n">echo</span> <span class="s">"SOFLAGS=-shared -Wl,-soname,\$(SONAME) $SOFLAGS"</span> <span class="o">&gt;&gt;</span> <span class="n">config</span><span class="o">.</span><span class="na">mak</span>
+</code></pre></div></div>
+<p>这个时候你会看到 .$API 是在so文件的后面。那么把.$API 这个名称移到so的前面就好了。 <br />
+c:删了之前生成的android的文件，重新运行sh build.sh , 那么就可以看到编译好的需要的文件。</p>
+
+<hr />
+
+<h4 id="3编译ffmpeg">3：编译ffmpeg</h4>
+<p>这个时候基本上准备的工作都准备好了。在ffmpeg的目录下运行 sh android_build.sh  <br />
+那么等待等待，这个时候会等待一段时间，然后出现一些配置文件之类的东西。如何没有显示配置文件，那么就是 android_build.sh 里面的配置属性出了问题。请重新配置。要多点了解如何去配置，编译我们需要的模块。</p>
+
+<h4 id="4编译完成后新建一个android的工程然后提取我们需要的文件放到项目的jni的目录下面去这个时候我们优先使用的是编译好后的include文件夹里面的头文件">4：编译完成后，新建一个android的工程。然后提取我们需要的文件，放到项目的jni的目录下面去，这个时候，我们优先使用的是编译好后的include文件夹里面的头文件。</h4>
+<p>文件夹结构： <br />
+<img src="" /></p>
+
+<h4 id="5配置androidmd文件">5：配置Android.md文件</h4>
+<p>因为把所需要的so文件以及一些include头文件放到jni的目录下面。  <br />
+所以在配置上面，只需要配置好当前目录下面所需要的。  <br />
+—</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code></code></pre></div></div>
+
+<hr />
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/01/15/wireshark%E7%9A%84%E4%BD%BF%E7%94%A8-%E4%BB%A5%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98.html" class="read-next-link"></a>
+            <section>
+                <span>wireshark的使用</span>
+                <p>a:背景这是个简单的Wireshark的使用方法。  以及简单的个人的信息安全介绍。—涉及到的内容：1：Wires...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/11/24/Android-Adb-%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android-adb命令行使用</span>
+                <p>a:背景温故而知信，在我们开发android的时候，我们很多时候都是不使用adb的，因为很少涉及到直接用命令行交互...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>volley简单使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="volley简单使用">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="volley简单使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2014/12/12/volley%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>volley简单使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="14-12-12"><i class="iconfont icon-date"></i>12 Dec 2014</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="android-volley">Android Volley</h1>
+<p>Android Volley 是什么，是一种网络通信的框架，是google 官方维护的网络框架，能很好的支持网络的小信息通信。</p>
+
+<p><a href="https://github.com/mcxiaoke/android-volley">github地址</a> <br />
+<a href="http://wenku.baidu.com/link?url=lwQL81h35VR5UC9hQzUfgTzn4IwZu-pls-Rk4wgp55qAUubE5-6YItK_9_vZGyzRRigsY3bRe1NSiEmmPH1C_i_ECrqtpijbfubDdxKwtHq">介绍的ppt地址</a>  <br />
+<a href="http://search.maven.org/#search%7Cga%7C1%7Ccom.mcxiaoke.volley">jar包下载地址</a>    <br />
+<a href="http://localhost:4000/assets/jar/volley-1.0.9.jar">volley-1.0.9.jar</a> <br />
+<a href="http://localhost:4000/assets/jar/volley-1.0.9-javadoc.jar">volley-1.0.9-javadoc.jar</a>  <br />
+<a href="http://localhost:4000/assets/jar/volley-1.0.9-sources.jar">volley-1.0.9-sources.jar</a></p>
+
+<p>我们都需要json，images，raw text Memory 和强有力的缓存机制。
+安卓本来就支持http client ，但volley只是做更为普通的工作。</p>
+
+<p>在安卓中，记得一定要添加网络权限</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.INTERNET"</span> <span class="nt">/&gt;</span> 
+</code></pre></div></div>
+<p>##volley支持什么
+volley能够传递json数据，图片数据加载。</p>
+
+<p>volley的简单应用：
+ RequestQueue mQueue  = Volley.newRequestQueue(context);<br />
+ RequestQueue 是一个控制http请求的请求队列，需要用mQueue.add(function) 把需要的请求放进队列中，并且mQueue.stop()在Activity结束的时候释终止没有完成的请求。<br />
+function 中包括 StringRequest(),JsonArrayRequest(),JsonObjectRequest(),JsonRequest().</p>
+
+<h3 id="对于图片的应用">对于图片的应用：</h3>
+<p>ImageListener listener = ImageLoader.getImageListener(imageView, android.R.drawable.ic_menu_rotate, null);<br />
+mImageLoader.get(url, listener);//url是图片的地址</p>
+
+<h3 id="使用的函数说明">使用的函数说明：</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(){</span>
+    	<span class="n">RequestQueue</span> <span class="n">mQueue</span> <span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+        <span class="n">mQueue</span> <span class="o">=</span> <span class="n">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">());</span>  
+        <span class="n">mQueue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">StringRequest</span><span class="o">(</span><span class="n">Method</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">"http://www.baidu.com"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Listener</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="c1">// TODO Auto-generated method stub</span>
+				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+			<span class="o">}</span>
+		<span class="o">},</span>  
+                    <span class="kc">null</span><span class="o">));</span>  
+        <span class="n">mQueue</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+</code></pre></div></div>
+<p>上述的代码是get方式，至于post方式则</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">StringRequest</span> <span class="n">stringRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringRequest</span><span class="o">(</span><span class="n">Method</span><span class="o">.</span><span class="na">POST</span><span class="o">,</span> <span class="s">"http://www.baidu.com"</span><span class="o">,</span>  <span class="k">new</span> <span class="n">Listener</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+
+			<span class="nd">@Override</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+				<span class="c1">// TODO Auto-generated method stub</span>
+				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+			<span class="o">}</span>
+		<span class="o">},</span> <span class="n">errorListener</span><span class="o">)</span> <span class="o">{</span>   
+    <span class="nd">@Override</span>   
+    <span class="kd">protected</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="nf">getParams</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">AuthFailureError</span> <span class="o">{</span>  
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;();</span>  
+        <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"params1"</span><span class="o">,</span> <span class="s">"value1"</span><span class="o">);</span>  
+        <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"params2"</span><span class="o">,</span> <span class="s">"value2"</span><span class="o">);</span>  
+        <span class="k">return</span> <span class="n">map</span><span class="o">;</span>  
+    <span class="o">}</span>  
+<span class="o">};</span>
+</code></pre></div></div>
+
+<h3 id="图片加载">图片加载</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">ImageRequest</span> <span class="n">imageRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageRequest</span><span class="o">(</span>  
+            <span class="n">picture_url</span><span class="o">,</span>  
+            <span class="k">new</span> <span class="n">Response</span><span class="o">.</span><span class="na">Listener</span><span class="o">&lt;</span><span class="n">Bitmap</span><span class="o">&gt;()</span> <span class="o">{</span>  
+                <span class="nd">@Override</span>  
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>  
+                <span class="o">}</span>  
+            <span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">Config</span><span class="o">.</span><span class="na">RGB_565</span><span class="o">,</span> <span class="k">new</span> <span class="n">Response</span><span class="o">.</span><span class="na">ErrorListener</span><span class="o">()</span> <span class="o">{</span>  
+                <span class="nd">@Override</span>  
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onErrorResponse</span><span class="o">(</span><span class="n">VolleyError</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="n">imageView</span><span class="o">.</span><span class="na">setImageResource</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">);</span>  
+                <span class="o">}</span>  
+            <span class="o">});</span>  
+</code></pre></div></div>
+
+<p>ImageRequest image = new ImageRequest(url, listener, maxWidth, maxHeight, decodeConfig, errorListener)<br />
+ listener 控制的是成功后的操作。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">ImageLoader</span> <span class="n">imageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mQueue</span><span class="o">,</span> <span class="k">new</span> <span class="n">ImageCache</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="nd">@Override</span>  
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="o">}</span>  
+      <span class="c1">//实现缓存机制</span>
+        <span class="nd">@Override</span>  
+        <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>  
+        <span class="o">}</span>  
+    <span class="o">});</span>  
+
+    <span class="n">ImageListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="n">ImageLoader</span><span class="o">.</span><span class="na">getImageListener</span><span class="o">(</span><span class="n">imageView</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">failed_image</span><span class="o">);</span> 
+
+    <span class="n">imageLoader</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"picture_url"</span><span class="o">,</span>  
+                <span class="n">listener</span><span class="o">,</span> <span class="mi">200</span><span class="o">,</span> <span class="mi">200</span><span class="o">);</span> 
+
+<span class="c1">//对ImageCache实现缓存机制</span>
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">BitmapCache</span> <span class="kd">implements</span> <span class="n">ImageCache</span> <span class="o">{</span>  
+  
+    <span class="kd">private</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Bitmap</span><span class="o">&gt;</span> <span class="n">mCache</span><span class="o">;</span>  
+  
+    <span class="kd">public</span> <span class="nf">BitmapCache</span><span class="o">()</span> <span class="o">{</span>  
+        <span class="kt">int</span> <span class="n">maxSize</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">;</span>  
+        <span class="n">mCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Bitmap</span><span class="o">&gt;(</span><span class="n">maxSize</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="nd">@Override</span>  
+            <span class="kd">protected</span> <span class="kt">int</span> <span class="nf">sizeOf</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="k">return</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getRowBytes</span><span class="o">()</span> <span class="o">*</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">();</span>  
+            <span class="o">}</span>  
+        <span class="o">};</span>  
+    <span class="o">}</span>  
+  
+    <span class="nd">@Override</span>  
+    <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="k">return</span> <span class="n">mCache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>  
+    <span class="o">}</span>  
+  
+    <span class="nd">@Override</span>  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="n">mCache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">);</span>  
+    <span class="o">}</span>  
+
+  <span class="n">ImageLoader</span> <span class="n">imageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mQueue</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitmapCache</span><span class="o">());</span><span class="c1">//最后的功能实现</span>
+<span class="o">}</span> 
+</code></pre></div></div>
+
+<h3 id="networkimageview-实现">NetworkImageView 实现</h3>
+<p>layout布局上</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>  
+        <span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>  
+        <span class="na">android:layout_height=</span><span class="s">"fill_parent"</span>  
+        <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>  
+      
+        <span class="nt">&lt;Button</span>  
+            <span class="na">android:id=</span><span class="s">"@+id/button"</span>  
+            <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>  
+            <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>  
+            <span class="na">android:text=</span><span class="s">"Send Request"</span> <span class="nt">/&gt;</span>  
+          
+        <span class="nt">&lt;com.android.volley.toolbox.NetworkImageView</span>   
+            <span class="na">android:id=</span><span class="s">"@+id/network_image_view"</span>  
+            <span class="na">android:layout_width=</span><span class="s">"200dp"</span>  
+            <span class="na">android:layout_height=</span><span class="s">"200dp"</span>  
+            <span class="na">android:layout_gravity=</span><span class="s">"center_horizontal"</span>  
+            <span class="nt">/&gt;</span>  
+      
+    <span class="nt">&lt;/LinearLayout&gt;</span>  
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+    <span class="n">networkImageView</span> <span class="o">=</span> <span class="o">(</span><span class="n">NetworkImageView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">network_image_view</span><span class="o">);</span> 
+    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setDefaultImageResId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">);</span>  
+    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setErrorImageResId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">failed_image</span><span class="o">);</span>  
+    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setImageUrl</span><span class="o">(</span><span class="s">"picture_url"</span><span class="o">,</span> <span class="n">imageLoader</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>基本上volley就这样，而且我们还可以自订自己的Request</p>
+
+<p>单例模式的volley使用，在volley使用的时候，我们有时候需要注意的是RequestQueue最好是伴随着一个应用的随时使用，这样不会产生多于的操作并且容易掌控，虽然可以继承Application中使用OnCreat方法来调用，但模块化的单例模式能更好的定制。</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">net</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">android.content.Context</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.graphics.Bitmap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.support.v4.util.LruCache</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.android.volley.Request</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.android.volley.RequestQueue</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.android.volley.toolbox.ImageLoader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.android.volley.toolbox.ImageLoader.ImageCache</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.android.volley.toolbox.Volley</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="n">mInstance</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">RequestQueue</span> <span class="n">mRequestQueue</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Context</span> <span class="n">mCtx</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">ImageLoader</span> <span class="n">mImageLoader</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">){</span>
+        <span class="n">mCtx</span><span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+        <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="n">getRequestQueue</span><span class="o">();</span>
+        <span class="n">mImageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mRequestQueue</span><span class="o">,</span><span class="k">new</span> <span class="n">ImageCache</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="kd">final</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Bitmap</span><span class="o">&gt;</span> 
+            <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Bitmap</span><span class="o">&gt;(</span><span class="mi">20</span><span class="o">);</span><span class="c1">//缓存设置</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">arg1</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// TODO Auto-generated method stub</span>
+                <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">arg0</span><span class="o">,</span> <span class="n">arg1</span><span class="o">);</span>
+            <span class="o">}</span>
+            
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// TODO Auto-generated method stub</span>
+                <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">arg0</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+    
+    <span class="kd">public</span> <span class="n">RequestQueue</span> <span class="nf">getRequestQueue</span><span class="o">(){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">mRequestQueue</span><span class="o">==</span><span class="kc">null</span><span class="o">){</span>
+            <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="n">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">mCtx</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">mRequestQueue</span><span class="o">;</span>
+    <span class="o">}</span><span class="c1">//获取 RequestQueue 队列</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">Context</span> <span class="n">con</span><span class="o">){</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">mInstance</span><span class="o">==</span><span class="kc">null</span><span class="o">){</span>
+            <span class="n">mInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">(</span><span class="n">con</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">mInstance</span><span class="o">;</span>
+    <span class="o">}</span><span class="c1">//单例模式</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">addToRequestQueue</span><span class="o">(</span><span class="n">Request</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">req</span><span class="o">){</span>
+        <span class="n">getRequestQueue</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
+    <span class="o">}</span><span class="c1">//把 String 或者 JSON 请求 添加到队列中</span>
+    
+    <span class="kd">public</span> <span class="n">ImageLoader</span> <span class="nf">getImageLoader</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">mImageLoader</span><span class="o">;</span><span class="c1">//</span>
+    <span class="o">}</span>
+    <span class="cm">/* 上面的用法
+     * ImageListener listener = ImageLoader.getImageListener(imageView, R.drawable.default_image, R.drawable.failed_image); 
+        imageLoader.get("picture_url",  listener, 200, 200); 
+     */</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/02/android-sdk%E6%9B%B4%E6%96%B0%E6%96%B9%E6%B3%95.html" class="read-next-link"></a>
+            <section>
+                <span>android-sdk更新方法</span>
+                <p>原文链接</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2014/12/03/DialoFragment.html" class="read-next-link"></a>
+            <section>
+                <span>DialoFragment</span>
+                <p>首先需要了解的是，什么是FragmentFragment是碎片化之类的东西，生命周期和Activity类似，但却依...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Hacks 11 android 模拟液晶数字时钟 TextView - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="Android Hacks 11 android 模拟液晶数字时钟 TextView">
+    <meta name="keywords"  content="读书笔记, android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Android Hacks 11 android 模拟液晶数字时钟 TextView - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/read/2015/02/10/Android-Hacks-11-android-%E6%A8%A1%E6%8B%9F%E6%B6%B2%E6%99%B6%E6%95%B0%E5%AD%97%E6%97%B6%E9%92%9F-TextView.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="post-tag">读书笔记</a>
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>Android Hacks 11 android 模拟液晶数字时钟 TextView</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-02-10"><i class="iconfont icon-date"></i>10 Feb 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <blockquote>
+  <h3 id="用textview模拟-液晶上面的时间">用TextView模拟 液晶上面的时间</h3>
+  <p>首先，我们需要知道的是，液晶上面的数字和平常的数字有什么区别。<br />
+液晶上的数字都是正正方方的，通常我们的数字都是软润的时候。这个时候需要使用到TTF字体或者TTC字体。</p>
+</blockquote>
+
+<p><a href="http://localhost:4000/assets/ttf/Text.TTF">demo中的TTF下载</a> 右键下载哦</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;RelativeLayout</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">&gt;</span>
+
+        <span class="nt">&lt;com.example.view.LedTextView</span>
+            <span class="na">android:id=</span><span class="s">"@+id/textview3"</span>
+            <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:layout_centerInParent=</span><span class="s">"true"</span>
+            <span class="na">android:shadowDx=</span><span class="s">"0"</span>
+            <span class="na">android:shadowDy=</span><span class="s">"0"</span>
+            <span class="na">android:text=</span><span class="s">"88:88:88"</span>
+            <span class="na">android:textColor=</span><span class="s">"#3300FF00"</span>
+            <span class="na">android:textSize=</span><span class="s">"80sp"</span> <span class="nt">/&gt;</span>
+
+        <span class="nt">&lt;com.example.view.LedTextView</span>
+            <span class="na">android:id=</span><span class="s">"@+id/main_clock_time"</span>
+            <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:layout_centerInParent=</span><span class="s">"true"</span>
+            <span class="na">android:shadowColor=</span><span class="s">"#00FF00"</span>
+            <span class="na">android:shadowRadius=</span><span class="s">"10"</span>
+            <span class="na">android:text=</span><span class="s">"08:43:02"</span>
+            <span class="na">android:textColor=</span><span class="s">"#00FF00"</span>
+            <span class="na">android:textSize=</span><span class="s">"80sp"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/RelativeLayout&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+<p>上面的是布局文件
+下面的是自定义TextView控件，先继承TextView，然后从asset</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LedTextView</span> <span class="kd">extends</span> <span class="n">TextView</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="nf">LedTextView</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">AttributeSet</span> <span class="n">attrs</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">,</span> <span class="n">attrs</span><span class="o">);</span>
+		<span class="n">AssetManager</span> <span class="n">assets</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getAssets</span><span class="o">();</span>
+		<span class="kd">final</span> <span class="n">Typeface</span> <span class="n">font</span> <span class="o">=</span> <span class="n">Typeface</span><span class="o">.</span><span class="na">createFromAsset</span><span class="o">(</span><span class="n">assets</span><span class="o">,</span>
+				<span class="s">"Text.TTF"</span><span class="o">);</span>
+		<span class="n">setTypeface</span><span class="o">(</span><span class="n">font</span><span class="o">);</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="知识点">知识点</h4>
+<p>学会集成TextView，找到字体资源。加载字体Typeface。 <br />
+在布局页面中预览会报错。运行程序是可以的。<br />
+预览  <br />
+<img src="/assets/picture/20150210121454.png" /><br />
+预览：<br />
+<img src="/assets/picture/20150210121709.png" /></p>
+
+<h3 id="tag">Tag</h3>
+<p>在RelativeLayout中，俩个TextView，默认下面控件的会在上面的上面。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/10/Android-Hacks-9-%E9%81%BF%E5%85%8DEdittext%E7%9A%84%E6%97%B6%E9%97%B4%E9%AA%8C%E8%AF%81.html" class="read-next-link"></a>
+            <section>
+                <span>Android Hacks 9 避免Edittext的时间验证</span>
+                <p>  ###为什么要避免时间验证首先，我们确定的是时间的格式通常是如何的？当我们使用Edittext输入时间的时候，...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/10/Android-Hacks-10-%E6%A0%BC%E5%BC%8F%E5%8C%96TextView%E5%86%85%E5%AE%B9.html" class="read-next-link"></a>
+            <section>
+                <span>Android Hacker 10 格式化TextView内容</span>
+                <p>  想要一个特别点文本么，想要一个引人注目的内容么  有什么，我们在使用一个TextView的时候，想要某些内容特...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

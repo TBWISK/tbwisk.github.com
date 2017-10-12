@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一个ImageView多个图片显示 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="一个ImageView多个图片显示">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="一个ImageView多个图片显示 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/05/15/%E4%B8%80%E4%B8%AAImageView%E5%A4%9A%E4%B8%AA%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>一个ImageView多个图片显示</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-05-15"><i class="iconfont icon-date"></i>15 May 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="目的">目的</h3>
+<p>首先是，有时候我们看见别人的一个ImageView控件里面显示多个图片。 <br />
+那么，这个是如何实现的呢？
+这个就是我们的目的。 <br />
+如下图：
+<img src="/assets/picture/20150515195228.png" /></p>
+
+<h3 id="思考">思考</h3>
+<p>如果是你，你会如何去实现呢？ <br />
+那么思考……数据源是什么？ <br />
+数据源是要显示的多个图片…… <br />
+重新写一个Imageview布局？<br />
+然后在 Imageview里面实现逻辑？</p>
+
+<p>效果图： <br />
+<img src="/assets/picture/20150515195618.png" /></p>
+
+<hr />
+
+<p>一开始我的思路是使用drawable 或者 R.drawable 资源，然后拼接图片</p>
+
+<p>后来，我的实现是利用canvas去画图……把多个bitmap拼接起来</p>
+
+<p>首先create 一个bitmap作为画布使用<br />
+Canvas canvas = new Canvas(bitmap) <br />
+在这个时候，bitmap需要先定义好bitmap 的宽度和长度哦~~ <br />
+最后使用  <br />
+canvas.drawBitmap(Bitmap bitmap1, Rect src, Rect dst, Paint paint) 
+就可以把bitmap1画进新的bitmap中  <br />
+<strong>重点来了</strong> <br />
+Rect src  这个是原来图片的取值范围 <br />
+Rect dst  这个是bitmap1 在新画图中的位置</p>
+
+<h3 id="那么代码来了">那么代码来了……</h3>
+<p>下面的代码中处理的是1个~3个的bitmap   当然，没有的话会直接报错哦。</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DrawPicture</span><span class="o">{</span>
+    <span class="kd">private</span> <span class="n">Bitmap</span> <span class="n">bitmap1</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Bitmap</span> <span class="n">bitmap2</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Bitmap</span> <span class="n">bitmap3</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">number</span><span class="o">;</span>
+
+    <span class="cm">/**
+     * 类似微信朋友圈显示图片
+     * 一个imageview 显示多个图片
+     * 参数 bitmap&gt;=1
+     * 本质上是返回bitmap 把多个bitmap重新画成一个bitmap
+     * @param bitmaps
+     */</span>
+    <span class="kd">public</span> <span class="nf">DrawPicture</span><span class="o">(</span><span class="n">Bitmap</span><span class="o">...</span><span class="na">bitmaps</span><span class="o">){</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">.</span><span class="na">length</span><span class="o">;</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">number</span><span class="o">==</span><span class="mi">1</span><span class="o">){</span>
+            <span class="n">bitmap1</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">number</span><span class="o">==</span><span class="mi">2</span><span class="o">){</span>
+            <span class="n">bitmap1</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">bitmap2</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+        <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">number</span><span class="o">&gt;=</span><span class="mi">3</span><span class="o">){</span>
+            <span class="n">bitmap1</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span>
+            <span class="n">bitmap2</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">[</span><span class="mi">1</span><span class="o">];</span>
+            <span class="n">bitmap3</span> <span class="o">=</span> <span class="n">bitmaps</span><span class="o">[</span><span class="mi">2</span><span class="o">];</span>
+        <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+           <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalArgumentException</span><span class="o">(</span><span class="s">"没有初始化bitmap"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(){</span>
+       <span class="k">if</span> <span class="o">(</span><span class="n">number</span><span class="o">==</span><span class="mi">1</span><span class="o">){</span>
+           <span class="k">return</span> <span class="n">bitmap1</span><span class="o">;</span>
+       <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">number</span><span class="o">==</span><span class="mi">2</span><span class="o">){</span>
+           <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">Bitmap</span><span class="o">.</span><span class="na">createBitmap</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">(),</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getHeight</span><span class="o">(),</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getConfig</span><span class="o">());</span>
+           <span class="n">Canvas</span> <span class="n">canvas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Canvas</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
+
+           <span class="n">Rect</span> <span class="n">rect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">-</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">4</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">+</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">4</span><span class="o">,</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">Rect</span> <span class="n">rect1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">,</span><span class="n">rect</span><span class="o">,</span><span class="n">rect1</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+
+           <span class="n">Rect</span> <span class="n">rect2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">-</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">4</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">+</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">4</span><span class="o">,</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">Rect</span> <span class="n">rect3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">(),</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">,</span><span class="n">rect2</span><span class="o">,</span><span class="n">rect3</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+           <span class="k">return</span> <span class="n">bitmap</span><span class="o">;</span>
+
+       <span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">number</span><span class="o">&gt;=</span><span class="mi">3</span><span class="o">){</span>
+           <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">Bitmap</span><span class="o">.</span><span class="na">createBitmap</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">(),</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getHeight</span><span class="o">(),</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getConfig</span><span class="o">());</span>
+           <span class="n">Canvas</span> <span class="n">canvas</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Canvas</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
+
+           <span class="n">Rect</span> <span class="n">rect</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">subaverage</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()),</span><span class="mi">0</span><span class="o">,</span><span class="n">addaverage</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()),</span><span class="n">bitmap1</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">Rect</span> <span class="n">rect1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">,</span><span class="n">rect</span><span class="o">,</span><span class="n">rect1</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+
+           <span class="n">Rect</span> <span class="n">rect2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">subaverage</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()),</span><span class="n">subaverage</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()),</span><span class="n">addaverage</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()),</span><span class="n">addaverage</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()));</span>
+           <span class="n">Rect</span> <span class="n">rect3</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">(),</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()/</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">);</span>
+           <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap2</span><span class="o">,</span><span class="n">rect2</span><span class="o">,</span><span class="n">rect3</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+
+           <span class="n">Rect</span> <span class="n">rect4</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">subaverage</span><span class="o">(</span><span class="n">bitmap3</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()),</span><span class="n">subaverage</span><span class="o">(</span><span class="n">bitmap3</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()),</span><span class="n">addaverage</span><span class="o">(</span><span class="n">bitmap3</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()),</span><span class="n">addaverage</span><span class="o">(</span><span class="n">bitmap3</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()));</span>
+
+           <span class="n">Rect</span> <span class="n">rect5</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Rect</span><span class="o">(</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">()/</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">()/</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">,</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getWidth</span><span class="o">(),</span><span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">());</span>
+           <span class="n">canvas</span><span class="o">.</span><span class="na">drawBitmap</span><span class="o">(</span><span class="n">bitmap3</span><span class="o">,</span><span class="n">rect4</span><span class="o">,</span><span class="n">rect5</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+            <span class="k">return</span> <span class="n">bitmap</span><span class="o">;</span>
+       <span class="o">}</span>
+
+        <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">addaverage</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span>  <span class="n">number</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">number</span><span class="o">/</span><span class="mi">4</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">subaverage</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span>  <span class="n">number</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="n">number</span><span class="o">/</span><span class="mi">4</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>####使用方法：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ImageView</span> <span class="n">imageView</span> <span class="o">=</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">imageView</span><span class="o">)</span>
+<span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="k">new</span> <span class="n">DrawPicture</span><span class="o">(</span><span class="n">bitmap1</span><span class="o">,</span><span class="n">bitmap2</span><span class="o">,</span><span class="n">bitmap3</span><span class="o">));</span>
+
+</code></pre></div></div>
+
+<h3 id="小结">小结</h3>
+<p>从层面上而言，是几个bitmap合并成一个bitmap。从实际开发上，或许可以这样加载本地图片。但从网络上加载就比较麻烦，因为没有写好的缓存机制，例如内存缓存，硬盘缓存。   <br />
+从技术层面上，就是就是讲解了canvas.drawBitmap 的使用。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/28/android-%E7%BD%91%E7%BB%9Chttp%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android-网络http简单实用</span>
+                <p>主题在这个文本编辑中，主要是讲解一下android中http的基本使用。好吧，一开始就是使用第三库，基本上对于原生...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/11/%E5%85%B3%E4%BA%8Ego%E7%9A%84%E5%B0%8F%E8%84%9A%E6%9C%AC%E8%BF%90%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>关于go的小脚本运用</span>
+                <p>介绍为什么会有这篇文章呢？首先前几天为了更好的翻墙和学习翻墙，不小心找到了一个可以免费翻墙的网站，但但是这个网站却...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

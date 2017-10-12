@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android-hacks 35 发射多个Intent - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="Android-hacks 35 发射多个Intent">
+    <meta name="keywords"  content="读书笔记, android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Android-hacks 35 发射多个Intent - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/read/2015/03/24/Android-Hacks-35-%E5%8F%91%E5%B0%84%E5%A4%9A%E4%B8%AAIntent.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="post-tag">读书笔记</a>
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>Android-hacks 35 发射多个Intent</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-03-24"><i class="iconfont icon-date"></i>24 Mar 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <blockquote>
+  <p>###发射多个意图</p>
+</blockquote>
+
+<p>在android 开发中最有特色之一的系统是Intent。如果你想要分享一些东西给其他的应用程序，你可以使用Intent完成这个任务。如果你想要打开一个链接，也可以用Intent完成。在android中，几乎任何的事情都可以用Intent去完成。</p>
+
+<p>如果你使用过手机的通信app工具，whatsapp，你可能知道你可以分享图片来自 gallery或者拍照 给你的联系人。</p>
+
+<p>####拍摄照片</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Intent</span> <span class="n">takePhotoIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
+        <span class="n">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
+<span class="n">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="n">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">takePhotoIntent</span><span class="o">,</span>
+						<span class="s">"拍摄照片"</span><span class="o">);</span>
+<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">chooserIntent</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>####从gallery中选择一个图片</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Intent</span> <span class="n">pickIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_GET_CONTENT</span><span class="o">);</span>
+<span class="n">pickIntent</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="s">"image/*"</span><span class="o">);</span>
+<span class="n">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="n">Intent</span>
+			<span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">pickIntent</span><span class="o">,</span> <span class="s">"请选择照片"</span><span class="o">);</span>
+<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">chooserIntent</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+</code></pre></div></div>
+<p><img src="/assets/picture/20150304110856.png" /> <br />
+####把上面的intent混合 <br />
+从android api 5依赖，我们可以创建一个 chooser 和 添加更多的intents 。这个意味着代替了只有一种类型的intent，我们可以用几个 intent ，例如下面的：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Intent</span> <span class="n">pickIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_GET_CONTENT</span><span class="o">);</span>
+<span class="n">pickIntent</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="s">"image/*"</span><span class="o">);</span>
+
+<span class="n">Intent</span> <span class="n">takePhotoIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
+			<span class="n">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
+
+<span class="n">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="n">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">pickIntent</span><span class="o">,</span> <span class="s">"全部"</span><span class="o">);</span>
+<span class="n">chooserIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">EXTRA_INITIAL_INTENTS</span><span class="o">,</span>
+				<span class="k">new</span> <span class="n">Intent</span><span class="o">[]</span> <span class="o">{</span> <span class="n">takePhotoIntent</span> <span class="o">});</span>
+<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">chooserIntent</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</code></pre></div></div>
+<p>创建一个image intent <br />
+创建一个拍照 的intent   <br />
+把 拍照的intent 用putExtra添加到其他意图上。<br />
+<img src="/assets/picture/20150304111109.png" />  <br />
+ 使用前面的代码将会显示intent的处理效果。但请记住，我们需要在Activity 中重写 onActivityResult()方法，来做一些需要处理图片的事情。</p>
+
+<p>####下划线</p>
+
+<p>如果你可能理解intents 是如何工作的，这很重要。这个是android 环境中一个重要的部分。例如，如果你的app 使用一些代码，调用手机中本来有的文件管理器，这会让用户有更友好的体验。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/03/27/%E4%BB%8E%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9B%B8%E5%86%8C%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%9B%BE%E7%89%87%E5%B9%B6%E6%98%BE%E7%A4%BA%E5%92%8C%E4%BF%9D%E5%AD%98.html" class="read-next-link"></a>
+            <section>
+                <span>从相机和相册中获取图片并显示和保存</span>
+                <p>  ###这是个从相册或者相机获取图片的小demo   功能介绍：1：拍照获取照片并且显示和保存在文件夹中 2: ...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/26/butterknife-%E7%9A%84%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>butterknife 的使用</span>
+                <p>butterknife 出处 ：官方网址：http://jakewharton.github.io/butterk...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zxing开源项目的小总结 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="zxing开源项目的小总结">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="zxing开源项目的小总结 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/05/zxing%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B0%8F%E6%80%BB%E7%BB%93.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>zxing开源项目的小总结</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-01-05"><i class="iconfont icon-date"></i>05 Jan 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="zxing是什么呢">ZXing是什么呢？</h1>
+<p><a href="https://github.com/zxing/zxing">原项目github地址</a>   <br />
+zxing是一个关于用java实现的多种格式的1D/2D条码图形处理库。  <br />
+通常被我们用作扫二维码的开源库来使用，也就是扫二维码使用。在现在的手机版本中，我们的软件通常在兼容性方面还是要兼容好2.33 版本的android 也就是 android API 10的安卓系统的手机，  <br />
+于是，这个时候我们可以从github上面翻看他们的历史提交记录，从原始的代码中搜索他们曾经开展的过程以及开始到现在的源码提交写的是什么内容。  <br />
+现在我提供俩个下载，一个是自己弄好的了兼容api 10 的项目<a href="http://localhost:4000/assets/zip/zxing2.33_qcode.zip">项目下载右键另存为</a>这个只能扫描QR码. qcode</p>
+
+<p>至于我修改前的项目在<a href="http://localhost:4000/assets/zip/zxing2.33.zip">项目下载右键另存为</a>    里面的项目工程是扫描后可直接返回一个string的数据，也就是扫描的内容。当然，也可以在里面继续修改，从而得知扫描的类型是什么，如果是扫描的数据进行修改或者提交。
+	  个人建议，在中国，如果是利用二维码从事一些工作和项目。，那么还是不要直接使用QR码，中国大多数的软件都是扫QR码，那么保密性相对而言比较少，甚至可以说，别人一扫就知道你的内容从而猜出其他的内容。</p>
+
+<p>从某些行业应该使用较少使用的编码方式，甚至只有自己的软件才能使用，那么保密性会从而提升一个等级，甚至安全性也会提高一个等级。 <br />
+    了解了一下QR码，通常使用的领域是服务一次性领域。或者宣传之类的。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>生成二维码的代码： ```java import java.util.Hashtable;
+</code></pre></div></div>
+
+<p>import android.graphics.Bitmap;</p>
+
+<p>import com.google.zxing.common.BitMatrix;</p>
+
+<p>public class Create2DCode {</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>static  public Bitmap CreateCode(String str) throws WriterException {  //生成二维码
+    //生成二维矩阵,编码时指定大小,不要生成了图片以后再进行缩放,这样会模糊导致识别失败  
+    Hashtable&lt;EncodeHintType,String&gt; hints = new Hashtable&lt;EncodeHintType,String&gt;();
+    hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+    //上面的代码主要是为了识别汉字
+    BitMatrix matrix = new MultiFormatWriter().encode(str,BarcodeFormat.QR_CODE, 300, 300,hints); 
+    //生成二维码的大小  
+    int width = matrix.getWidth();  
+    int height = matrix.getHeight();  
+    //二维矩阵转为一维像素数组,也就是一直横着排了  
+    int[] pixels = new int[width * height];  
+    for (int y = 0; y &lt; height; y++) {  
+        for (int x = 0; x &lt; width; x++) {  
+            if(matrix.get(x, y)){  
+                pixels[y * width + x] = 0xff000000;  
+            }  
+              
+        }  
+    }  
+      
+    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);  
+    //通过像素数组生成bitmap,具体参考api  
+    bitmap.setPixels(pixels, 0, width, 0, 0, width, height);  
+    return bitmap;  
+}  
+</code></pre></div></div>
+
+<p>}
+```</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/10/Qrcode%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%94%9F%E6%88%90.html" class="read-next-link"></a>
+            <section>
+                <span>Qrcode二维码生成</span>
+                <p>二维码生成通常在使用当中，我们会把扫描二维码的zxing包放在一起，现在我把二维码生成的代码提取出来。生成jar文...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/02/android-sdk%E6%9B%B4%E6%96%B0%E6%96%B9%E6%B3%95.html" class="read-next-link"></a>
+            <section>
+                <span>android-sdk更新方法</span>
+                <p>原文链接</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

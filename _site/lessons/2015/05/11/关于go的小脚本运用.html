@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于go的小脚本运用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="关于go的小脚本运用">
+    <meta name="keywords"  content="go">
+    <!-- Open Graph -->
+    <meta property="og:title" content="关于go的小脚本运用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/05/11/%E5%85%B3%E4%BA%8Ego%E7%9A%84%E5%B0%8F%E8%84%9A%E6%9C%AC%E8%BF%90%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#go" class="post-tag">go</a>
+            
+            
+        </div>
+        <h1>关于go的小脚本运用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-05-11"><i class="iconfont icon-date"></i>11 May 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="介绍">介绍</h3>
+<p>为什么会有这篇文章呢？首先前几天为了更好的翻墙和学习翻墙，不小心找到了一个可以免费翻墙的网站，但但是这个网站却会6个小时更新一次密码。好吧……于是就有了一次打算使用go截取密码的冲动。</p>
+
+<blockquote>
+  <p>明明go就是用于大型系统构建的，你居然为了不想打开浏览器而使用go去爬一个密码！！【怒摔</p>
+</blockquote>
+
+<p>那么下面先贴乱兮兮的代码：</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Test1 project main.go</span><span class="x">
+</span><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+	</span><span class="s">"net/http"</span><span class="x">
+	</span><span class="s">"fmt"</span><span class="x">
+	</span><span class="s">"io/ioutil"</span><span class="x">
+	</span><span class="s">"regexp"</span><span class="x">
+</span><span class="c">//	"encoding/json"</span><span class="x">
+	</span><span class="s">"os"</span><span class="x">
+	</span><span class="s">"strings"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+ 
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   	</span><span class="n">resp</span><span class="x"> </span><span class="p">,</span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="n">http</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="s">"http://www.ishadowsocks.com"</span><span class="p">)</span><span class="x">
+	</span><span class="n">pattern</span><span class="x"> </span><span class="o">:=</span><span class="s">"密码:[</span><span class="se">\\</span><span class="s">d]*"</span><span class="x">
+	
+	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+		</span><span class="k">return</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	</span><span class="n">a</span><span class="x"> </span><span class="p">,</span><span class="n">er</span><span class="o">:=</span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">er</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">er</span><span class="p">)</span><span class="x">
+		</span><span class="k">return</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+
+	 </span><span class="n">ok</span><span class="p">,</span><span class="n">_</span><span class="o">:=</span><span class="x"> </span><span class="n">regexp</span><span class="o">.</span><span class="n">MatchString</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span><span class="x"> </span><span class="kt">string</span><span class="p">(</span><span class="n">a</span><span class="p">));</span><span class="x">
+	</span><span class="k">if</span><span class="x"> </span><span class="n">ok</span><span class="p">{</span><span class="x">
+		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"ok"</span><span class="p">)</span><span class="x">
+		</span><span class="p">}</span><span class="x">
+	</span><span class="n">reg</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">regexp</span><span class="o">.</span><span class="n">Compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="x">
+    </span><span class="n">all</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reg</span><span class="o">.</span><span class="n">FindAllString</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="x"> </span><span class="o">-</span><span class="m">1</span><span class="p">)</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">all</span><span class="p">)</span><span class="c">//输出密码</span><span class="x">
+	</span><span class="c">//然后匹配个算法是纯数字</span><span class="x">
+	</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">all</span><span class="p">[</span><span class="m">0</span><span class="p">])</span><span class="x">
+	</span><span class="n">bbs</span><span class="x"> </span><span class="o">:=</span><span class="n">strings</span><span class="o">.</span><span class="n">Replace</span><span class="p">(</span><span class="n">all</span><span class="p">[</span><span class="m">0</span><span class="p">],</span><span class="s">"密码:"</span><span class="p">,</span><span class="s">""</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="x">
+	</span><span class="n">all_1</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"{</span><span class="se">\n\"</span><span class="s">configs</span><span class="se">\"</span><span class="s"> : [</span><span class="se">\n</span><span class="s">{</span><span class="se">\"</span><span class="s">server</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">US.SSSERVER.PW</span><span class="se">\"</span><span class="s">,</span><span class="se">\n\"</span><span class="s">server_port</span><span class="se">\"</span><span class="s"> : 8989,</span><span class="se">\n\"</span><span class="s">password</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">"</span><span class="x">
+	</span><span class="n">all_2</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bbs</span><span class="o">+</span><span class="s">"</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">"</span><span class="x">
+	</span><span class="n">all_3</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"</span><span class="se">\"</span><span class="s">method</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">aes-256-cfb</span><span class="se">\"</span><span class="s">,</span><span class="se">\n\"</span><span class="s">remarks</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">这个是备忘录</span><span class="se">\"</span><span class="s">}</span><span class="se">\n</span><span class="s">],</span><span class="se">\n\"</span><span class="s">index</span><span class="se">\"</span><span class="s"> : 0,</span><span class="se">\n\"</span><span class="s">global</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">enabled</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">shareOverLan</span><span class="se">\"</span><span class="s"> : true,</span><span class="se">\n\"</span><span class="s">isDefault</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">localPort</span><span class="se">\"</span><span class="s"> : 1080}"</span><span class="x">
+	
+	</span><span class="n">bbs_all</span><span class="o">:=</span><span class="n">all_1</span><span class="o">+</span><span class="n">all_2</span><span class="o">+</span><span class="n">all_3</span><span class="x">
+	</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">bbs_all</span><span class="p">)</span><span class="x">
+	
+	</span><span class="n">file</span><span class="p">,</span><span class="n">_</span><span class="o">:=</span><span class="n">os</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="s">"gui-config.json"</span><span class="p">)</span><span class="x">
+	</span><span class="n">file</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="n">bbs_all</span><span class="p">)</span><span class="x">
+	</span><span class="n">file</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+	</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+
+<p>那么从代码中讲解一开始的思路吧。首先使用GET 提取网页的信息，然后观看这些信息中有没有保存密码的那个数据字符串。 <br />
+想办法匹配这个字符串……看网页中浏览看到，匹配的字符为密码：纯数字 …… 没错就是纯数字，那么匹配的规则就出现了</p>
+
+<p>记得对函数的调用之后进行错误处理……有错误就退出提醒</p>
+
+<p>看看一开始的引用其他包的时候，是不是看到有引用json呢？没错……我本来就是打算用json重新生成一段符号文档内容的信息，然后保存……后来发现好像没必要，确实没必要。引用用string就可以完成的事情，为什么要弄得那么复杂呢？ <br />
+    最后用多个string拼揍字符……完成对下面类似json格式的整理 <br />
+目标的json</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+</span><span class="s2">"configs"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+</span><span class="p">{</span><span class="s2">"server"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"US.SSSERVER.PW"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"server_port"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">8989</span><span class="p">,</span><span class="w">
+</span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"08474740"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"method"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"aes-256-cfb"</span><span class="p">,</span><span class="w">
+</span><span class="s2">"remarks"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"这个是备忘录"</span><span class="p">}</span><span class="w">
+</span><span class="p">],</span><span class="w">
+</span><span class="s2">"index"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+</span><span class="s2">"global"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+</span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+</span><span class="s2">"shareOverLan"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+</span><span class="s2">"isDefault"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+</span><span class="s2">"localPort"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>实话告诉你吧，这个json就是翻墙软件的一个配置文档…… <br />
+我懒得每次都编辑配置文档，只好每次引用程序的时候重新生成一份配置文档…… <br />
+当然，从理论上也只是修改文档而已。如果没有文档而是创建文档。 <br />
+最后还是需要写一个bat的脚本文件，为什么呢？因为go运行的程序有点快……</p>
+
+<p>只有俩行东西
+   Test1.exe
+	pause</p>
+
+<p>Test1.exe是程序的名字
+pause是程序运行结束没，不会自动关闭</p>
+
+<h3 id="小结">小结</h3>
+<p>我们为了方便，可是什么事都会干出来哦……</p>
+
+<p>运行的效果图：
+<img src="/assets/picture/20150511111350.png" />  <br />
+<img src="/assets/picture/20150511111502.jpg" /></p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/15/%E4%B8%80%E4%B8%AAImageView%E5%A4%9A%E4%B8%AA%E5%9B%BE%E7%89%87%E6%98%BE%E7%A4%BA.html" class="read-next-link"></a>
+            <section>
+                <span>一个ImageView多个图片显示</span>
+                <p>目的首先是，有时候我们看见别人的一个ImageView控件里面显示多个图片。 那么，这个是如何实现的呢？这个就是我...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/09/android-%E7%AE%80%E5%8D%95%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%90%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android-简单的反编译运用</span>
+                <p>这个是简单的反编译运用</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

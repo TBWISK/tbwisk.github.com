@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单-java爬虫 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="简单-java爬虫">
+    <meta name="keywords"  content="java, 爬虫">
+    <!-- Open Graph -->
+    <meta property="og:title" content="简单-java爬虫 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2014/11/09/%E7%AE%80%E5%8D%95-java%E7%88%AC%E8%99%AB.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#java" class="post-tag">java</a>
+            
+            <a href="http://localhost:4000/tags#%E7%88%AC%E8%99%AB" class="post-tag">爬虫</a>
+            
+            
+        </div>
+        <h1>简单-java爬虫</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="14-11-09"><i class="iconfont icon-date"></i>09 Nov 2014</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <p>这是个简单的java爬虫，实现的原理通过URL获取网络数据流，url.openStream(),数据流导入到InputStream 中，用Stringbuilder储存InputStream中的数据。最后利用正则表达式，定义 Pattern类中的规则，利用 Matcher 寻找复合规则的 String ，传递 String 中的数据。通过InputStream输入图片数据，最后OutputStream 把图片保存到电脑上。</p>
+
+<h2 id="平台">平台</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eclipse
+</code></pre></div></div>
+
+<h3 id="代码">代码</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">test</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.io.File</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileOutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.FileWriter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.InputStreamReader</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.OutputStream</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.net.URL</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.regex.Matcher</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.regex.Pattern</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test06</span> <span class="o">{</span>
+	<span class="cm">/*
+	 * 作用是学习 正则表达式
+	 * 理想的做法是，下载图片
+	 */</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span> <span class="o">[]</span> <span class="n">a</span><span class="o">){</span>
+		<span class="k">try</span>
+		<span class="o">{</span>
+			<span class="n">String</span> <span class="n">urlString</span><span class="o">;</span>
+			<span class="k">if</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="n">urlString</span><span class="o">=</span><span class="n">a</span><span class="o">[</span><span class="mi">0</span><span class="o">];</span><span class="c1">//判断是否编译时输入url地址</span>
+			<span class="k">else</span> <span class="n">urlString</span> <span class="o">=</span><span class="s">"http://image.baidu.com/"</span><span class="o">;</span>
+			<span class="n">InputStreamReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">urlString</span><span class="o">).</span><span class="na">openStream</span><span class="o">());</span>
+			<span class="c1">//获取url数据流并转换为inputsteam输入流</span>
+			
+			<span class="n">StringBuilder</span> <span class="n">input</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>	
+			<span class="c1">//存储 InputStream 数据流中的数据</span>
+			
+			<span class="kt">int</span> <span class="n">ch</span><span class="o">;</span>
+			<span class="k">while</span><span class="o">((</span><span class="n">ch</span> <span class="o">=</span> <span class="n">in</span><span class="o">.</span><span class="na">read</span><span class="o">())!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span><span class="c1">//逐个字符保存 in.read()返回-1 表示数据读取完毕</span>
+				<span class="n">input</span><span class="o">.</span><span class="na">append</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span><span class="n">ch</span><span class="o">);</span>
+
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">input</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span><span class="c1">//打印数据</span>
+
+			<span class="c1">//String patternStrng = "&lt;a\\shref=(\"[^\"]*\"|[^//s&gt;]*.html)\\s*&gt;";</span>
+
+			<span class="n">String</span> <span class="n">patternStrng</span> <span class="o">=</span><span class="s">"http://[^\\s]*(jpg)"</span><span class="o">;</span>
+			<span class="c1">//匹配的规则 这个模块关系 正则表达式的应用，正则表达式类似于 编译原理</span>
+			<span class="n">Pattern</span> <span class="n">pattern</span> <span class="o">=</span><span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="n">patternStrng</span><span class="o">,</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">CASE_INSENSITIVE</span><span class="o">);</span>
+			<span class="c1">//设置标志 可以多个标志设置</span>
+			
+			<span class="n">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">input</span><span class="o">);</span>
+			<span class="c1">//寻找匹配的类 Matcher</span>
+			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"测试中"</span><span class="o">);</span>
+
+			<span class="c1">//保存图片的命名规则</span>
+			<span class="n">String</span> <span class="n">i</span><span class="o">=</span><span class="s">".jpg"</span><span class="o">;</span>
+			<span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span>
+
+			<span class="k">while</span><span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">()){</span>
+				<span class="kt">int</span> <span class="n">start</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+				<span class="kt">int</span> <span class="n">end</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="na">end</span><span class="o">();</span>
+				<span class="n">String</span> <span class="n">match</span> <span class="o">=</span><span class="n">input</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">start</span><span class="o">,</span> <span class="n">end</span><span class="o">);</span>
+				<span class="c1">//从 StringBuilder in 中截取数据</span>
+			
+				<span class="n">URL</span> <span class="n">url</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">match</span><span class="o">);</span><span class="c1">//url获取图片的地址内容 </span>
+				<span class="n">File</span> <span class="n">outFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">j</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+				<span class="n">OutputStream</span> <span class="n">os</span><span class="o">=</span>  <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">outFile</span><span class="o">);;</span>
+				<span class="n">InputStream</span> <span class="n">is</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="na">openStream</span><span class="o">();</span><span class="c1">//把图片弄到输入流里面</span>
+				<span class="kt">byte</span><span class="o">[]</span> <span class="n">buff</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1024</span><span class="o">];</span><span class="c1">//交换数据的byte</span>
+
+				<span class="k">while</span><span class="o">(</span><span class="kc">true</span><span class="o">){</span><span class="c1">//输入流和输出流交互的过程</span>
+					<span class="kt">int</span> <span class="n">readed</span> <span class="o">=</span> <span class="n">is</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buff</span><span class="o">);</span>
+					<span class="k">if</span><span class="o">(</span><span class="n">readed</span><span class="o">==-</span><span class="mi">1</span><span class="o">){</span>
+						<span class="k">break</span><span class="o">;</span><span class="c1">//判断是否为空 跳出while循环</span>
+					<span class="o">}</span>
+					
+					<span class="kt">byte</span><span class="o">[]</span> <span class="n">temp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="n">readed</span><span class="o">];</span>
+					<span class="n">System</span><span class="o">.</span><span class="na">arraycopy</span><span class="o">(</span><span class="n">buff</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">temp</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span> <span class="n">readed</span><span class="o">);</span>
+					<span class="n">os</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">temp</span><span class="o">);</span>
+				<span class="o">}</span>
+				<span class="n">j</span><span class="o">++;</span>
+				<span class="n">is</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+				<span class="n">os</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">match</span><span class="o">);</span>
+			<span class="o">}</span>
+			
+		<span class="o">}</span>
+		<span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+			<span class="n">e</span><span class="o">.</span><span class="na">getStackTrace</span><span class="o">();</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="正则表达式语法规则">正则表达式语法规则</h3>
+<p>简单示例</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Jj]java.+
+匹配下列形式的所有字符串：
+	1.第一个字母是J或j
+	2.接下来的第三个字母是ava
+	3.字符串的其余部分由一个或多个任意的字符构成
+
+例如，字符串“javanese”就是匹配这个特定的正则表达式，但是字符串“core java”就不匹配。
+语法结构：
+	字符类 是一个括在括号中的可选择的字符集，例如[Jj]、[0-9]、[A-Za-z]、[^0-9]这表示的是一个范围。[^]表示一个补集（除了指定字符之外的所有字符。
+</code></pre></div></div>
+
+<h3 id="next-steps">Next Steps</h3>
+<p>真的有东西么</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/suffer/2014/11/13/%E6%B8%A3%E5%93%AD%E4%BA%86%E7%9A%84%E5%9F%BA%E7%A1%80.html" class="read-next-link"></a>
+            <section>
+                <span>渣哭了的基础</span>
+                <p>  2014年11月12日到白云区的恒拓开源公司面试，在这个过程之中，我感觉我就是一个被虐的渣渣……看样子几乎连基...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2014/11/05/%E6%B5%8B%E8%AF%95-%E5%9B%BE%E7%89%87%E9%A2%84%E8%A7%88.html" class="read-next-link"></a>
+            <section>
+                <span>测试图片预览</span>
+                <p>测试图片的预览问题</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fragment和Activity通信 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="fragment和Activity通信">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="fragment和Activity通信 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/23/fragment%E5%92%8CActivity%E9%80%9A%E4%BF%A1.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>fragment和Activity通信</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-01-23"><i class="iconfont icon-date"></i>23 Jan 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="activity的生命周期">Activity的生命周期</h3>
+<p><img src="/assets/picture/20150124.png" />  <br />
+从这个图中可以知道Activity 的生命周期</p>
+
+<h3 id="fragment-生命周期">Fragment 生命周期</h3>
+<blockquote>
+  <p>Lifecycle<br />
+Though a Fragment’s lifecycle is tied to its owning activity, it has its own wrinkle on the standard activity lifecycle. It includes basic activity lifecycle methods such as onResume(), but also important are methods related to interactions with the activity and UI generation.</p>
+</blockquote>
+
+<blockquote>
+  <p>The core series of lifecycle methods that are called to bring a fragment up to resumed state (interacting with the user) are:</p>
+</blockquote>
+
+<ul>
+  <li>1.onAttach(android.app.Activity) called once the fragment is associated with its activity.</li>
+  <li>2.onCreate(android.os.Bundle) called to do initial creation of the fragment.</li>
+  <li>3.onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle) creates and returns the view hierarchy associated with the fragment.</li>
+  <li>4.onActivityCreated(android.os.Bundle) tells the fragment that its activity has completed its own Activity.onCreate().</li>
+  <li>5.onViewStateRestored(android.os.Bundle) tells the fragment that all of the saved state of its view hierarchy has been restored.</li>
+  <li>6 .onStart() makes the fragment visible to the user (based on its containing activity being started).</li>
+  <li>7 .onResume() makes the fragment interacting with the user (based on its containing activity being resumed).</li>
+</ul>
+
+<blockquote>
+  <p>As a fragment is no longer being used, it goes through a reverse series of callbacks:</p>
+</blockquote>
+
+<ul>
+  <li>1.onPause() fragment is no longer interacting with the user either because its activity is being paused or a fragment operation is modifying it in the activity.</li>
+  <li>2.onStop() fragment is no longer visible to the user either because its activity is being stopped or a fragment operation is modifying it in the activity.</li>
+  <li>3.onDestroyView() allows the fragment to clean up resources associated with its View.</li>
+  <li>4.onDestroy() called to do final cleanup of the fragment’s state.</li>
+  <li>5.onDetach() called immediately prior to the fragment no longer being associated with its activity.</li>
+</ul>
+
+<h4 id="fragment的使用">Fragment的使用</h4>
+<p>fragment的使用有俩种方式<br />
+1： 直接在空布局上添加
+2： xml 中声明 fragment 布局</p>
+
+<h3 id="fragment-和activity-如何通信">fragment 和activity 如何通信</h3>
+<p>fragment 向activity 传递信息 是通过回调的方法  <br />
+activity 向 fragment 传递 信息 是通过setArguments(Bundle bundle)传递。Bundle 可用储存传递的数据结构类型。</p>
+
+<p>回调的使用：</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dialog1</span> <span class="kd">extends</span> <span class="n">DialogFragment</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OnitemClick</span> <span class="o">{</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdittext</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">string</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="kd">private</span> <span class="n">OnitemClick</span> <span class="n">onitemClick</span><span class="o">;</span><span class="c1">//回调的东西</span>
+	<span class="o">......</span>
+	<span class="n">onitemClick</span><span class="o">.</span><span class="na">setEdittext</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">edittext_sex</span><span class="o">,</span> <span class="n">sex</span><span class="o">);</span><span class="c1">//传递数据</span>
+	<span class="o">......</span>
+		<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAttach</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">.</span><span class="na">onAttach</span><span class="o">(</span><span class="n">activity</span><span class="o">);</span>
+		<span class="k">try</span> <span class="o">{</span>
+			<span class="n">onitemClick</span> <span class="o">=</span> <span class="o">(</span><span class="n">OnitemClick</span><span class="o">)</span> <span class="n">activity</span><span class="o">;</span>
+			<span class="c1">//对implements interface OnitemClick</span>
+			<span class="c1">//进行绑定，如果调用 Dialog1 的 Activity 没有 声明接口，那么会报错</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">throw</span> <span class="k">new</span> <span class="nf">ClassCastException</span><span class="o">(</span><span class="n">activity</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
+					<span class="o">+</span> <span class="s">"must implement OnitemClick"</span><span class="o">);</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+
+
+  
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GetThePatientHardwareList</span> <span class="kd">extends</span> <span class="n">BaseActivity</span> <span class="kd">implements</span>
+		 <span class="n">OnitemClick</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdittext</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span><span class="c1">//数据接口</span>
+	<span class="c1">// 对方法的实现</span>
+	
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>Activity 向fragment 传递数据</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Dialog1</span> <span class="n">dia</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Dialog1</span><span class="o">();</span>
+<span class="n">Bundle</span> <span class="n">bundle</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bundle</span><span class="o">();</span>
+<span class="n">bundle</span><span class="o">.</span><span class="na">putInt</span><span class="o">(</span><span class="s">"Type"</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="n">bundle</span><span class="o">.</span><span class="na">putInt</span><span class="o">(</span><span class="s">"position"</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
+<span class="n">dia</span><span class="o">.</span><span class="na">setArguments</span><span class="o">(</span><span class="n">bundle</span><span class="o">);</span><span class="c1">//bundle 就是传递的数据</span>
+<span class="n">getSupportFragmentManager</span><span class="o">().</span><span class="na">beginTransaction</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">dia</span><span class="o">,</span> <span class="s">""</span><span class="o">).</span><span class="na">commit</span><span class="o">();</span>
+
+<span class="n">Fragment</span> <span class="err">如何接受数据呢</span>    
+<span class="err">直接简单粗暴</span>
+<span class="kt">int</span> <span class="n">type</span> <span class="o">=</span> <span class="n">getArguments</span><span class="o">().</span><span class="na">getInt</span><span class="o">(</span><span class="s">"Type"</span><span class="o">);</span>
+<span class="c1">//在对type的接受 可实现 Fragment 的多态性和复用性</span>
+</code></pre></div></div>
+<h4 id="总结">总结</h4>
+<p>总结，想要实现。首先知道的是fragment 的生命周期，在fragment创建的时候会先绑定当前的activity，这个是 onAttach(Activity activity)。实现接口的回调方法和创建。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/29/Android-Proguard%E6%8C%87%E5%8D%97.html" class="read-next-link"></a>
+            <section>
+                <span>Android-Proguard指南</span>
+                <p>android 混淆配置指南英文版 我只是个默默翻译的搬运工 ，好吧，翻译是为了提高英文水平。</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/14/RelativeLayout%E7%9B%B8%E5%AF%B9%E5%B8%83%E5%B1%80%E5%B1%9E%E6%80%A7%E4%BA%86%E8%A7%A3.html" class="read-next-link"></a>
+            <section>
+                <span>RelativeLayout相对布局属性了解</span>
+                <p>RelativeLayout相对布局</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

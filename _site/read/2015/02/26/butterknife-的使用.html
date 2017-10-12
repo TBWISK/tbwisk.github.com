@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>butterknife 的使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="butterknife 的使用">
+    <meta name="keywords"  content="Tools, android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="butterknife 的使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/read/2015/02/26/butterknife-%E7%9A%84%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#Tools" class="post-tag">Tools</a>
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>butterknife 的使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-02-26"><i class="iconfont icon-date"></i>26 Feb 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <p>butterknife 出处 ：<br />
+官方网址：http://jakewharton.github.io/butterknife/  <br />
+github地址：https://github.com/JakeWharton/butterknife</p>
+
+<blockquote>
+  <h3 id="这篇文章的目的">这篇文章的目的</h3>
+  <p>首先，不是很多人都会看得懂英文，总需要有翻译的人。那么我就翻译一下吧。</p>
+</blockquote>
+
+<p>转载请注明出处：http://tbwisk.github.io/</p>
+
+<blockquote>
+  <h4 id="介绍">介绍</h4>
+</blockquote>
+
+<p>用 Butter Knife 注射字段 @InjectView 和一个视图 ID，并且自动地在适配你的视图在你的布局文件中layout</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">ExampleActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">title</span><span class="o">)</span> <span class="n">TextView</span> <span class="n">title</span><span class="o">;</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">subtitle</span><span class="o">)</span> <span class="n">TextView</span> <span class="n">subtitle</span><span class="o">;</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">footer</span><span class="o">)</span> <span class="n">TextView</span> <span class="n">footer</span><span class="o">;</span>
+
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+    <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">simple_activity</span><span class="o">);</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="c1">// TODO Use "injected" views...</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>这种方法替代了缓慢的映射和生成代码来执行寻找视图。调用注入代表到这个合成的代码是你可以看见和调试的。</p>
+
+<p>上面实例的生成代码大致相当如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">void</span> <span class="nf">inject</span><span class="o">(</span><span class="n">ExampleActivity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">activity</span><span class="o">.</span><span class="na">subtitle</span> <span class="o">=</span> <span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">TextView</span><span class="o">)</span> <span class="n">activity</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="mi">2130968578</span><span class="o">);</span>
+  <span class="n">activity</span><span class="o">.</span><span class="na">footer</span> <span class="o">=</span> <span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">TextView</span><span class="o">)</span> <span class="n">activity</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="mi">2130968579</span><span class="o">);</span>
+  <span class="n">activity</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="o">(</span><span class="n">android</span><span class="o">.</span><span class="na">widget</span><span class="o">.</span><span class="na">TextView</span><span class="o">)</span> <span class="n">activity</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="mi">2130968577</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="没有-activity-的时候的注入">没有 Activity 的时候的注入</h5>
+
+<p>你可以通过提供的根视图，执行任何注射在任意的目标在根视图中。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FancyFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">)</span> <span class="n">Button</span> <span class="n">button1</span><span class="o">;</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">)</span> <span class="n">Button</span> <span class="n">button2</span><span class="o">;</span>
+
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="n">View</span> <span class="nf">onCreateView</span><span class="o">(</span><span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">container</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">fancy_fragment</span><span class="o">,</span> <span class="n">container</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">view</span><span class="o">);</span>
+    <span class="c1">// TODO Use "injected" views...</span>
+    <span class="k">return</span> <span class="n">view</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>另外一个是在适配器列表中简化 视图 holder模式</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyAdapter</span> <span class="kd">extends</span> <span class="n">BaseAdapter</span> <span class="o">{</span>
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="n">View</span> <span class="nf">getView</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">,</span> <span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">parent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ViewHolder</span> <span class="n">holder</span><span class="o">;</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">view</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">holder</span> <span class="o">=</span> <span class="o">(</span><span class="n">ViewHolder</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">getTag</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+      <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">whatever</span><span class="o">,</span> <span class="n">parent</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+      <span class="n">holder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">);</span>
+      <span class="n">view</span><span class="o">.</span><span class="na">setTag</span><span class="o">(</span><span class="n">holder</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="n">holder</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"John Doe"</span><span class="o">);</span>
+    <span class="c1">// etc...</span>
+
+    <span class="k">return</span> <span class="n">view</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ViewHolder</span> <span class="o">{</span>
+    <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">title</span><span class="o">)</span> <span class="n">TextView</span> <span class="n">name</span><span class="o">;</span>
+    <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">job_title</span><span class="o">)</span> <span class="n">TextView</span> <span class="n">jobTitle</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ViewHolder</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">ButterKnife</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">view</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>你可以看到这个实现的行动提供样品。</p>
+
+<p>呼叫 ButterKnife.inject 你可以在任何地方把findViewById调用。</p>
+
+<p>注射提供的其他api:</p>
+
+<ul>
+  <li>注入任意对象使用一个活动作为视图根。如果你使用像MVC模式，你可以用ButterKnife注入控制器使用其Activity 如 ButterKnife.inject(this, activity).</li>
+  <li>字段注射一个视图的孩子使用 ButterKnife.inject(this) 。如果你使用 merge 标签在一个布局文件中和inflate  构造一个定制视图，你可以在之后马上调用。作为一种选择，定制视图类型 通常从  Xml中inflate，可以使用它在onFinishInflate()回调。</li>
+</ul>
+
+<h5 id="view-lists">View Lists</h5>
+
+<p>你可以把多个视图打入列表或数组。List and Array</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@InjectViews</span><span class="o">({</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">first_name</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">middle_name</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">last_name</span> <span class="o">})</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">EditText</span><span class="o">&gt;</span> <span class="n">nameViews</span><span class="o">;</span>
+<span class="n">The</span> <span class="n">apply</span> <span class="n">method</span> <span class="n">allows</span> <span class="n">you</span> <span class="n">to</span> <span class="n">act</span> <span class="n">on</span> <span class="n">all</span> <span class="n">the</span> <span class="n">views</span> <span class="n">in</span> <span class="n">a</span> <span class="n">list</span> <span class="n">at</span> <span class="n">once</span><span class="o">.</span>
+
+<span class="n">ButterKnife</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">nameViews</span><span class="o">,</span> <span class="n">DISABLE</span><span class="o">);</span>
+<span class="n">ButterKnife</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">nameViews</span><span class="o">,</span> <span class="n">ENABLED</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+<span class="n">Action</span> <span class="n">and</span> <span class="n">Setter</span> <span class="n">interfaces</span> <span class="n">allow</span> <span class="n">specifying</span> <span class="n">simple</span> <span class="n">behavior</span><span class="o">.</span>
+
+<span class="kd">static</span> <span class="kd">final</span> <span class="n">Action</span><span class="o">&lt;</span><span class="n">View</span><span class="o">&gt;</span> <span class="n">DISABLE</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Action</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">apply</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">view</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">static</span> <span class="kd">final</span> <span class="n">Setter</span><span class="o">&lt;</span><span class="n">View</span><span class="o">,</span> <span class="n">Boolean</span><span class="o">&gt;</span> <span class="n">ENABLED</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Setter</span><span class="o">&lt;&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">set</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="n">Boolean</span> <span class="n">value</span><span class="o">,</span> <span class="kt">int</span> <span class="n">index</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">view</span><span class="o">.</span><span class="na">setEnabled</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>一个Android属性也可以使用与 apply 方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ButterKnife</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="n">nameViews</span><span class="o">,</span> <span class="n">View</span><span class="o">.</span><span class="na">ALPHA</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h5 id="listener-injection--监听注入">LISTENER INJECTION  监听注入</h5>
+
+<p>监听器还可以自动配置方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@OnClick</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">submit</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">submit</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// TODO submit data to server...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>所有侦听器方法的参数是可选的。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@OnClick</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">submit</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">submit</span><span class="o">()</span> <span class="o">{</span>
+  <span class="c1">// TODO submit data to server...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>定义一个特定的类型,它将自动计算执行。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@OnClick</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">submit</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayHi</span><span class="o">(</span><span class="n">Button</span> <span class="n">button</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">button</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"Hello!"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>指定多个id为共同在一个绑定事件处理。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@OnClick</span><span class="o">({</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">door1</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">door2</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">door3</span> <span class="o">})</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">pickDoor</span><span class="o">(</span><span class="n">DoorView</span> <span class="n">door</span><span class="o">)</span> <span class="o">{</span>
+  <span class="k">if</span> <span class="o">(</span><span class="n">door</span><span class="o">.</span><span class="na">hasPrizeBehind</span><span class="o">())</span> <span class="o">{</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"You win!"</span><span class="o">,</span> <span class="n">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+  <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"Try again"</span><span class="o">,</span> <span class="n">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>自定义视图可以绑定自己的听众不指定一个ID。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FancyButton</span> <span class="kd">extends</span> <span class="n">Button</span> <span class="o">{</span>
+  <span class="nd">@OnClick</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// TODO do something!</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="injection-reset--注射清零">INJECTION RESET  注射清零</h5>
+
+<p>Fragments 比Activity 生命周期有不同的历程。当在Fragments 中的 onCreateView注入时,在Fragment 的onDestroyView 中视图设置为null。Butter Knife 有一个自动复位 rest 方法来做到这一点。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">FancyFragment</span> <span class="kd">extends</span> <span class="n">Fragment</span> <span class="o">{</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">)</span> <span class="n">Button</span> <span class="n">button1</span><span class="o">;</span>
+  <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">)</span> <span class="n">Button</span> <span class="n">button2</span><span class="o">;</span>
+
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="n">View</span> <span class="nf">onCreateView</span><span class="o">(</span><span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">container</span><span class="o">,</span> <span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">fancy_fragment</span><span class="o">,</span> <span class="n">container</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">inject</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">view</span><span class="o">);</span>
+    <span class="c1">// TODO Use "injected" views...</span>
+    <span class="k">return</span> <span class="n">view</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span> <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onDestroyView</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onDestroyView</span><span class="o">();</span>
+    <span class="n">ButterKnife</span><span class="o">.</span><span class="na">reset</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="optional-injections-可选择注射">OPTIONAL INJECTIONS 可选择注射</h5>
+
+<p>默认情况下,@InjectView和侦听器注射都是必需的。如果无法找到目标的观点将抛出一个异常。</p>
+
+<p>抑制这种行为并创建一个可选的注入,@Optional注释添加到字段或方法。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Optional</span> <span class="nd">@InjectView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">might_not_be_there</span><span class="o">)</span> <span class="n">TextView</span> <span class="n">mightNotBeThere</span><span class="o">;</span>
+
+<span class="nd">@Optional</span> <span class="nd">@OnClick</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">maybe_missing</span><span class="o">)</span> <span class="kt">void</span> <span class="nf">onMaybeMissingClicked</span><span class="o">()</span> <span class="o">{</span>
+  <span class="c1">// TODO ...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="multi-method-listeners-多个方法的监听器">MULTI-METHOD LISTENERS 多个方法的监听器</h5>
+
+<p>方法注释相应的监听器有多个回调可以绑定到任何其中之一。每一个注释它都绑定有一个默认的回调。指定一个替代使用回调参数。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@OnItemSelected</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">list_view</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">onItemSelected</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// TODO ...</span>
+<span class="o">}</span>
+
+<span class="nd">@OnItemSelected</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">maybe_missing</span><span class="o">,</span> <span class="n">callback</span> <span class="o">=</span> <span class="n">NOTHING_SELECTED</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">onNothingSelected</span><span class="o">()</span> <span class="o">{</span>
+  <span class="c1">// TODO ...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h5 id="bonus">BONUS</h5>
+
+<p>还包括findById方法简化代码,还需要找到视图在 View , Activity 或 Dialog。它使用泛型来推断返回类型,并自动执行。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">context</span><span class="o">).</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">thing</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">TextView</span> <span class="n">firstName</span> <span class="o">=</span> <span class="n">ButterKnife</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">first_name</span><span class="o">);</span>
+<span class="n">TextView</span> <span class="n">lastName</span> <span class="o">=</span> <span class="n">ButterKnife</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">last_name</span><span class="o">);</span>
+<span class="n">ImageView</span> <span class="n">photo</span> <span class="o">=</span> <span class="n">ButterKnife</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">view</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">photo</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>添加一个静态导入ButterKnife.findById 和 享受更多的乐趣。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/read/2015/03/24/Android-Hacks-35-%E5%8F%91%E5%B0%84%E5%A4%9A%E4%B8%AAIntent.html" class="read-next-link"></a>
+            <section>
+                <span>Android-hacks 35 发射多个Intent</span>
+                <p>  ###发射多个意图</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/14/Android-Hacks-28-ListView-addHeaderView%E7%94%A8%E6%B3%95.html" class="read-next-link"></a>
+            <section>
+                <span>listview addheaderView 的用法</span>
+                <p>  我们想要一个精彩的头部么，我们想要一个可以滑动的头部么  通常而言，使用Gallery 和 ListView ...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

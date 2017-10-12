@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>渣哭了的基础 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="渣哭了的基础">
+    <meta name="keywords"  content="java">
+    <!-- Open Graph -->
+    <meta property="og:title" content="渣哭了的基础 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/suffer/2014/11/13/%E6%B8%A3%E5%93%AD%E4%BA%86%E7%9A%84%E5%9F%BA%E7%A1%80.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#java" class="post-tag">java</a>
+            
+            
+        </div>
+        <h1>渣哭了的基础</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="14-11-13"><i class="iconfont icon-date"></i>13 Nov 2014</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <blockquote>
+  <p>2014年11月12日到白云区的恒拓开源公司面试，在这个过程之中，我感觉我就是一个被虐的渣渣……看样子几乎连基础都不行的渣渣。那么我现在就回忆一下那个面试的一些基础吧。看过的书，然后忘记了是最大的悲哀，但还有一种情况就是，那本书是前俩天才看过的。</p>
+</blockquote>
+
+<h2 id="基础很重要">基础很重要</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　我是按照我这次的经历来写的，只是个人的感想。　　
+　　基础很重要，重新回顾一下昨天的面试，我已经蠢到家了。在一些细节上的问题回答不出来，对于数据库也还给老师了。好吧，这个是没有复习的原罪。
+</code></pre></div></div>
+
+<h3 id="java的基础类型有哪里">java的基础类型有哪里</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　这个问题看起来很蠢吧，但我也回答错误了。
+正确答案是：byte short int long float double bollean char 
+　　但我的回答却多了个 String
+String
+　　是一个字符串类，没错就是字符串的类，为了更好的操作字符而弄出来的类。
+　　默默的翻了一下java 的api文档，搜 String ，好吧，String居然是final的，在类的前面声明了final class String ，从某种角度而言，String是不可被重写的，在比较一个对象的时候，通常，我们会使用 == 或者 equals 比较俩个对象，而String 是一个对象，通常会根据对象所在的内存地址比较。终于感觉到为什么前面那么多次的笔试都被刷了……Orz　　
+</code></pre></div></div>
+
+<h3 id="string-和stringbuffer的区别">String 和StringBuffer的区别</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　当听到这个的时候，我在想到底有什么区别，然后我傻乎乎的说，现在不是推荐使用StringBuilder么。好，那么你说说String 和StringBuilder的区别。　　
+　　现在想想总感觉到处都是槽点。我的回答是，StringBuilder的效率比String快，效率高。哪里快了？说来听听……当时我就楞了，QAQ答不上来
+　　String 是java.lang.String ，StringBuffer是java.lang.StringBuilder，从某种程度上而言，就是对象的可操作据别，因为StringBuilder可以操作append 在对象的后天添加数据，而不改变对象本身一开始头指向的内存地址。通常一开始申请StringBuilder的时候，会自身分配比较大的内存空间，在里面的数据满了后会自身扩展内存空间。但首地址是不会改变的。并且，StringBuilder可在对象内任意位置删除字符和增加字符，替代字符。　　
+　　但String则会改变内存地址，除非是只声明了一次，并且没有在后面使用的时候 + 某些字符串。　　
+</code></pre></div></div>
+
+<h3 id="hashmap-和-hashset的区别">HashMap 和 HashSet的区别</h3>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　当时这个的时候，我想。。。。俩者有区别么，不都是hash计算的么。　　
+　　后来感觉好像区别在于储存的时候，hashmap是键值对储存 hashset是hash计算储存，就是储存的方式是不一样的。然后再读取的方式上，hashmap可以直接get(键)读取，然后hashset呢……好像是迭代器读取，用到Iterator读取数据。
+从某种程度上，hashmap的存储方式是储存那些可能需要经常修改的数据和读取的数据，因为hashmap中的函数有 put set delete replace。　　
+</code></pre></div></div>
+
+<h4 id="badend">badend</h4>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　第一次的技术面试就这样的over了，连面试的大大都很想找话题了。但我实在是不知道如何回答好QAQ 也不知道如何去面对好。反正出门的那一刻，我得继续努力找下一份实习和得努力的学习去了，顺便在思考了一天后写下了这篇东西。生活还是要继续的……　　
+</code></pre></div></div>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/%E7%BF%BB%E8%AF%91/2014/11/20/How-to-Write-Better-Unit-Tests.html" class="read-next-link"></a>
+            <section>
+                <span>如何更好的写单元测试</span>
+                <p>原文链接不久前在工作上广泛的做一些单元测试，我收集了一些指导方针以便让我更好的尝试坚持在这些年来写更好的测试。记住...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2014/11/09/%E7%AE%80%E5%8D%95-java%E7%88%AC%E8%99%AB.html" class="read-next-link"></a>
+            <section>
+                <span>简单-java爬虫</span>
+                <p>这是个简单的java爬虫，实现的原理通过URL获取网络数据流，url.openStream(),数据流导入到Inp...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

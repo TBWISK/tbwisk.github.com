@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android-adb命令行使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="android-adb命令行使用">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android-adb命令行使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/11/24/Android-Adb-%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>android-adb命令行使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-11-24"><i class="iconfont icon-date"></i>24 Nov 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="a背景">a:背景</h3>
+<p>温故而知信，在我们开发android的时候，我们很多时候都是不使用adb的，因为很少涉及到直接用命令行交互的情况。但有时候adb缺是不得不用的，这个可以很方便我们去调试应用以及传递某些数据。</p>
+
+<hr />
+
+<h3 id="1adb">1：adb</h3>
+<p>一开始使用adb的时候，输入adb，回车。那么可以看到很多的命令列表。这个可以参照这个列表去学习运行adb</p>
+
+<hr />
+
+<h3 id="2显示链接列表">2：显示链接列表</h3>
+<p>使用这个命令可以显示链接到电脑设备上的手机设备和手机设备id <br />
+<strong>adb devices</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>List of devices attached
+7C5A07B48684	device
+</code></pre></div></div>
+<p>如果多个设备一起连接，可以使用__adb -s DEVICE_ID__ 来指定一个特别的设备。</p>
+
+<hr />
+
+<h3 id="3安装一个apk">3：安装一个apk</h3>
+<p>使用命令 <strong>install</strong> 命令来安装apk，可选 __-r__参数 如果程序已经安装，那么将会重新安装并保持任何的数据不变。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb install -r APK_FILE
+example
+adb install -r ~/application.apk
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="4卸载一个应用程序">4：卸载一个应用程序</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb uninstall PACKAGE_NAME  
+example  
+adb uninstall com.tencent.mm
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="5开始一个activty">5:开始一个activty</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell am start PACKAGE_NAME/ACTIVITY_IN_PACKAGE   
+adb shell am start PACKAGE_NAME/FULL_QUALIFIED_ACTIVITY   
+
+example   
+adb shell am start -n com.tencent.mm/ui.LauncherUI   
+adb shell am start -n com.tencent.mm/com.tencent.mm.ui.LauncherUI   
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="6进入设备的shell命令行">6:进入设备的shell命令行</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="6屏幕截图">6:屏幕截图</h3>
+<p>这个命令用于把手机屏幕截图然后保存到当前终端的目录下面。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' &gt; screen.png
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="7屏幕开关">7：屏幕开关</h3>
+<p>这个命令是用于发送事件给设备，然后开关屏幕。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell input keyevent 26
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="8解锁屏幕">8：解锁屏幕</h3>
+
+<p>这个命令是用于解锁屏幕，可和上面的屏幕电源开关一起使用。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell input keyevent 82
+</code></pre></div></div>
+<hr />
+
+<h3 id="9打印手机上安装的包">9：打印手机上安装的包</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell pm list packages -f
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="10清空应用程序的数据">10:清空应用程序的数据</h3>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell pm clear PACKAGE_NAME
+
+//example
+adb shell pm clear com.tencent.mm
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="11打印日志信息">11:打印日志信息</h3>
+<p>显示log 的输入流在我们的屏幕上</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>根据 tagname拦截 
+adb logcat -s TAG_NAME
+adb logcat -s TAG_NAME_1 TAG_NAME_2
+
+//example
+adb logcat -s TEST
+adb logcat -s TEST MYAPP
+
+》》》》》
+
+根据等级拦截   
+adb logcat "*:PRIORITY"
+
+//example
+adb logcat "*:W"
+
+这里是一些安全等级
+V - Verbose (lowest priority)
+D - Debug
+I - Info
+W - Warning
+E - Error
+F - Fatal
+S - Silent (highest priority, on which nothing is ever printed)
+
+》》》》》
+综合上面的一起拦截
+adb logcat -s TAG_NAME:PRIORITY
+adb logcat -s TAG_NAME_1:PRIORITY TAG_NAME_2:PRIORITY
+
+//example
+adb logcat -s TEST: W
+
+》》》》》
+善于使用 grep 截取重要信息 
+
+adb logcat | grep "SEARCH_TERM"
+adb logcat | grep "SEARCH_TERM_1\|SEARCH_TERM_2"
+
+//example
+adb logcat | grep "Exception"
+adb logcat | grep "Exception\|Error"
+
+
+》》》》》
+清理lagcat的缓存区
+adb logcat -c 
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="end">END</h3>
+
+<p>更多有趣的阅读欢迎上官网<a href="http://developer.android.com/tools/help/adb.html">链接店址</a></p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/12/22/Android-ffmpeg%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android-ffmpeg的编译命令行使用</span>
+                <p>a:背景工作上需要，编写一个视频转换的工具，然后我选择了ffmpeg这个重量级的工具。下面讲述的是如何编译ffmp...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/11/10/Android-L-5.0-apk%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E9%97%AE%E9%A2%98.html" class="read-next-link"></a>
+            <section>
+                <span>android L 5.0 apk安装失败问题</span>
+                <p>a:背景背景，之前在反编译一个apk，然后改包名，重新安装。可以在android 5.0 以下的系统安装，但却__...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

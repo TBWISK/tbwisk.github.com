@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mac brew 的使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="Mac brew 的使用">
+    <meta name="keywords"  content="python">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Mac brew 的使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2016/04/04/Mac-brew%E7%9A%84%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#python" class="post-tag">python</a>
+            
+            
+        </div>
+        <h1>Mac brew 的使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="16-04-04"><i class="iconfont icon-date"></i>04 Apr 2016</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="1背景">1：背景</h3>
+<p>在我们有时候安装一些软件的时候，是不是需要安装某些版本？然后又不想去官网找，于是，我们就得想办法懒惰一些。不用手动麻烦去配置一些开发环境，那么现在说的是一个神器 brew 的使用。 <br />
+环境：mac</p>
+<h4 id="2安装">2：安装</h4>
+<p>官网 http://brew.sh/ <br />
+进入官网后，会看见有</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre></div></div>
+<p>使用这条命令行，那么会自动安装好brew</p>
+
+<p>那么如何安装软件呢？ brew install mysql   去安装软件</p>
+
+<h4 id="3brew-mysql-指定版本">3：brew mysql 指定版本</h4>
+<p>在指定版本这里安装是一个比较深的坑。 <br />
+为啥这么说，例如安装mysql，如果我们输入的是brew install mysql ，那么brew会自动帮我们安装最新的mysql版本，但通常旧版本和新版本都会有差异，甚至某些新版本改动的特性太大。不适用用来当开发环境。 <br />
+那么这个时候需要了解如何去安装 指定的版本。 <br />
+首先使用</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew tap homebrew/versions
+</code></pre></div></div>
+
+<p>这个命令行。会更新一些信息。<br />
+然后进入 https://github.com/Homebrew/homebrew-versions  这里挑选你需要的版本 <br />
+例如看到的版本是 mysql56.rb 
+这个使用有个 url ：<br />
+brew install https://raw.githubusercontent.com/Homebrew/homebrew-versions/master/<formula>.rb    
+把<formula>.rb 替换成 mysql56.rb   
+千万别点击 mysql56.rb 这个链接，然后复制它的url作为 install的地址。  
+当安装完成后，我们会发现在/usr/local/Cellar/ 里面有mysql56的安装信息。  
+但在python 中我们import MySQLdb 的时候回报错。找不到mysql的链接库。   
+那么这个时候如何办呢？  
+看到报错信息，然后设置软链接 ln -s (源文件)(目标文件)  把文件夹指向明确   
+那么最后就是制定版本是安装成功的。</formula></formula></p>
+
+<p><a href="http://tbwisk.github.com">博客地址</a></p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/04/04/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83-Virtualenv.html" class="read-next-link"></a>
+            <section>
+                <span>python虚拟环境安装</span>
+                <p>1：背景在我们使用python的时候，是不是觉得要pip安装的东西特别多呢？然后有时候，又因为升级某个套件而导致一...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/03/25/%E5%9F%BA%E7%A1%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.html" class="read-next-link"></a>
+            <section>
+                <span>基础排序算法</span>
+                <p>1：明确有多少个基础排序算法    &lt;/br&gt;</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

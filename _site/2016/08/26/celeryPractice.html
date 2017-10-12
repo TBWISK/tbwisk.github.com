@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>celery 优化和实践以及遇到的问题 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="celery 优化和实践以及遇到的问题">
+    <meta name="keywords"  content="celery, python">
+    <!-- Open Graph -->
+    <meta property="og:title" content="celery 优化和实践以及遇到的问题 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2016/08/26/celeryPractice.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#celery" class="post-tag">celery</a>
+            
+            <a href="http://localhost:4000/tags#python" class="post-tag">python</a>
+            
+            
+        </div>
+        <h1>celery 优化和实践以及遇到的问题</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="16-08-26"><i class="iconfont icon-date"></i>26 Aug 2016</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <p>作为一个Celery使用重度用户，看到<a href="https://denibertovic.com/posts/celery-best-practices/">Celery Best Practices</a>这篇文章,加入我们项目中celery的实战经验。 <br />
+至于Celery为何物，看这里<a href="http://www.celeryproject.org/">Celery</a>。 <br />
+通常在使用Django的时候，你可能需要执行一些长时间的后台任务，没准你可能需要使用一些能排序的任务队列，那么Celery将会是一个非常好的选择。 <br />
+当把Celery作为一个任务队列用于很多项目中后，作者积累了一些最佳实践方式，譬如如何用合适的方式使用Celery，以及一些Celery提供的但是还未充分使用的特性。</p>
+
+<h3 id="1不要使用数据库作为你的amqp-broker">1:不要使用数据库作为你的AMQP Broker</h3>
+
+<p>数据库并不是天生设计成能用于AMQP broker的，在生产环境下，它很有可能在某时候当机（PS，当掉这点我觉得任何系统都不能保证不当吧！！！）。</p>
+
+<p>作者猜想为啥很多人使用数据库作为broker主要是因为他们已经有一个数据库用来给web app提供数据存储了，于是干脆直接拿来使用，设置成Celery的broker是很容易的，并且不需要再安装其他组件（譬如RabbitMQ）。</p>
+
+<p>假设有如下场景：你有4个后端workers去获取并处理放入到数据库里面的任务，这意味着你有4个进程为了获取最新任务，需要频繁地去轮询数据库，没准每个worker同时还有多个自己的并发线程在干这事情。</p>
+
+<p>某一天，你发现因为太多的任务产生，4个worker不够用了，处理任务的速度已经大大落后于生产任务的速度，于是你不停去增加worker的数量。突然，你的数据库因为大量进程轮询任务而变得响应缓慢，磁盘IO一直处于高峰值状态，你的web应用也开始受到影响。这一切，都因为workers在不停地对数据库进行DDOS。</p>
+
+<p>而当你使用一个合适的AMQP（譬如RabbitMQ）的时候，这一切都不会发生，以RabbitMQ为例，首先，它将任务队列放到内存里面，你不需要去访问硬盘。其次，consumers（也就是上面的worker）并不需要频繁地去轮询因为RabbitMQ能将新的任务推送给consumers。当然，如果RabbitMQ真出现问题了，至少也不会影响到你的web应用。</p>
+
+<p>这也就是作者说的不用数据库作为broker的原因，而且很多地方都提供了编译好的RabbitMQ镜像，你都能直接使用，譬如这些。</p>
+
+<p>其实这个时候需要明确的是，数据库的读写机制。它有内存作为缓存，但数据真实的是写进硬盘里。在大量数据读写的时候，会触发一些读写硬盘的io机制，以便更好的把数据储存下到硬盘里，保护数据。所以大量的worker读写数据库的时候，会导致数据库缓慢。</p>
+
+<h3 id="2使用更多的queue不要只用默认的">2：使用更多的queue（不要只用默认的）</h3>
+
+<p>Celery非常容易设置，通常它会使用默认的queue用来存放任务（除非你显示指定其他queue）。通常写法如下：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nd">@app.task</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">my_taskA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"doing something here..."</span><span class="p">)</span>
+
+    <span class="nd">@app.task</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">my_taskB</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"doing something here..."</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>这两个任务都会在同一个queue里面执行，这样写其实很有吸引力的，因为你只需要使用一个decorator就能实现一个异步任务。作者关心的是taskA和taskB没准是完全两个不同的东西，或者一个可能比另一个更加重要，那么为什么要把它们放到一个篮子里面呢？（鸡蛋都不能放到一个篮子里面，是吧！）没准taskB其实不怎么重要，但是量太多，以至于重要的taskA反而不能快速地被worker进行处理。增加workers也解决不了这个问题，因为taskA和taskB仍然在一个queue里面执行。</p>
+
+<h3 id="3使用具有优先级的workers">3:使用具有优先级的workers</h3>
+
+<p>为了解决2里面出现的问题，我们需要让taskA在一个队列Q1，而taskB在另一个队列Q2执行。同时指定x workers去处理队列Q1的任务，然后使用其它的workers去处理队列Q2的任务。使用这种方式，taskB能够获得足够的workers去处理，同时一些优先级workers也能很好地处理taskA而不需要进行长时间的等待。</p>
+
+<p>首先手动定义queue</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CELERY_QUEUES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Queue</span><span class="p">(</span><span class="s">'default'</span><span class="p">,</span> <span class="n">Exchange</span><span class="p">(</span><span class="s">'default'</span><span class="p">),</span> <span class="n">routing_key</span><span class="o">=</span><span class="s">'default'</span><span class="p">),</span>
+    <span class="n">Queue</span><span class="p">(</span><span class="s">'for_task_A'</span><span class="p">,</span> <span class="n">Exchange</span><span class="p">(</span><span class="s">'for_task_A'</span><span class="p">),</span> <span class="n">routing_key</span><span class="o">=</span><span class="s">'for_task_A'</span><span class="p">),</span>
+    <span class="n">Queue</span><span class="p">(</span><span class="s">'for_task_B'</span><span class="p">,</span> <span class="n">Exchange</span><span class="p">(</span><span class="s">'for_task_B'</span><span class="p">),</span> <span class="n">routing_key</span><span class="o">=</span><span class="s">'for_task_B'</span><span class="p">),</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>然后定义routes用来决定不同的任务去哪一个queue</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CELERY_ROUTES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'my_taskA'</span><span class="p">:</span> <span class="p">{</span><span class="s">'queue'</span><span class="p">:</span> <span class="s">'for_task_A'</span><span class="p">,</span> <span class="s">'routing_key'</span><span class="p">:</span> <span class="s">'for_task_A'</span><span class="p">},</span>
+    <span class="s">'my_taskB'</span><span class="p">:</span> <span class="p">{</span><span class="s">'queue'</span><span class="p">:</span> <span class="s">'for_task_B'</span><span class="p">,</span> <span class="s">'routing_key'</span><span class="p">:</span> <span class="s">'for_task_B'</span><span class="p">},</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+<p>最后再为每个task启动不同的</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">celery</span> <span class="n">worker</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">l</span> <span class="n">INFO</span> <span class="o">-</span><span class="n">n</span> <span class="n">workerA</span> <span class="o">-</span><span class="n">Q</span> <span class="n">for_task_A</span> <span class="n">celery</span> <span class="n">worker</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">l</span> <span class="n">INFO</span> <span class="o">-</span><span class="n">n</span> <span class="n">workerB</span> <span class="o">-</span><span class="n">Q</span> <span class="n">for_task_B</span>
+</code></pre></div></div>
+
+<p>如果在我们项目中，会涉及到大量文件转换问题，有大量小于1mb的文件转换，同时也有少量将近20mb的文件转换，小文件转换的优先级是最高的，同时不用占用很多时间，但大文件的转换很耗时。如果将转换任务放到一个队列里面，那么很有可能因为出现转换大文件，导致耗时太严重造成小文件转换延时的问题。</p>
+
+<h3 id="4使用celery的错误处理机制">4:使用Celery的错误处理机制</h3>
+
+<p>大多数任务并没有使用错误处理，如果任务失败，那就失败了。在一些情况下这很不错，但是作者见到的多数失败任务都是去调用第三方API然后出现了网络错误，或者资源不可用这些错误，而对于这些错误，最简单的方式就是重试一下，也许就是第三方API临时服务或者网络出现问题，没准马上就好了，那么为什么不试着重试一下呢？</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@app.task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default_retry_delay</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_task_A</span><span class="p">():</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"doing stuff here..."</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">SomeNetworkException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"maybe do some clenup here...."</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="5使用flower">5:使用Flower</h3>
+<p>Flower是一个非常强大的工具，用来监控celery的tasks和works。</p>
+
+<h3 id="6没事别太关注任务退出状态">6:没事别太关注任务退出状态</h3>
+
+<p>一个任务状态就是该任务结束的时候成功还是失败信息，没准在一些统计场合，这很有用。但我们需要知道，任务退出的状态并不是该任务执行的结果，该任务执行的一些结果因为会对程序有影响，通常会被写入数据库（例如更新一个用户的朋友列表）。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CELERY_IGNORE_RESULT</span> <span class="o">=</span> <span class="bp">True</span>
+</code></pre></div></div>
+
+<p>对于我们来说，因为是异步任务，知道任务执行完成之后的状态真没啥用，所以果断丢弃。但我们可以自己弄个表单监听我们的工作状态，因为在一些敏感的数据上面，我们需要知道我们为啥会失败，最后有没有成功，重试是否失败。</p>
+
+<h3 id="7不要给任务传递-databaseorm-对象">7:不要给任务传递 Database/ORM 对象</h3>
+<p>这个其实就是不要传递Database对象（例如一个用户的实例）给任务，因为没准序列化之后的数据已经是过期的数据了。所以最好还是直接传递一个user id，然后在任务执行的时候实时的从数据库获取。</p>
+
+<p>这里也可以从内存的角度出发。可以优化内存。因为我们使用python的时候，python的机制是计数引用，使用之后某个时间段会有检测是否有对象在使用，如果有，则不回收，如果没有，则作标记。等下集中回收。</p>
+
+<p>如果我们使用了orm传送对象，那么有可能。我们使用了one to many 的任务分发机制，那么在many中引用了one的对象。则会导致one不会被回收，然后many其中一个引用了的对象，是one的list中的某个数据，这个list的对象又分布在各个的many中。容易造成雪崩效应，要回收一起回收，不然都不回收。造成了回收内存的效率低效，如果many的数量足够多，那么内存会造成溢出。</p>
+
+<p><a href="https://denibertovic.com/talks/celery-best-practices">Celery Talk https://denibertovic.com/talks/celery-best-practices</a></p>
+
+<h2 id="在使用celery中踩过的坑以及回避策略">在使用celery中踩过的坑以及回避策略:</h2>
+
+<h3 id="1-redis-服务器死了">1: redis 服务器死了</h3>
+
+<p>这次是青云的问题，因为青云在有段时间服务器故障，然后死了。</p>
+
+<h3 id="2-worker-莫名其妙死了">2: worker 莫名其妙死了</h3>
+
+<p>worker 在运行某段时间后，会莫名其妙的不继续运行新的tasks，这个时候beat还是有心跳的。</p>
+
+<p>解决思路，重启worker.<br />
+如何重启：
+      0：监听有没有新数据，然后通知方式 email and 模板消息。
+          问题：半夜无人管理。 <br />
+      1：在接口层面重启，利用api接口检测是否有新数据，如果长达一个小时没有，那么就重启worker。<br />
+          问题：权限问题，如果成功了，那么就相当于hack了服务器，安全性问题。     <br />
+      2：利用api接口，如果长达一个小时没有新数据，那么新开一个celery worker。
+          问题：不确定性，容易造成内存过大，和有时候新开失败。   <br />
+      3：利用linux层面的定时任务重启。  <br />
+          linux上面有个crontab 的定时任务工作，编写crontab 脚本。然后定时检查服务器是否有新数据，如果没有，直接重启</p>
+
+<p>相关性：uwsgi 用户权限 supervisorctl配置 crontab脚本编写</p>
+
+<p>正确和错误是相对的。只有适合的场景。</p>
+
+<p>错误解决方法：</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">cmd</span> <span class="o">=</span> <span class="s">'/opt/.virtualenvs/wxmonitor/bin/celery multi restart worker -A weixin -P gevent -c 100 -l INFO --pidfile="/srv/wxmonitor.imyyh.com/application/celerybeat2.pid"  --without-mingle'</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>下面的是解决方法：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># coding:utf-8</span>
+<span class="kn">import</span> <span class="nn">MySQLdb</span>
+<span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">tz</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="c"># 用于一个小时检查一次有没有运行celery</span>
+<span class="c"># 如果没有运行celery 在重启</span>
+<span class="c"># 代码运行成面 依赖 是 cron crontab 的linxu工具</span>
+<span class="c"># 因此代码中不可依赖 django的模块</span>
+<span class="k">def</span> <span class="nf">chagetime</span><span class="p">(</span><span class="n">now</span><span class="p">):</span>
+    <span class="n">from_zone</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">gettz</span><span class="p">(</span><span class="s">'UTC'</span><span class="p">)</span>
+    <span class="n">to_zone</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">gettz</span><span class="p">(</span><span class="s">'CST'</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">from_zone</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">to_zone</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
+                           <span class="n">passwd</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s">'utf8'</span><span class="p">)</span>
+    <span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from account_weixinreadstart order by id desc limit 0,1"</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+                <span class="n">app</span> <span class="o">=</span> <span class="n">i</span>
+    <span class="n">old_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">chagetime</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
+    <span class="n">new_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">new_time</span> <span class="o">-</span> <span class="n">old_time</span> <span class="o">&gt;</span> <span class="mi">40</span> <span class="o">*</span> <span class="mi">60</span><span class="p">:</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="s">"/srv/wxmonitor.imyyh.com/application/celeryworker.pid"</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">"kill -hup </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="n">item</span>
+        <span class="k">print</span> <span class="s">"cmd"</span><span class="p">,</span> <span class="n">cmd</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">"not need"</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="k">print</span> <span class="s">"start"</span>
+    <span class="n">connect</span><span class="p">()</span>
+    <span class="k">print</span> <span class="s">"end"</span>
+</code></pre></div></div>
+
+<h3 id="3worker-数量过多连接redis失败">3：worker 数量过多，连接redis失败</h3>
+
+<p>错误日志</p>
+
+<pre><code class="language-log">[2016-07-28 15:02:09,057: CRITICAL/MainProcess] Couldn't ack u'ac489a2a-8e68-48f0-899d-46a1b901d4be', reason:ConnectionError('Too many connections',)
+Traceback (most recent call last):
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/kombu/message.py", line 93, in ack_log_error
+    self.ack()
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/kombu/message.py", line 88, in ack
+    self.channel.basic_ack(self.delivery_tag)
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/kombu/transport/virtual/__init__.py", line 566, in basic_ack
+    self.qos.ack(delivery_tag)
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/kombu/transport/redis.py", line 159, in ack
+    self._remove_from_indices(delivery_tag).execute()
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/redis/client.py", line 2620, in execute
+    self.shard_hint)
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/redis/connection.py", line 897, in get_connection
+    connection = self.make_connection()
+  File "/opt/.virtualenvs/wxmonitor/local/lib/python2.7/site-packages/redis/connection.py", line 904, in make_connection
+    raise ConnectionError("Too many connections")
+ConnectionError: Too many connections
+</code></pre>
+
+<p>思路：一开始以为是redis的链接端口设置限制，于是果断上redis服务器查看端口开的数量，然后发现没多大问题。那么思考是什么问题，叫大牙看青云服务器配置，服务器配置是最大值，最后的解决方法是，更改默认的配置。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BROKER_POOL_LIMIT</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">CELERY_REDIS_MAX_CONNECTIONS</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">BROKER_TRANSPORT_OPTIONS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"max_connections"</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="4数据库链接数量过多">4：数据库链接数量过多</h3>
+<p>sqlite -&gt; mysql</p>
+
+<h3 id="5学会搜索不能偷懒">5：学会搜索，不能偷懒</h3>
+<p>优先级 google -&gt; bing.com -&gt; baidu.com</p>
+
+<h3 id="总结">总结</h3>
+<p>end</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2017/04/18/hello-jekyll.html" class="read-next-link"></a>
+            <section>
+                <span>Hello Jekyll</span>
+                <p>  Transform your plain text into static websites and blogs.</p>
+            </section>
+            
+            <div class="filter"></div>
+            <img src="http://on2171g4d.bkt.clouddn.com/jekyll-banner.png" alt="">
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/06/11/python%E5%BA%8F%E5%88%97%E5%8C%96%E9%97%AE%E9%A2%98.html" class="read-next-link"></a>
+            <section>
+                <span>python 序列化问题</span>
+                <p>1：背景这次涉及到的是python的序列化问题，那么当初的时候为什么要序列化，因为涉及到redis的储存问题，当我...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

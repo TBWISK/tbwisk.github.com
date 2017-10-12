@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础排序算法 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="基础排序算法">
+    <meta name="keywords"  content="算法">
+    <!-- Open Graph -->
+    <meta property="og:title" content="基础排序算法 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2016/03/25/%E5%9F%BA%E7%A1%80%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#%E7%AE%97%E6%B3%95" class="post-tag">算法</a>
+            
+            
+        </div>
+        <h1>基础排序算法</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="16-03-25"><i class="iconfont icon-date"></i>25 Mar 2016</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="1明确有多少个基础排序算法">1：明确有多少个基础排序算法</h1>
+<p>
+    <img alt="" src="http://my.csdn.net/uploads/201207/17/1342514529_5795.jpg" />
+&lt;/br&gt;
+</p>
+
+<p>通常我们使用的是内部排序：  <br />
+    a:插入排序—直接插入排序 希尔排序 <br />
+    b:选择排序—简单选择排序 堆排序 <br />
+    c:交换排序—冒泡排序 快速排序 <br />
+    d:归并排序 <br />
+    e:基数排序</p>
+
+<p>那么什么是外部排序呢？为什么要用到外部排序呢？通常数据量太大太大，内存塞不进全部数据的时候采取外部排序。
+把排序好的数据和未排序好的数据放到硬盘中储存。   <br />
+外部排序指的是大文件的排序，即待排序的记录存储在外存储器上，待排序的文件无法一次装入内存，需要在内存和外部存储器之间进行多次数据交换，以达到排序整个文件的目的。</p>
+
+<hr />
+
+<h1 id="2下面是我们讲解的排序">2:下面是我们讲解的排序</h1>
+
+<h3 id="a直接插入排序">a:直接插入排序</h3>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//插入排序</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">insertSort</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="x">
+    </span><span class="n">n</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">n</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">temp</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">                </span><span class="c">//选取基点</span><span class="x">
+        </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="m">1</span><span class="x">                         </span><span class="c">//i的上一个点</span><span class="x">
+        </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="c">//5 12 17 3 10 7 14 9 11 15 0 19 2 1 13 4 16 6 18 8</span><span class="x">
+            </span><span class="c">//temp = 12 ,i=1;j=0; number[j]=5;temp=12; 就是把大的数据移到后面去</span><span class="x">
+            </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="c">//循环 把 j后面的数字 移到前面去，只要</span><span class="x">
+            </span><span class="n">j</span><span class="o">--</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">temp</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p>插入排序（Insertion Sort）的算法描述是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
+
+<p>步骤：</p>
+
+<p>1:从第一个元素开始，该元素可以认为已经被排序  <br />
+2:取出下一个元素，在已经排序的元素序列中从后向前扫描 <br />
+3:如果该元素（已排序）大于新元素，将该元素移到下一位置 <br />
+3:重复步骤3，直到找到已排序的元素小于或者等于新元素的位置 <br />
+5:将新元素插入到该位置中 <br />
+6:重复步骤2</p>
+
+<p><img alt="" src="http://my.csdn.net/uploads/201207/17/1342520948_8667.jpg" /></p>
+
+<hr />
+
+<h3 id="b希尔排序">b:希尔排序</h3>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//希尔排序</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">shellSort</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">n</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+    </span><span class="k">var</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">j</span><span class="p">,</span><span class="x"> </span><span class="n">gap</span><span class="p">,</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="kt">int</span><span class="x">
+    </span><span class="n">gap</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">n</span><span class="x"> </span><span class="o">/</span><span class="x"> </span><span class="m">2</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="n">gap</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">gap</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">n</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">temp</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">
+            </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="n">gap</span><span class="x">
+            </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">gap</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x">
+                </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="n">gap</span><span class="x">
+            </span><span class="p">}</span><span class="x">
+            </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">gap</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">temp</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">gap</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">gap</span><span class="x"> </span><span class="o">/</span><span class="x"> </span><span class="m">2</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p>介绍：</p>
+
+<p>希尔排序，也称递减增量排序算法，是插入排序的一种高速而稳定的改进版本。</p>
+
+<p>希尔排序是基于插入排序的以下两点性质而提出改进方法的：</p>
+
+<p>1、插入排序在对几乎已经排好序的数据操作时， 效率高， 即可以达到线性排序的效率</p>
+
+<p>2、但插入排序一般来说是低效的， 因为插入排序每次只能将数据移动一位</p>
+
+<p><img alt="" src="http://my.csdn.net/uploads/201207/18/1342577299_5077.jpg" /></p>
+
+<p>排序效果：<br />
+<img class="aligncenter size-full wp-image-11751" title="希尔排序" src="http://jbcdn2.b0.upaiyun.com/2012/01/Visual-and-intuitive-feel-of-7-common-sorting-algorithms6.gif" alt="视觉直观感受7种常用排序算法" width="277" height="344" /></p>
+
+<hr />
+
+<h3 id="c简单选择排序">c:简单选择排序</h3>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">暂时无代码</span><span class="x">
+</span></code></pre></div></div>
+<p>介绍：</p>
+
+<p>选择排序(Selection sort)是一种简单直观的排序算法。它的工作原理如下。
+1:首先在未排序序列中找到最小元素， <br />
+2:存放到排序序列的起始位置， <br />
+3:然后，再从剩余未排序元素中继续寻找最小元素， <br />
+4:然后放到排序序列末尾。以此类推，直到所有元素均排序完毕。 <br />
+<img alt="" src="http://my.csdn.net/uploads/201207/18/1342586432_7130.jpg" /></p>
+
+<p>排序效果：
+<img class="aligncenter size-full wp-image-11749" title="简单选择排序" src="http://jbcdn2.b0.upaiyun.com/2012/01/Visual-and-intuitive-feel-of-7-common-sorting-algorithms4.gif" alt="视觉直观感受7种常用排序算法" width="288" height="288" /></p>
+
+<hr />
+
+<h3 id="d冒泡排序">d:冒泡排序</h3>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//冒泡排序 交换排序</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">defaultsoft</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+    </span><span class="n">temp</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x">
+    </span><span class="n">len_number</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">len_number</span><span class="o">-</span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="c">//注意数据越界</span><span class="x">
+        </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">len_number</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">i</span><span class="p">;</span><span class="x"> </span><span class="n">j</span><span class="o">--</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="k">if</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="p">{</span><span class="x">
+                </span><span class="n">temp</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x">
+                </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">
+                </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">temp</span><span class="x">
+            </span><span class="p">}</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p>介绍：</p>
+
+<p>冒泡排序（Bubble Sort，台湾译为：泡沫排序或气泡排序）是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
+
+<p>步骤：</p>
+
+<p>1：比较相邻的元素。如果第一个比第二个大，就交换他们两个。 <br />
+2：对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。 <br />
+3：针对所有的元素重复以上的步骤，除了最后一个。 <br />
+4：持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
+
+<p><img alt="" src="http://my.csdn.net/uploads/201207/20/1342782078_9990.jpg" /></p>
+
+<p>排序效果： <br />
+<img class="aligncenter size-full wp-image-11750" title="冒泡排序" src="http://jbcdn2.b0.upaiyun.com/2012/01/Visual-and-intuitive-feel-of-7-common-sorting-algorithms5.gif" alt="视觉直观感受7种常用排序算法" width="280" height="237" /></p>
+
+<hr />
+
+<h3 id="e快速排序">e:快速排序</h3>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//快速排序 在某一段范围内排序 [s,t]</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="n">s</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="p">,</span><span class="n">t</span><span class="x"> </span><span class="kt">int</span><span class="p">){</span><span class="x">
+    </span><span class="n">i</span><span class="o">:=</span><span class="n">s</span><span class="x">
+    </span><span class="n">j</span><span class="o">:=</span><span class="n">t</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+    </span><span class="k">var</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="kt">int</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">s</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">t</span><span class="p">{</span><span class="c">//区间内至少存在俩个元素的情况</span><span class="x">
+        </span><span class="n">temp</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">s</span><span class="p">];</span><span class="c">//用区间的第一个记录作为基准</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"基准"</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span><span class="x">
+        </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">{</span><span class="c">//从俩端交替向中间扫描，直到i=j为止</span><span class="x">
+            </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="o">&gt;</span><span class="n">temp</span><span class="p">{</span><span class="c">//从右向左扫描，找到第一个小于temp的number[j]</span><span class="x">
+                </span><span class="n">j</span><span class="o">--</span><span class="x">
+            </span><span class="p">}</span><span class="x">
+            </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="c">//找到这样的number[j],number[j]/number[i]交换</span><span class="x">
+            </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="n">j</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="o">&lt;</span><span class="n">temp</span><span class="p">{</span><span class="c">//从左向右扫描，找到第一个大于temp的number[i]</span><span class="x">
+                </span><span class="n">i</span><span class="o">++</span><span class="x">
+            </span><span class="p">}</span><span class="x">
+            </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="c">//找到这样的number[i],number[i]/number[j]交换</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">temp</span><span class="x">
+        </span><span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="m">1</span><span class="p">)</span><span class="c">//对左区间递归排序</span><span class="x">
+        </span><span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="m">1</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="c">//对右区间递归排序</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p>介绍：</p>
+
+<p>快速排序是由东尼·霍尔所发展的一种排序算法。在平均状况下，排序 n 个项目要Ο(n log n)次比较。在最坏状况下则需要Ο(n2)次比较，但这种状况并不常见。事实上，快速排序通常明显比其他Ο(n log n) 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来，且在大部分真实世界的数据，可以决定设计的选择，减少所需时间的二次方项之可能性。</p>
+
+<p>步骤：</p>
+
+<p>1:从数列中挑出一个元素，称为 “基准”（pivot） <br />
+2:重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作。 <br />
+3:递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。</p>
+
+<p>(a):一趟排序的过程： <br />
+<img alt="" src="http://my.csdn.net/uploads/201207/20/1342782317_4426.jpg" />
+<br />
+(b):排序的全过程 ：<br />
+<img alt="" src="http://my.csdn.net/uploads/201207/20/1342782329_8314.jpg" /></p>
+
+<p>排序效果：  <br />
+<img class="aligncenter" title="快速排序" src="http://jbcdn2.b0.upaiyun.com/2012/01/Visual-and-intuitive-feel-of-7-common-sorting-algorithms.gif" alt="视觉直观感受7种常用排序算法" width="280" height="214" /></p>
+
+<hr />
+
+<h3 id="f堆排序">f:堆排序</h3>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">暂无代码</span><span class="x">
+</span></code></pre></div></div>
+<p>介绍：</p>
+
+<p>堆积排序（Heapsort）是指利用堆这种数据结构所设计的一种排序算法。堆是一个近似完全二叉树的结构，并同时满足堆性质：即子结点的键值或索引总是小于（或者大于）它的父节点。</p>
+
+<p>最大堆和最小堆问题</p>
+
+<p>排序效果：</p>
+
+<p><img class="aligncenter size-full wp-image-11748" title="堆排序" src="http://jbcdn2.b0.upaiyun.com/2012/01/Visual-and-intuitive-feel-of-7-common-sorting-algorithms3.gif" alt="视觉直观感受7种常用排序算法" width="280" height="214" /></p>
+
+<hr />
+
+<h3 id="g归并排序">g:归并排序</h3>
+<p>介绍：</p>
+
+<p>归并排序（Merge sort，台湾译作：合并排序）是建立在归并操作上的一种有效的排序算法。该算法是采用分治法（Divide and Conquer）的一个非常典型的应用</p>
+
+<p>步骤：</p>
+
+<p>1：申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列 <br />
+2：设定两个指针，最初位置分别为两个已经排序序列的起始位置 <br />
+3：比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置 <br />
+4：重复步骤3直到某一指针达到序列尾   <br />
+5：将另一序列剩下的所有元素直接复制到合并序列尾</p>
+
+<p><img alt="" src="http://my.csdn.net/uploads/201207/21/1342842633_6751.jpg" />
+&lt;/br&gt;
+排序效果： <br />
+<img class="aligncenter size-full wp-image-11747" title="归并排序" src="http://jbcdn2.b0.upaiyun.com/2012/01/Visual-and-intuitive-feel-of-7-common-sorting-algorithms2.gif" alt="视觉直观感受7种常用排序算法" width="280" height="237" /></p>
+
+<hr />
+
+<h3 id="总结">总结</h3>
+<p>各种排序的稳定性，时间复杂度和空间复杂度总结：<br />
+<img alt="" src="http://my.csdn.net/uploads/201207/19/1342700879_2982.jpg" /></p>
+
+<p>比较时间复杂度函数的情况： <br />
+<img alt="" src="http://my.csdn.net/uploads/201207/21/1342856655_3698.jpg" /></p>
+
+<h4 id="时间复杂度来说">时间复杂度来说：</h4>
+
+<p>(1)平方阶(O(n2))排序<br />
+　　各类简单排序:直接插入、直接选择和冒泡排序；<br />
+(2)线性对数阶(O(nlog2n))排序 <br />
+　　快速排序、堆排序和归并排序； <br />
+(3)O(n1+§))排序,§是介于0和1之间的常数。 <br />
+　　希尔排序 <br />
+(4)线性阶(O(n))排序 <br />
+　　基数排序，此外还有桶、箱排序。</p>
+
+<p>说明：</p>
+
+<p>当原表有序或基本有序时，直接插入排序和冒泡排序将大大减少比较次数和移动记录的次数，时间复杂度可降至O（n）；</p>
+
+<p>而快速排序则相反，当原表基本有序时，将蜕化为冒泡排序，时间复杂度提高为O（n^2）；</p>
+
+<p>原表是否有序，对简单选择排序、堆排序、归并排序和基数排序的时间复杂度影响不大。</p>
+
+<p>选择排序算法准则：</p>
+
+<p>每种排序算法都各有优缺点。因此，在实用时需根据不同情况适当选用，甚至可以将多种方法结合起来使用。</p>
+
+<h4 id="选择排序算法的依据">选择排序算法的依据</h4>
+
+<p>影响排序的因素有很多，平均时间复杂度低的算法并不一定就是最优的。相反，有时平均时间复杂度高的算法可能更适合某些特殊情况。同时，选择算法时还得考虑它的可读性，以利于软件的维护。一般而言，需要考虑的因素有以下四点：</p>
+
+<p>1．待排序的记录数目n的大小； <br />
+2．记录本身数据量的大小，也就是记录中除关键字外的其他信息量的大小； <br />
+3．关键字的结构及其分布情况； <br />
+4．对排序稳定性的要求。</p>
+
+<h4 id="设待排序元素的个数为n">设待排序元素的个数为n.</h4>
+
+<p>1）当n较大，则应采用时间复杂度为O(nlog2n)的排序方法：快速排序、堆排序或归并排序序。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>快速排序：是目前基于比较的内部排序中被认为是最好的方法，当待排序的关键字是随机分布时，快速排序的平均时间最短；
+堆排序 ：  如果内存空间允许且要求稳定性的，   
+归并排序：它有一定数量的数据移动，所以我们可能过与插入排序组合，先获得一定长度的序列，然后再合并，在效率上将有所提高。  
+</code></pre></div></div>
+
+<p>2）  当n较大，内存空间允许，且要求稳定性 =》归并排序</p>
+
+<p>3）当n较小，可采用直接插入或直接选择排序。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>直接插入排序：当元素分布有序，直接插入排序将大大减少比较次数和移动记录的次数。   
+直接选择排序 ：元素分布有序，如果不要求稳定性，选择直接选择排序   
+</code></pre></div></div>
+
+<p>5）一般不使用或不直接使用传统的冒泡排序。</p>
+
+<p>6）基数排序 <br />
+它是一种稳定的排序算法，但有一定的局限性：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、关键字可分解。   
+2、记录的关键字位数较少，如果密集更好   
+3、如果是数字时，最好是无符号的，否则将增加相应的映射复杂度，可先将其正负分开排序。    
+</code></pre></div></div>
+
+<p>7)end</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/04/04/Mac-brew%E7%9A%84%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>Mac brew 的使用</span>
+                <p>1：背景在我们有时候安装一些软件的时候，是不是需要安装某些版本？然后又不想去官网找，于是，我们就得想办法懒惰一些。...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/03/04/%E7%BE%8E%E6%8B%8D%E8%A7%86%E9%A2%91%E7%88%AC%E8%99%AB.html" class="read-next-link"></a>
+            <section>
+                <span>美拍视频爬虫</span>
+                <p>1.背景首先，这次的爬虫的对象是针对美拍的视频。 那么，如何去爬美拍的视频呢？ 然后我们的目标是：  1：单独一个...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

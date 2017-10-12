@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android其中三种数据储存 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="android其中三种数据储存">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android其中三种数据储存 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/12/android%E5%85%B6%E4%B8%AD%E4%B8%89%E7%A7%8D%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>android其中三种数据储存</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-01-12"><i class="iconfont icon-date"></i>12 Jan 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h2 id="android通常有五种数据的保存方式三种如下其他俩种分别是网络存储和-content-provider">android通常有五种数据的保存方式，三种如下，其他俩种分别是网络存储和 Content Provider</h2>
+<p>1.保存到Preferences  <br />
+使用SharedPreferences文件以Key-Value的方式保存简要的信息  <br />
+2.保存到文件  <br />
+保存基本的文件   <br />
+3.保存到数据库  <br />
+使用Sqlite数据库读写数据</p>
+
+<h3 id="preferences的使用">Preferences的使用</h3>
+<p>首先你需要先获取一个Context对象，理解Context()在继承关系上的结构。Application和Activity都是继续Context的。</p>
+
+<h4 id="写操作">写操作</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">Context</span> <span class="n">aContext</span> <span class="o">=</span><span class="n">getApplication</span><span class="o">();</span>
+	<span class="n">SharedPreferences</span> <span class="n">sharedPreferences</span> <span class="o">=</span> <span class="n">aContext</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="n">MODE_PRIVATE</span><span class="o">);</span>
+	<span class="n">Editor</span> <span class="n">editor</span> <span class="o">=</span> <span class="n">sharedPreferences</span><span class="o">.</span><span class="na">edit</span><span class="o">();</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">putBoolean</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">putFloat</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">putInt</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">putLong</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">putString</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">putStringSet</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">values</span><span class="o">);</span>
+	<span class="n">editor</span><span class="o">.</span><span class="na">commit</span><span class="o">();</span>
+</code></pre></div></div>
+<p>在这操作中，需要注意的是getSharedPreferences(String name, int mode);  <br />
+name是文件的名字，若存在则打开，不存在则新建一个。mode是存在Context中的静态int 数据标志flag，有MODE_PRIVATE，MODE_WORLD_READABLE，MODE_WORLD_WRITEABLE，MODE_MULTI_PROCESS 但MODE_WORLD_READABLE，MODE_WORLD_WRITEABLE不推荐被使用。通常使用需要用 Context.MODE_PRIVATE</p>
+
+<h4 id="读操作">读操作</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">Context</span> <span class="n">aContext</span> <span class="o">=</span><span class="n">getApplication</span><span class="o">();</span>
+	<span class="n">SharedPreferences</span> <span class="n">sharedPreferences</span> <span class="o">=</span> <span class="n">aContext</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="n">MODE_PRIVATE</span><span class="o">);</span>
+	<span class="n">String</span> <span class="n">kk</span> <span class="o">=</span> <span class="n">sharedPreferences</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defValue</span><span class="o">);</span>
+</code></pre></div></div>
+<p>这个需要注意的是defvalue的值，这个读取数据当这个key没有数据的时候的返回值。</p>
+
+<h3 id="保存到文件file">保存到文件File</h3>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">File</span><span class="o">(</span><span class="n">File</span> <span class="n">dir</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span>   
+<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">file</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">and</span> <span class="n">name</span><span class="o">.</span>   
+<span class="nf">File</span><span class="o">(</span><span class="n">String</span> <span class="n">path</span><span class="o">)</span>   
+<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">file</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">path</span><span class="o">.</span>   
+<span class="nf">File</span><span class="o">(</span><span class="n">String</span> <span class="n">dirPath</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span>   
+<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">File</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">path</span> <span class="n">and</span> <span class="n">file</span> <span class="n">name</span><span class="o">,</span> <span class="n">placing</span> <span class="n">a</span> <span class="n">path</span> <span class="n">separator</span> <span class="n">between</span> <span class="n">the</span> <span class="n">two</span><span class="o">.</span>    
+<span class="nf">File</span><span class="o">(</span><span class="n">URI</span> <span class="n">uri</span><span class="o">)</span>    
+<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">File</span> <span class="n">using</span> <span class="n">the</span> <span class="n">path</span> <span class="n">of</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">URI</span><span class="o">.</span>  
+</code></pre></div></div>
+
+<p>这个时候需要科普的是指是，android 设备有俩个文件存储区域，”internal”和”external”储存，sd card （external storage）为可卸载的存储部件。虽然后来有点变化，但从一块手机内置的储存中，在逻辑上是分为internl和external  <br />
+俩者有什么区别呢？</p>
+
+<h4 id="internal-storage">Internal storage：</h4>
+<ul>
+  <li>总是可用的</li>
+  <li>这里的文件默认是只能被你的app所访问的。</li>
+  <li>当用户卸载你的app的时候，系统会把internal里面的相关文件都清楚干净。</li>
+  <li>Internal是你在想确保不被用户与其他app所访问的最佳储存场所。</li>
+</ul>
+
+<h4 id="external-storage">External storage：</h4>
+<ul>
+  <li>并不总是可用的，因为用户可以选择把这部分作为USB储存模式，这样就不可以访问了。</li>
+  <li>是大家都可以访问的，因此保存到这里的文件是失去访问控制权限的。</li>
+  <li>当用户卸载你的app时，系统仅仅会删除external根目录  getApplication().getExternalFilesDir(type); 下的相关文件。</li>
+  <li>External是在你不需要严格的访问权限兵长你希望这些文件能够被其他app所共享或者是允许用户通过电脑访问时的最佳存储区域。 <br />
+尽管app的默认被安装到 internal storage的。你还可以通过mainifest文件声明android:installLocation属性来指定程序安装到external storage。当程序很大的时候，很多人倾向安装到external storage。</li>
+</ul>
+
+<h5 id="获取external储存的储存权限">获取External储存的储存权限</h5>
+<p>为了写数据到external storage，我们需要在mainfest 文中中申请WRITE_EXTERNAL_STORAGE权限。</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.READ_EXTERNAL_STORAGE"</span><span class="nt">/&gt;</span>
+<span class="c">&lt;!-- 上面的是读权限--&gt;</span>
+<span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">"android.permission.WRITE_EXTERNAL_STORAGE"</span><span class="nt">/&gt;</span>
+<span class="c">&lt;!-- 上面的是写权限--&gt;</span>
+</code></pre></div></div>
+<p>有写权限就默认有读的权限</p>
+
+<p>对于internal storage，不需要声明任何的权限，因为我们的程序默认就有读写程序目录下的文件的权限。</p>
+
+<h5 id="保存到internal-storage">保存到Internal Storage</h5>
+<p>当保存在文件到internal storage 的时候，我们可以通过俩个方法来获取合适的目录。</p>
+<ul>
+  <li>context.getFilesDir() :返回一个file，表示你的app的internal目录</li>
+  <li>context.getCacheDir() ：返回一个file，表示你的app的internal缓存目录，既然是缓存目录，那么就是这个文件一旦不需要的时候能够马上被删除，而且给予明确的缓存大小。在系统的内部储存空间不够的时候，会自动选择删除缓存文件。 <br />
+在那些目录下可以创建新的文件，如下
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">getFilesDir</span><span class="o">(),</span> <span class="s">"filename"</span><span class="o">);</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>有多种的方式可以写入internal目录，例如执行openFileOutput来获取一个FileOutputStream来写入目录。这个方面需要了解一下linux的I/O 函数的使用，毕竟android的内核是linux</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	 <span class="n">String</span> <span class="n">filename</span> <span class="o">=</span> <span class="s">"newfile"</span><span class="o">;</span>
+     <span class="n">String</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"Hello world!"</span><span class="o">;</span>
+     <span class="n">FileOutputStream</span> <span class="n">outputStream</span><span class="o">;</span>
+     <span class="k">try</span> <span class="o">{</span>
+       	  <span class="n">outputStream</span> <span class="o">=</span> <span class="n">openFileOutput</span><span class="o">(</span><span class="n">filename</span><span class="o">,</span> <span class="n">Context</span><span class="o">.</span><span class="na">MODE_PRIVATE</span><span class="o">);</span>
+          <span class="n">outputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">string</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+          <span class="n">outputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+         	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+</code></pre></div></div>
+<p>在上面的方法中，需要注意的是  留意 ContextWrapper类，这个是对Context的代理实现一些方法。里面有对文件路径的获取方法。
+写入目录。这个方面需要了解一下linux的I/O 函数的使用，毕竟android的内核是linux <br />
+创建缓存文件的另一个方法就是   File.createTempFile();</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">File</span> <span class="nf">getTempFile</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+    	<span class="k">try</span> <span class="o">{</span>
+    		<span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">getLastPathSegment</span><span class="o">();</span>
+    		<span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="o">.</span><span class="na">createTempFile</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">context</span><span class="o">.</span><span class="na">getCacheDir</span><span class="o">());</span>
+    		<span class="c1">//从某种角度，函数有多种，基本都有自己的职能。在某一领域适用</span>
+    	<span class="o">}</span>
+    		<span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="c1">// Error while creating file</span>
+    	<span class="o">}</span>
+    	<span class="k">return</span> <span class="n">file</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="c1">//File createTempFile(String prefix, String suffix)</span>
+    	<span class="c1">//File createTempFile(String prefix, String suffix, File directory)</span>
+    	<span class="c1">//createTempFile有俩种方法，第一种路径File默认为null</span>
+</code></pre></div></div>
+<p>app在internal storage目录是以app的包名为标识存放在android文件系统的特定目录下的[data/data/com.example.xx]。从技术上讲，如果你的文件设置为可读的，那么其他app就可以读取你的internal文件。然而，其他app需要知道你的包名与文件名。若是你没有设置为刻毒或者可写，其他app事没有办法读写的，因此使用MODE_PRIVATE，那么这些文件就不可能被其他app所访问。</p>
+
+<h5 id="保存文件到-external-storage">保存文件到 External Storage</h5>
+<p>首先，我们可以确定的是 external storage 可能是不可用的，比如SD卡被拔出，那么在访问之前需要判断是否可用。可以用 getExternalStorageState()来查询external storage的状态。如果返回的 MEDIA_MOUNTED ，那么该External Storage就可读写。详情注意 一下 Environment 类</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cm">/*下面的函数判断external storage 是否可读可写 */</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isExternalStorageWritable</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="n">String</span> <span class="n">state</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStorageState</span><span class="o">();</span>
+    	<span class="k">if</span> <span class="o">(</span><span class="n">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
+    		<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    	<span class="o">}</span>
+    	<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="cm">/* 检查external storage 至少可以读*/</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isExternalStorageReadable</span><span class="o">()</span> <span class="o">{</span>
+    	<span class="n">String</span> <span class="n">state</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStorageState</span><span class="o">();</span>
+    	<span class="k">if</span> <span class="o">(</span><span class="n">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">)</span> <span class="o">||</span>
+    		<span class="n">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED_READ_ONLY</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
+    	<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+<p>尽管external storage对于用户与app是可修改的，但我们可能会保存为下面俩种类型的文件。</p>
+
+<ul>
+  <li>Public files:这些文件对于用户和其他app是public的，当用户卸载你的app的时候，这些文件应该保留。例如，那些被你的app拍摄的照片或者下载的文件。</li>
+  <li>Private files：这些文件被你的app所拥有，在你的app被卸载的时候，应该被卸载掉。尽管可以被其他的app所访问，但实际上对其他的app是没有意义的。所以，当用户卸载你的app的时候，系统会删除 你的app的private目录。例如，那些被你的app下载的缓存文件。</li>
+</ul>
+
+<p>如果想保存文件为public形式 Environment.getExternalStoragePublicDirectory()
+保存文件为private 的方式 Environment.getExternalFilesDir()
+有一点也比较重要的是设置参数。Environment.DIRECTORY_PICTURES ，表示文件存储的类型被标识为 pictures  <br />
+Environment 注意的是 DIRECTORY_和 MEDIA_ 前缀</p>
+
+<h5 id="查询剩余空间">查询剩余空间</h5>
+<p>在保存文件之前，首先我更需要确认的是有没有剩下的空间
+File 的getFreeSpace() 函数，返回的是long，单位bytes<br />
+ File：public long getTotalSpace()  public long getUsableSpace()<br />
+ Returns 0 if this path does not exist  返回0代表路径不存在</p>
+
+<h5 id="删除文件">删除文件</h5>
+<p>当不需要某些文件的时候，删除它。最直接的方法是</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">myFile</span><span class="o">.</span><span class="na">delete</span><span class="o">();</span><span class="c1">//直接删除</span>
+ <span class="n">myContext</span><span class="o">.</span><span class="na">deleteFile</span><span class="o">(</span><span class="n">fileName</span><span class="o">);</span><span class="c1">//如果文件是保存在internal storage</span>
+</code></pre></div></div>
+<p>注意的是，当用户卸载你的app时，android系统会删除下面的文件：</p>
+<ul>
+  <li>所有保存到internal storage的文件。</li>
+  <li>所有使用getExternalFilesDir()保存在external storage的文件。<br />
+  但是，通常而言，我们应该手动删除所有通过getCacheDir()方式创建的缓存文件还有那些不会在用到的文件。</li>
+</ul>
+
+<p>###Sqlite数据库</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/14/Android%E5%BC%80%E5%8F%91-shape-selector-layer-list%E4%BB%8B%E7%BB%8D.html" class="read-next-link"></a>
+            <section>
+                <span>Android开发 shape selector layer-list介绍</span>
+                <p>Android开发：shape和selector和layer-list 的简单说明和使用  shape 和  se...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/10/Qrcode%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%94%9F%E6%88%90.html" class="read-next-link"></a>
+            <section>
+                <span>Qrcode二维码生成</span>
+                <p>二维码生成通常在使用当中，我们会把扫描二维码的zxing包放在一起，现在我把二维码生成的代码提取出来。生成jar文...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

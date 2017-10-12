@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TextView的仿微博使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="TextView的仿微博使用">
+    <meta name="keywords"  content="UI">
+    <!-- Open Graph -->
+    <meta property="og:title" content="TextView的仿微博使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/05/07/Textview%E7%9A%84%E4%BB%BF%E5%BE%AE%E5%8D%9A%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#UI" class="post-tag">UI</a>
+            
+            
+        </div>
+        <h1>TextView的仿微博使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-05-07"><i class="iconfont icon-date"></i>07 May 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="介绍">介绍</h3>
+<p>每次我们点击微博那个#内容#的时候，我们会如何去想这个是什么原理呢？从android移动端口去考虑。
+那么这个可能是如何去实现的呢？  <br />
+从理论上有几种的实现方式，第一个是HTML的实现，TextView控件中可插入html 的文本内容，在html文本中显示这个超链接。但？后台是很忙碌的？有什么可以简单的减轻后台的工作量呢？  <br />
+那么就可能需要用到ClickableSpan这个接口~~  <br />
+对了，文中的demo例子是属于android simpledemo ，我只是对某些内容进行深入~~
+先贴代码</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextViewMainActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">textviewmainactivity</span><span class="o">);</span>
+        <span class="n">init</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">TextView</span> <span class="n">textViewResource</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_html_resource</span><span class="o">);</span>
+        <span class="n">textViewResource</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span>
+                <span class="n">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span><span class="n">getResources</span><span class="o">().</span><span class="na">getString</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">link_text_manual</span><span class="o">)));</span>
+        <span class="n">textViewResource</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+<span class="c1">//</span>
+
+        <span class="n">TextView</span> <span class="n">textViewHtml</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_html_program</span><span class="o">);</span>
+        <span class="n">textViewHtml</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span>
+                <span class="n">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span>
+                        <span class="s">"&lt;b&gt;text_html_program: Constructed from HTML programmatically.&lt;/b&gt;"</span>
+                                <span class="o">+</span> <span class="s">"  Text with a &lt;a href=\"http://www.google.com\"&gt;link&lt;/a&gt; "</span>
+                                <span class="o">+</span> <span class="s">"created in the Java source code using HTML."</span><span class="o">));</span>
+        <span class="n">textViewHtml</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+
+<span class="c1">//</span>
+        <span class="n">SpannableString</span> <span class="n">ss</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpannableString</span><span class="o">(</span>
+                <span class="s">"text_spannable: Manually created spans. Click here to dial the phone."</span><span class="o">);</span>
+        <span class="n">ss</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="n">StyleSpan</span><span class="o">(</span><span class="n">Typeface</span><span class="o">.</span><span class="na">BOLD</span><span class="o">),</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">39</span><span class="o">,</span>
+                <span class="n">Spanned</span><span class="o">.</span><span class="na">SPAN_INCLUSIVE_INCLUSIVE</span><span class="o">);</span>
+        <span class="n">ss</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="n">URLSpan</span><span class="o">(</span><span class="s">"tel:4155551212"</span><span class="o">),</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">10</span><span class="o">,</span>
+                <span class="n">Spanned</span><span class="o">.</span><span class="na">SPAN_EXCLUSIVE_EXCLUSIVE</span><span class="o">);</span>
+
+<span class="c1">//</span>
+        <span class="n">TextView</span> <span class="n">textViewSpan</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_spannable</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"#hello#what is yout ##name ,my name is #Yello#"</span><span class="o">;</span>
+        <span class="n">SpannableString</span> <span class="n">spStr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpannableString</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+        <span class="n">Pattern</span> <span class="n">pattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"#[^#]+#"</span><span class="o">);</span>
+        <span class="n">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+        <span class="kt">boolean</span> <span class="n">result</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">();</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">do</span> <span class="o">{</span>
+
+                <span class="n">MyClickSpan</span> <span class="n">clickSpan</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyClickSpan</span><span class="o">(</span><span class="k">this</span><span class="o">,</span><span class="n">matcher</span><span class="o">.</span><span class="na">group</span><span class="o">());</span> <span class="c1">//设置超链接</span>
+                <span class="n">spStr</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="n">clickSpan</span><span class="o">,</span> <span class="n">matcher</span><span class="o">.</span><span class="na">start</span><span class="o">(),</span> <span class="n">matcher</span><span class="o">.</span><span class="na">end</span><span class="o">(),</span> <span class="n">Spanned</span><span class="o">.</span><span class="na">SPAN_INCLUSIVE_EXCLUSIVE</span><span class="o">);</span>
+
+            <span class="o">}</span><span class="k">while</span> <span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">());</span>
+            <span class="n">textViewSpan</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">spStr</span><span class="o">);</span>
+            <span class="n">textViewSpan</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="n">textViewSpan</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"匹配失败"</span><span class="o">);</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">MyClickSpan</span> <span class="kd">extends</span> <span class="n">ClickableSpan</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="n">Context</span> <span class="n">context</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="n">String</span> <span class="n">string</span><span class="o">;</span>
+
+        <span class="kd">public</span> <span class="nf">MyClickSpan</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span><span class="n">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">super</span><span class="o">();</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDrawState</span><span class="o">(</span><span class="n">TextPaint</span> <span class="n">ds</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">super</span><span class="o">.</span><span class="na">updateDrawState</span><span class="o">(</span><span class="n">ds</span><span class="o">);</span>
+            <span class="n">ds</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">ds</span><span class="o">.</span><span class="na">linkColor</span><span class="o">);</span>
+            <span class="n">ds</span><span class="o">.</span><span class="na">setUnderlineText</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">widget</span><span class="o">)</span> <span class="o">{</span>
+<span class="c1">//            Intent intent = new Intent(context, MainActivity.class);</span>
+<span class="c1">//            startActivity(intent);</span>
+            <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="n">string</span><span class="o">,</span><span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_LONG</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>然后是布局文件哦~~~</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
+    <span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"fill_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span>
+    <span class="nt">&gt;</span>
+
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">style=</span><span class="s">"@style/LinkText"</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:text=</span><span class="s">"@string/intro"</span> <span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- text_auto_linkify automatically linkifies things like URLs and phone numbers. --&gt;</span>
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/text_auto_linkify"</span>
+        <span class="na">style=</span><span class="s">"@style/LinkText"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:autoLink=</span><span class="s">"all"</span>
+        <span class="na">android:text=</span><span class="s">"@string/link_text_auto"</span> <span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!--
+           text_html_resource uses a string resource containing explicit anchor tags (&lt;a&gt;)
+           to specify links.
+    --&gt;</span>
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/text_html_resource"</span>
+        <span class="na">style=</span><span class="s">"@style/LinkText"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- text_html_program builds the text in the Java code using HTML. --&gt;</span>
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/text_html_program"</span>
+        <span class="na">style=</span><span class="s">"@style/LinkText"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+
+    <span class="c">&lt;!-- text_spannable builds the text in the Java code without using HTML. --&gt;</span>
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/text_spannable"</span>
+        <span class="na">style=</span><span class="s">"@style/LinkText"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+
+
+</code></pre></div></div>
+
+<p>布局文件之后是字符文件~~这个也是很重要的</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;resources&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"app_name"</span><span class="nt">&gt;</span>test1<span class="nt">&lt;/string&gt;</span>
+
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"hello_world"</span><span class="nt">&gt;</span>Hello world!<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"action_settings"</span><span class="nt">&gt;</span>Settings<span class="nt">&lt;/string&gt;</span>
+     <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"intro"</span><span class="nt">&gt;</span>This sample illustrates how links can be added to a TextView.
+    \nThis can be done either automatically by setting the <span class="nt">&lt;i&gt;</span>autoLink<span class="nt">&lt;/i&gt;</span> property
+    or explicitly.<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"link_text_auto"</span><span class="nt">&gt;&lt;b&gt;</span>text_auto_linkify: Various kinds
+      of data that will be auto-linked.<span class="nt">&lt;/b&gt;</span>
+      In this text are some things that are actionable.  For instance,
+      you can click on http://www.google.com and it will launch the
+      web browser.  You can click on google.com too.  If you
+      click on (415) 555-1212 it should dial the phone.  Or just write
+      foobar@example.com for an e-mail link.  If you have a URI like
+      http://www.example.com/lala/foobar@example.com you should get the
+      full link not the e-mail address.  Or you can put a location
+      like 1600 Amphitheatre Parkway, Mountain View, CA 94043.  To summarize:
+      https://www.google.com, or 650-253-0000, somebody@example.com,
+      or 9606 North MoPac Expressway, Suite 400, Austin, TX 78759.<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"link_text_manual"</span><span class="nt">&gt;</span><span class="cp">&lt;![CDATA[&lt;b&gt;</span>text_html_resource:
+      Explicit links using <span class="ni">&amp;lt;</span>a<span class="ni">&amp;gt;</span> markup.<span class="nt">&lt;/b&gt;</span>
+      This has markup for a <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"http://www.google.com"</span><span class="nt">&gt;</span>link<span class="nt">&lt;/a&gt;</span> specified
+      via an <span class="ni">&amp;lt;</span>a<span class="ni">&amp;gt;</span> tag.  Use a \"tel:\" URL
+      to <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"tel:4155551212"</span><span class="nt">&gt;</span>dial a phone number<span class="nt">&lt;/a&gt;</span>.]]&gt;<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+
+</code></pre></div></div>
+
+<h3 id="重点">重点</h3>
+<p>在这个小demo中，重要的是写好匹配字符的那个东西……^$的具体含义最好了解清楚，然后自己做一下实验。不然会被坑到飞起……把点击事件声明在 MyClickSpan 中，然后点击文字就会有对应的事件产生。</p>
+
+<h3 id="图片的预览">图片的预览</h3>
+<p><img src="/assets/picture/20150507101927.png" />
+<img src="/assets/picture/20150507101930.png" /></p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/09/android-%E7%AE%80%E5%8D%95%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%90%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android-简单的反编译运用</span>
+                <p>这个是简单的反编译运用</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/03/27/%E4%BB%8E%E7%9B%B8%E6%9C%BA%E5%92%8C%E7%9B%B8%E5%86%8C%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%9B%BE%E7%89%87%E5%B9%B6%E6%98%BE%E7%A4%BA%E5%92%8C%E4%BF%9D%E5%AD%98.html" class="read-next-link"></a>
+            <section>
+                <span>从相机和相册中获取图片并显示和保存</span>
+                <p>  ###这是个从相册或者相机获取图片的小demo   功能介绍：1：拍照获取照片并且显示和保存在文件夹中 2: ...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

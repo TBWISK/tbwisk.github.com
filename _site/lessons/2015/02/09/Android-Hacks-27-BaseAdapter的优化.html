@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android Hacks 27 BaseAdapter的优化 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="Android Hacks 27 BaseAdapter的优化">
+    <meta name="keywords"  content="android, 读书笔记">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Android Hacks 27 BaseAdapter的优化 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/02/09/Android-Hacks-27-BaseAdapter%E7%9A%84%E4%BC%98%E5%8C%96.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            <a href="http://localhost:4000/tags#%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0" class="post-tag">读书笔记</a>
+            
+            
+        </div>
+        <h1>Android Hacks 27 BaseAdapter的优化</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-02-09"><i class="iconfont icon-date"></i>09 Feb 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h2 id="baseadapter">BaseAdapter</h2>
+<p>某些需要明确的是BaseAdapter 是什么，是适配器，在什么场合可能会用到。例如listview，gridview的使用。那么继续baseadapter是基础的适配器，其他的适配器都是某这个衍生而来。那么可以肯定的说，这个BaseAdapter 可以很好的扩展自己需要的东西  <br />
+那么现在说的是，如何去优化一个BaseAdapter，什么？为什么要优化，节约资源，循环再用。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*
+ * AuditReport 适配器
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuditReportAdapter</span> <span class="kd">extends</span> <span class="n">BaseAdapter</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
+	<span class="kd">public</span> <span class="nf">AuditReportAdapter</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">){</span>
+		<span class="kd">super</span><span class="o">();</span>
+		<span class="n">inflater</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+	<span class="o">}</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getCount</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">Object</span> <span class="nf">getItem</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">long</span> <span class="nf">getItemId</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">View</span> <span class="nf">getView</span><span class="o">(</span><span class="kt">int</span> <span class="n">arg0</span><span class="o">,</span> <span class="n">View</span> <span class="n">arg1</span><span class="o">,</span> <span class="n">ViewGroup</span> <span class="n">arg2</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">Hoolder</span> <span class="n">hoolder</span><span class="o">;</span><span class="c1">//用于标志视图的东西</span>
+		<span class="k">if</span><span class="o">(</span><span class="n">arg1</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+			<span class="n">arg1</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">auditreport_layout_item</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+			<span class="n">hoolder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Hoolder</span><span class="o">();</span>
+			<span class="n">hoolder</span><span class="o">.</span><span class="na">imageView</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span><span class="n">arg1</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">imageView</span><span class="o">);</span>
+			<span class="n">hoolder</span><span class="o">.</span><span class="na">nameTextView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span><span class="n">arg1</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textview_name</span><span class="o">);</span>
+			<span class="n">hoolder</span><span class="o">.</span><span class="na">dateTextView</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span><span class="n">arg1</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textview_date</span><span class="o">);</span>
+			<span class="n">arg1</span><span class="o">.</span><span class="na">setTag</span><span class="o">(</span><span class="n">hoolder</span><span class="o">);</span><span class="c1">//设置tag</span>
+		<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+			<span class="n">hoolder</span> <span class="o">=</span> <span class="o">(</span><span class="n">Hoolder</span><span class="o">)</span> <span class="n">arg1</span><span class="o">.</span><span class="na">getTag</span><span class="o">();</span><span class="c1">//从tag中获取 hoolder</span>
+		<span class="o">}</span>
+		
+		<span class="c1">//Todo </span>
+<span class="c1">//		hoolder.imageView </span>
+<span class="c1">//		hoolder.nameTextView </span>
+<span class="c1">//		hoolder.dateTextView </span>
+		
+		
+		<span class="k">return</span> <span class="n">arg1</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">private</span> <span class="kd">class</span> <span class="nc">Hoolder</span> <span class="o">{</span><span class="c1">//标志类</span>
+		<span class="n">ImageView</span> <span class="n">imageView</span><span class="o">;</span>
+		<span class="n">TextView</span> <span class="n">nameTextView</span><span class="o">;</span>
+		<span class="n">TextView</span> <span class="n">dateTextView</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<h4 id="look">Look</h4>
+<p>从上面的代码中，可以知道的是，我们需要一个类来保存你想多个显示相同的东西。然后当当前视图不再缓存存在的时候，我们会新建一个，如果存在缓存中。那么我们会从缓存中获取数据。</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/imageView"</span>
+        <span class="na">android:layout_width=</span><span class="s">"100dp"</span>
+        <span class="na">android:layout_height=</span><span class="s">"100dp"</span>
+        <span class="na">android:background=</span><span class="s">"#cccccc"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;LinearLayout</span>
+        <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:orientation=</span><span class="s">"horizontal"</span> 
+       <span class="nt">&gt;</span>
+
+        <span class="nt">&lt;TextView</span>
+            <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:text=</span><span class="s">"上传者："</span> <span class="nt">/&gt;</span>
+         <span class="nt">&lt;TextView</span>
+             <span class="na">android:id=</span><span class="s">"@+id/textview_name"</span>
+            <span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+            <span class="na">android:text=</span><span class="s">"我是人"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/LinearLayout&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/textview_date"</span>
+        <span class="na">android:layout_width=</span><span class="s">"100dp"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+        <span class="na">android:gravity=</span><span class="s">"center"</span>
+        <span class="na">android:text=</span><span class="s">"2014年"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+
+<h4 id="tag">Tag</h4>
+<p>多点学习，多点阅读</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/10/Android-Hacks-10-%E6%A0%BC%E5%BC%8F%E5%8C%96TextView%E5%86%85%E5%AE%B9.html" class="read-next-link"></a>
+            <section>
+                <span>Android Hacker 10 格式化TextView内容</span>
+                <p>  想要一个特别点文本么，想要一个引人注目的内容么  有什么，我们在使用一个TextView的时候，想要某些内容特...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/07/Android-Hacks-1-weights-%E7%9A%84%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>Android Hacks 1 weights的使用</span>
+                <p>  有人问，如何让一个 Button 是父布局的 50% width。</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

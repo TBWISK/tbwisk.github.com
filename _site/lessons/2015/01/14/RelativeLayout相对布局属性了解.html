@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RelativeLayout相对布局属性了解 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="RelativeLayout相对布局属性了解">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="RelativeLayout相对布局属性了解 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/14/RelativeLayout%E7%9B%B8%E5%AF%B9%E5%B8%83%E5%B1%80%E5%B1%9E%E6%80%A7%E4%BA%86%E8%A7%A3.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>RelativeLayout相对布局属性了解</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-01-14"><i class="iconfont icon-date"></i>14 Jan 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h2 id="relativelayout相对布局">RelativeLayout相对布局</h2>
+
+<p>相对布局 RelativeLayout 允许子元素指定它们相对于其父元素或兄弟元素的位置，这是实际布局中最常用的布局方式之一。它灵活性大很多，当然属性也多，操作难度也大，属性之间产生冲突的的可能性也大，使用相对布局时要多做些测试。</p>
+
+<p>下面是常用的一些属性</p>
+
+<h3 id="relativelayout用到的一些重要的属性">RelativeLayout用到的一些重要的属性：</h3>
+
+<h4 id="第一类属性值为true或false">第一类:属性值为true或false</h4>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android:layout_centerHrizontal 水平居中    
+android:layout_centerVertical 垂直居中  
+android:layout_centerInparent 相对于父元素完全居中  
+android:layout_alignParentBottom 贴紧父元素的下边缘  
+android:layout_alignParentLeft 贴紧父元素的左边缘  
+android:layout_alignParentRight 贴紧父元素的右边缘  
+android:layout_alignParentTop 贴紧父元素的上边缘  
+android:layout_alignWithParentIfMissing    
+</code></pre></div></div>
+<p>如果对应的兄弟元素找不到的话就以父元素做参照物</p>
+
+<h4 id="第二类属性值必须为id的引用名idid-name">第二类：属性值必须为id的引用名“@id/id-name”</h4>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android:layout_below 在某元素的下方  
+android:layout_above 在某元素的的上方  
+android:layout_toLeftOf 在某元素的左边  
+android:layout_toRightOf 在某元素的右边  
+android:layout_alignTop 本元素的上边缘和某元素的的上边缘对齐  
+android:layout_alignLeft 本元素的左边缘和某元素的的左边缘对齐  
+android:layout_alignBottom 本元素的下边缘和某元素的的下边缘对齐  
+android:layout_alignRight 本元素的右边缘和某元素的的右边缘对齐  
+</code></pre></div></div>
+
+<h4 id="第三类属性值为具体的像素值如30dip40px">第三类：属性值为具体的像素值，如30dip，40px</h4>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>android:layout_marginBottom 离某元素底边缘的距离  
+android:layout_marginLeft 离某元素左边缘的距离  
+android:layout_marginRight 离某元素右边缘的距离  
+android:layout_marginTop 离某元素上边缘的距离  
+</code></pre></div></div>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/23/fragment%E5%92%8CActivity%E9%80%9A%E4%BF%A1.html" class="read-next-link"></a>
+            <section>
+                <span>fragment和Activity通信</span>
+                <p>Activity的生命周期  从这个图中可以知道Activity 的生命周期</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/14/Android%E5%BC%80%E5%8F%91-shape-selector-layer-list%E4%BB%8B%E7%BB%8D.html" class="read-next-link"></a>
+            <section>
+                <span>Android开发 shape selector layer-list介绍</span>
+                <p>Android开发：shape和selector和layer-list 的简单说明和使用  shape 和  se...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

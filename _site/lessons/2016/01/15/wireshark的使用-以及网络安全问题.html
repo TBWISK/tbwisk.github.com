@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wireshark的使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="wireshark的使用">
+    <meta name="keywords"  content="爬虫">
+    <!-- Open Graph -->
+    <meta property="og:title" content="wireshark的使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2016/01/15/wireshark%E7%9A%84%E4%BD%BF%E7%94%A8-%E4%BB%A5%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#%E7%88%AC%E8%99%AB" class="post-tag">爬虫</a>
+            
+            
+        </div>
+        <h1>wireshark的使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="16-01-15"><i class="iconfont icon-date"></i>15 Jan 2016</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="a背景">a:背景</h3>
+<p>这是个简单的Wireshark的使用方法。  <br />
+以及简单的个人的信息安全介绍。
+—</p>
+
+<h3 id="涉及到的内容">涉及到的内容：</h3>
+<p>1：Wireshark的使用：<br />
+2：在外面的wifi别随便连：
+3：微信的用户机制
+4：root过的手机别随便借给别人使用。微信记录泄露…</p>
+
+<h4 id="1wireshark的使用">1：Wireshark的使用</h4>
+<p>在使用wireshark的时候，我们需要明确的概念是，Wireshark能做什么，是为了做什么？有什么用？ <br />
+a:可以抓包，抓取本机的数据包【据使用的介绍，wifi 混杂模式 下可以抓取局域网内的数据包。【但经过测试，我只能抓取到局域网内的广播数据包。如果抓取其他用户的数据包的话，需要特别设备？ <br />
+b:抓取数据包有什么用？这个可以知道一个人的网页浏览信息，也可以分析某些软件的通信协议【例如没有用https的微博<br />
+c:想认识隔壁的邻居么，想知道隔壁妹子的微博号么【留意下个系列之 live http replay 【无关</p>
+
+<h5 id="前置的基础知识">前置的基础知识：</h5>
+<p>各种网络协议，http头部之类的各种头部。  <br />
+某些网站的http请求 get post 方式，密码是明文的。</p>
+
+<h5 id="过滤规则">过滤规则</h5>
+<p>对某些数据的查看，方便查看详细的数据包。 <br />
+—》 http://jingyan.baidu.com/article/3d69c551509681f0cf02d7ff.html</p>
+
+<p>wireshark 
+一个挺好用的抓取http的软件 -&gt;：charles 缺陷，不能抓取tcp socket之类的。</p>
+
+<h5 id="为啥wifi不要随便连">为啥wifi不要随便连</h5>
+<p>截取你的通信记录，浏览记录。甚至夸张点，模拟你的微博登陆啥的。</p>
+
+<h5 id="微信的登录机制">微信的登录机制</h5>
+<p>扫描登录 二维码生成，等待微信扫描，微信扫了之后(获取二维码里面的http)，返回一个https的真实登录的地址，点击登录。微信登录成功。
+微信上面现在的登录方式通常是扫描登录，例如web微信和mac客户端的微信。那么如何表示登录的人呢？uin……?cookie?
+那么理解?目的阅读数！！</p>
+
+<h3>#</h3>
+<hr />
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2016/03/04/%E7%BE%8E%E6%8B%8D%E8%A7%86%E9%A2%91%E7%88%AC%E8%99%AB.html" class="read-next-link"></a>
+            <section>
+                <span>美拍视频爬虫</span>
+                <p>1.背景首先，这次的爬虫的对象是针对美拍的视频。 那么，如何去爬美拍的视频呢？ 然后我们的目标是：  1：单独一个...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/12/22/Android-ffmpeg%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>android-ffmpeg的编译命令行使用</span>
+                <p>a:背景工作上需要，编写一个视频转换的工具，然后我选择了ffmpeg这个重量级的工具。下面讲述的是如何编译ffmp...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

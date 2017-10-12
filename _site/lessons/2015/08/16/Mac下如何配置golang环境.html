@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mac下如何配置golang环境 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="mac下如何配置golang环境">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="mac下如何配置golang环境 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/08/16/Mac%E4%B8%8B%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEgolang%E7%8E%AF%E5%A2%83.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>mac下如何配置golang环境</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-08-16"><i class="iconfont icon-date"></i>16 Aug 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="首先我们需要知道的是golang是什么">首先，我们需要知道的是golang是什么？</h3>
+<p>golang是由google在09年开出的语言？ <br />
+目的是系统级别的架构 <br />
+那么现在告诉你如何安装golang，进入golang 的世界。</p>
+
+<p>在这里的主题是mac的安装环境，虽然有很多种配置，但我会按照我个人的配置方法去写。</p>
+
+<p>我不知道为什么mac被程序员所推荐使用，认为是程序员开发的利器，因为我刚刚到手不到一个星期，没错，我是个新手，在很多方面都是个新手。但要学会去努力，学会去学习，那么肯定会有所悟。</p>
+
+<h3 id="开始配置golang">开始配置golang</h3>
+
+<p>我们使用的是brew去下载配置golang。首先，进入 <br />
+ <code class="highlighter-rouge">http://brew.sh/index_zh-cn.html</code> <br />
+ 查看脚本命令</p>
+
+<p>ruby -e “$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)”</p>
+
+<p>其实mac自带了ruby和python这俩门语言。在终端 terminal.app 中输入上面的命令后，在等安装完brew后，我们可以输入</p>
+
+<p><strong>brew install go</strong></p>
+
+<p>这个简单的命令后的我们就会自动安装go在brew仓库中的正式版。当然，我们也可以指定版本安装哦~brew 是个有趣的东西，很多人用来管理包的依赖问题。</p>
+
+<p>在install go 成功后，我们这个时候可以输入 go env 是看下golang 的配置问题。这个时候你会发现goroot的路径已经有，那么差什么呢？ <br />
+输入 go get XXXX XXXX是随意github上go的第三方库，你会看见缺乏GOPATH路径，那么这个时候怎么办呢？ 
+在某个文件夹下面新建一个GOPATH文件，然后根据_ go help path _ 这个命令返回的内容趣新建一个src、bin、pkg的文件夹。好了，最后的重头戏来了，这个时候如何配置go 的gopath到这个目录下呢？</p>
+
+<p>常人的思维应该是直接点 <br />
+   <code class="highlighter-rouge">export GOPATH=/Users/youyou/codingspace/gopath</code></p>
+
+<p>在输入之后你继续运行 go env 咦，还真的好像配置好环境了，这个时候开心的配置IDE去了。然后不小心关闭终端，重新打开……怎么又不行了，go env 怎么GOPATH 为空 。一开始以为权限不够，那么就提升权限……后来发现还是不行。</p>
+
+<p>那么最后的办法就是</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  cd  GOPATH=/Users/youyou/codingspace/gopath  
+  vim ~/.bash_profile
+  加入
+  export GOPATH=/Users/youyou/codingspace/gopath  
+  export PATH=$PATH:/Users/youyou/codingspace/gopath/bin    
+  保存   
+  在终端输入 source ~/.bash_profile    
+</code></pre></div></div>
+
+<p>好了，走到这一步，再也不用担心环境的问题了，至于  <code class="highlighter-rouge">bash_profile</code>的问题，它是一个最重要的配置文件，在用户每次登陆的时候都会被读取。</p>
+
+<h3 id="选择ide">选择IDE</h3>
+<p>IED是很重要的选择，当然你也可以选择用文本去慢慢的敲打代码，但好的IDE可以让你的效率提高很多哦。 <br />
+有很多种方法例如liteIde，vim，sublime，我个人使用的是 LiteIDE ，因为这个简单操作容易配置。什么？LiteIDE还要配置？没错……是需要配置的，因为这个下载的时候的默认路径是不同的，那么先下载LiteIDE先，从哪里下载呢？</p>
+
+<p><a href="http://www.golangtc.com/download/liteide">golangtc下载</a> <br />
+   <a href="http://sourceforge.net/projects/liteide/">sourceforge 的下载</a></p>
+
+<p>当我们下载完后，把LiteIDE拉取到应用里面。打开LiteID，点击查看–编译当前环境 
+<img src="/assets/picture/BE33CA46-23F0-4FF2-AC76-BE858736C423.png" />  <br />
+在这里我们需要做的时什么？修改的时GOROOT的路径还有GOBIN的路径，还有GOPATH的路径 <br />
+那么说到这，未来要好好加油哦，这个世界很大。知识是十分丰富的。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/08/16/golang%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E4%B8%83%E7%89%9B%E4%B8%8A%E5%AD%98.html" class="read-next-link"></a>
+            <section>
+                <span>golang简单实现七牛上存</span>
+                <p>golang实现七牛的上存文件的原理在golang 的世界上，golang是可以作为服务端和客户端来存在的。但这个...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/07/13/RecyclerView%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>RecyclerView的简单实现</span>
+                <p>RecyclerView 的类似ListView的简单使用首先，我们要了解什么是RecyclerView，Recy...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

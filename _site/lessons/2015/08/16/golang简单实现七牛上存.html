@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>golang简单实现七牛上存 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="golang简单实现七牛上存">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="golang简单实现七牛上存 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/08/16/golang%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E4%B8%83%E7%89%9B%E4%B8%8A%E5%AD%98.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>golang简单实现七牛上存</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-08-16"><i class="iconfont icon-date"></i>16 Aug 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="golang实现七牛的上存文件的原理">golang实现七牛的上存文件的原理</h3>
+<p>在golang 的世界上，golang是可以作为服务端和客户端来存在的。但这个主题主要讲的时golang作为服务端的实现。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>终端-&gt;golang服务器-&gt;七牛服务器
+</code></pre></div></div>
+
+<p>从逻辑上面，先把文件提交到golang服务器，然后golang服务器把文件上存到七牛的服务器。但通常为了更好的实现一些资源上的安排，通常是终端先把数据上存到七牛服务器，然后七牛服务器把一些数据的回调，回调到golang的服务器，虽然golang也可以当客户端终端使用。但我手上没有可以搭建golang的网络服务器的使用。</p>
+
+<hr />
+
+<p><a href="http://developer.qiniu.com/docs/v6/sdk/go-sdk.html">golang 七牛 v6sdk链接</a> <br />
+  <a href="https://github.com/qiniu/api.v7">github v7 sdk 链接</a>如果是刚刚上存的话，建议使用新的sdk，因为新的sdk问题上步考虑旧的兼容性问题，以及未来可以很好的优化。</p>
+
+<p>那么说到这，实现这个功能的话，我们可以考虑分为三步去实现。 <br />
+1：实现golang的服务器直接上存文件到七牛服务器。   <br />
+2：实现从网页上存文件到golang服务器。 <br />
+3：实现把1和2合并，上存文件到七牛服务器。</p>
+
+<hr />
+
+<h4 id="实现golang的服务器直接上存文件到七牛服务器">实现golang的服务器直接上存文件到七牛服务器</h4>
+<p>其实从github上面的文档中可以看到，就是简单的几行代码的使用。 <br />
+简单直接粗暴的方法是贴代码：</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Quniu project main.go</span><span class="x">
+</span><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+   </span><span class="s">"fmt"</span><span class="x">
+   </span><span class="s">"qiniupkg.com/api.v7/kodo"</span><span class="x">
+   </span><span class="s">"golang.org/x/net/context"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="p">)</span><span class="x">
+   </span><span class="n">kodo</span><span class="o">.</span><span class="n">SetMac</span><span class="p">(</span><span class="s">"从七牛获得的access key"</span><span class="p">,</span><span class="s">"从七牛获得的secret key"</span><span class="p">)</span><span class="x">
+   </span><span class="n">zone</span><span class="o">:=</span><span class="m">0</span><span class="x">
+   </span><span class="n">c</span><span class="o">:=</span><span class="n">kodo</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="n">zone</span><span class="p">,</span><span class="no">nil</span><span class="p">)</span><span class="x">
+   
+   </span><span class="n">bucket</span><span class="o">:=</span><span class="n">c</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="s">"appfornew"</span><span class="p">)</span><span class="c">//命名空间</span><span class="x">
+   </span><span class="n">ctx</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span><span class="x">
+   </span><span class="n">localFile</span><span class="x"> </span><span class="o">:=</span><span class="s">"/Users/youyou/Desktop/youzhuan.apk"</span><span class="x">
+   </span><span class="n">err</span><span class="o">:=</span><span class="n">bucket</span><span class="o">.</span><span class="n">PutFile</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="no">nil</span><span class="p">,</span><span class="s">"foo/bar.apk"</span><span class="p">,</span><span class="n">localFile</span><span class="p">,</span><span class="no">nil</span><span class="p">)</span><span class="x">
+   </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"has err"</span><span class="p">)</span><span class="x">
+      </span><span class="k">return</span><span class="x">
+   </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"success"</span><span class="p">)</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+
+<p>从代码上的实现，服务器上存到就是那么几行的代码。需要注意的参数之间的含义和意思。例如localFile，这个是本地上存的地址，由于是服务器上存的，所以这个地址应该是本地服务器的地址，而不是url地址。不过七牛也提供一个api的使用，可以获取网上的资源保存到七牛的服务器中。详情留意bucket.go func Fetch()</p>
+
+<hr />
+
+<h3 id="从网页上存文件到golang服务器中">从网页上存文件到golang服务器中</h3>
+<p>从网页上存到服务器，那么首先用什么去搭建网页呢？  <br />
+可以使用原生态的go，这个没有经过任何的封装，也可以使用封装过后的框架。框架只是为了让人更好的去服务和工作。</p>
+
+<h4 id="原生态的go服务器">原生态的go服务器</h4>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+   </span><span class="s">"net/http"</span><span class="x">
+   </span><span class="s">"fmt"</span><span class="x">
+   </span><span class="s">"time"</span><span class="x">
+   </span><span class="s">"io"</span><span class="x">
+   </span><span class="s">"strconv"</span><span class="x">
+   </span><span class="s">"crypto/md5"</span><span class="x">
+   </span><span class="s">"html/template"</span><span class="x">
+   </span><span class="s">"os"</span><span class="x">
+   </span><span class="s">"log"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+</span><span class="n">http</span><span class="o">.</span><span class="n">HandleFunc</span><span class="p">(</span><span class="s">"/upload"</span><span class="p">,</span><span class="x"> </span><span class="n">upload</span><span class="p">)</span><span class="x">
+</span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">http</span><span class="o">.</span><span class="n">ListenAndServe</span><span class="p">(</span><span class="s">":8080"</span><span class="p">,</span><span class="x"> </span><span class="no">nil</span><span class="p">))</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="c">// 处理/upload 逻辑</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">upload</span><span class="p">(</span><span class="n">w</span><span class="x"> </span><span class="n">http</span><span class="o">.</span><span class="n">ResponseWriter</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="x"> </span><span class="o">*</span><span class="n">http</span><span class="o">.</span><span class="n">Request</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
+    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"method:"</span><span class="p">,</span><span class="x"> </span><span class="n">r</span><span class="o">.</span><span class="n">Method</span><span class="p">)</span><span class="x"> </span><span class="c">//获取请求的方法</span><span class="x">
+    </span><span class="k">if</span><span class="x"> </span><span class="n">r</span><span class="o">.</span><span class="n">Method</span><span class="x"> </span><span class="o">==</span><span class="x"> </span><span class="s">"GET"</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">crutime</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">time</span><span class="o">.</span><span class="n">Now</span><span class="p">()</span><span class="o">.</span><span class="n">Unix</span><span class="p">()</span><span class="x">
+        </span><span class="n">h</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">md5</span><span class="o">.</span><span class="n">New</span><span class="p">()</span><span class="x">
+        </span><span class="n">io</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="x"> </span><span class="n">strconv</span><span class="o">.</span><span class="n">FormatInt</span><span class="p">(</span><span class="n">crutime</span><span class="p">,</span><span class="x"> </span><span class="m">10</span><span class="p">))</span><span class="x">
+        </span><span class="n">token</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"%x"</span><span class="p">,</span><span class="x"> </span><span class="n">h</span><span class="o">.</span><span class="n">Sum</span><span class="p">(</span><span class="no">nil</span><span class="p">))</span><span class="x">
+
+        </span><span class="n">t</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">template</span><span class="o">.</span><span class="n">ParseFiles</span><span class="p">(</span><span class="s">"views/one.tpl"</span><span class="p">)</span><span class="x">
+        </span><span class="n">t</span><span class="o">.</span><span class="n">Execute</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="n">token</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x"> </span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+        </span><span class="n">r</span><span class="o">.</span><span class="n">ParseMultipartForm</span><span class="p">(</span><span class="m">32</span><span class="x"> </span><span class="o">&lt;&lt;</span><span class="x"> </span><span class="m">20</span><span class="p">)</span><span class="x">
+        </span><span class="n">file</span><span class="p">,</span><span class="x"> </span><span class="n">handler</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">r</span><span class="o">.</span><span class="n">FormFile</span><span class="p">(</span><span class="s">"uploadfile"</span><span class="p">)</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+            </span><span class="k">return</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">FormValue</span><span class="p">(</span><span class="s">"token"</span><span class="p">))</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">handler</span><span class="o">.</span><span class="n">Filename</span><span class="p">)</span><span class="x">
+        </span><span class="k">defer</span><span class="x"> </span><span class="n">file</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Fprintf</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="x"> </span><span class="s">"%v"</span><span class="p">,</span><span class="x"> </span><span class="n">handler</span><span class="o">.</span><span class="n">Header</span><span class="p">)</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"post"</span><span class="p">)</span><span class="x">
+      
+        </span><span class="n">f</span><span class="p">,</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">OpenFile</span><span class="p">(</span><span class="s">"./"</span><span class="o">+</span><span class="n">handler</span><span class="o">.</span><span class="n">Filename</span><span class="p">,</span><span class="x"> </span><span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="o">|</span><span class="n">os</span><span class="o">.</span><span class="n">O_CREATE</span><span class="p">,</span><span class="x"> </span><span class="m">0666</span><span class="p">)</span><span class="x">
+        </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
+            </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+            </span><span class="k">return</span><span class="x">
+        </span><span class="p">}</span><span class="x">
+        </span><span class="k">defer</span><span class="x"> </span><span class="n">f</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+        </span><span class="n">io</span><span class="o">.</span><span class="n">Copy</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="x"> </span><span class="n">file</span><span class="p">)</span><span class="x">
+    </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p>上面首先需要知道的是get和post的判断，判断是哪种方式获取页面，当然post肯定是提交文件的方法。   <br />
+html页面</p>
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>上传文件<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">enctype=</span><span class="s">"multipart/form-data"</span> <span class="na">action=</span><span class="s">"upload"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"file"</span> <span class="na">name=</span><span class="s">"uploadfile"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"hidden"</span> <span class="na">name=</span><span class="s">"token"</span> <span class="na">value=</span><span class="s">""</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"upload"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+<p>在html页面中需要注意的是需要在form中添加 <code class="highlighter-rouge">enctype="multipart/form-data"</code>这个属性，不然的话浏览器会拒绝提交信息。action是触发事件，当然这里触发的事件是直接post到服务器的url地址中，可以用js的事件顶替使用。</p>
+
+<p>那么简单的一个提交文件到服务器就这样完成了。</p>
+
+<hr />
+
+<h4 id="使用beego框架的服务器">使用beego框架的服务器</h4>
+<p>beego的网站是 <strong>beego.me</strong> <br />
+快速安装在终端上面输入<code class="highlighter-rouge">go get github.com/astaxie/beego</code> 当然，得让这个方法生效，你得先配置好golang 的开发环境。然后继续使用配置bee，bee是一个对应beego的一个开发小工具，能有效的提高效率上的开发问题。 <br />
+首先在gopath下面使用 <code class="highlighter-rouge">bee new project</code>新建一个项目，这个时候就从这个项目上搭建我们的上存问题。
+<img src="/assets/picture/9FDEC41E-E331-48B1-A21D-1FD67224103D.png" /> <br />
+从这里面看到bee生成的目录结构，从结构上分析，这是个典型的MVC的开发模式结构。 <br />
+那么我们需要做什么呢？在controllers的包下面的类中实现我们的逻辑。<br />
+修改<code class="highlighter-rouge">default.go</code>文件  ,还有实现路由控制功能，修改<code class="highlighter-rouge">router.go</code>文件 <br />
+下面的是<code class="highlighter-rouge">default.go</code>文件</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">controllers</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+   </span><span class="s">"github.com/astaxie/beego"</span><span class="x">
+   </span><span class="s">"fmt"</span><span class="x">
+</span><span class="err">）</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">PutController</span><span class="x"> </span><span class="k">struct</span><span class="p">{</span><span class="x">
+   </span><span class="n">beego</span><span class="o">.</span><span class="n">Controller</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">PutController</span><span class="p">)</span><span class="x"> </span><span class="n">Get</span><span class="p">(){</span><span class="x">
+   </span><span class="n">c</span><span class="o">.</span><span class="n">TplNames</span><span class="x"> </span><span class="o">=</span><span class="s">"one.tpl"</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">EmailController</span><span class="x"> </span><span class="k">struct</span><span class="p">{</span><span class="x">
+   </span><span class="n">beego</span><span class="o">.</span><span class="n">Controller</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">PutController</span><span class="p">)</span><span class="x"> </span><span class="n">Post</span><span class="p">(){</span><span class="x">
+   </span><span class="n">file</span><span class="p">,</span><span class="n">fileHead</span><span class="p">,</span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="n">c</span><span class="o">.</span><span class="n">GetFile</span><span class="p">(</span><span class="s">"uploadfile"</span><span class="p">)</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"two"</span><span class="p">)</span><span class="x">
+   </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">Ctx</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="s">"err"</span><span class="p">)</span><span class="x">
+      </span><span class="k">return</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+   </span><span class="k">defer</span><span class="x"> </span><span class="n">file</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="n">fileHead</span><span class="o">.</span><span class="n">Filename</span><span class="p">)</span><span class="x">
+   </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">SaveToFile</span><span class="p">(</span><span class="s">"uploadfile"</span><span class="p">,</span><span class="s">"./"</span><span class="o">+</span><span class="n">fileHead</span><span class="o">.</span><span class="n">Filename</span><span class="p">)</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p>从代码上看什么亮点，但要注意的是开发文档给你的坑，因为开发文档不一定是准确的，偶尔需要看一下源码。golang的源码看得很随意，想看就可以看的节奏哦~。个人理解，上面的代码中其实可以改比较多的东西，例如没必要GetFile，因为在SaveToFile里面已经有这个分装了。这里在文档里面是坑。</p>
+
+<hr />
+
+<p><code class="highlighter-rouge">router.go</code>的代码</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">routers</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+   </span><span class="s">"project/controllers"</span><span class="x">
+   </span><span class="s">"github.com/astaxie/beego"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">func</span><span class="x"> </span><span class="n">init</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="n">beego</span><span class="o">.</span><span class="n">Router</span><span class="p">(</span><span class="s">"/upload"</span><span class="p">,</span><span class="o">&amp;</span><span class="n">controllers</span><span class="o">.</span><span class="n">PutController</span><span class="p">{})</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+<p><code class="highlighter-rouge">one.tpl</code>的代码和上面html的代码一样哦。</p>
+
+<p>那么就这样简单用beego实现了一个上传文件的功能，但实际上，很多beego都封装好，只是等待你去调用这个方法。所以说，学习golang的基础很重要，如果golong里面没有，那么就自己写个封装好了。</p>
+
+<h3 id="最后一步实现网页-golang服务器到七牛">最后一步，实现网页-golang服务器到七牛</h3>
+<p>这一步应该是最简单的一步，就是把前面的结合在一起，我就是把beego的代码和之前第一步写的代码合在一起就好了。因为这样做的话，以后扩展性会增强很多。</p>
+
+<p>贴代码：
+这里面的代码改变只是改变了<code class="highlighter-rouge">default.go</code>的代码，其他的代码没有什么改变。什么，为什么只改了这个的代码，因为这个是逻辑控制的部分。很好的把逻辑写在这里。控制逻辑的实现，上存的功能就是逻辑的实现。</p>
+
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span><span class="x"> </span><span class="n">controllers</span><span class="x">
+
+</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
+   </span><span class="s">"github.com/astaxie/beego"</span><span class="x">
+   </span><span class="s">"fmt"</span><span class="x">
+   </span><span class="s">"qiniupkg.com/api.v7/kodo"</span><span class="x">
+   </span><span class="s">"golang.org/x/net/context"</span><span class="x">
+</span><span class="c">// "crypto/md5"</span><span class="x">
+</span><span class="p">)</span><span class="x">
+
+</span><span class="k">type</span><span class="x"> </span><span class="n">MainController</span><span class="x"> </span><span class="k">struct</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="n">beego</span><span class="o">.</span><span class="n">Controller</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="n">init</span><span class="p">(){</span><span class="x">
+   </span><span class="n">kodo</span><span class="o">.</span><span class="n">SetMac</span><span class="p">(</span><span class="s">"从七牛获得的access key"</span><span class="p">,</span><span class="s">"从七牛获得的secret key"</span><span class="p">)</span><span class="x">
+   </span><span class="n">click</span><span class="o">=</span><span class="n">kodo</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="no">nil</span><span class="p">)</span><span class="x">
+   </span><span class="n">bucket</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">click</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="s">"appfornew"</span><span class="p">)</span><span class="x">
+   </span><span class="n">ctx</span><span class="o">=</span><span class="n">context</span><span class="o">.</span><span class="n">Background</span><span class="p">()</span><span class="x">
+   
+</span><span class="p">}</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">click</span><span class="x"> </span><span class="o">*</span><span class="n">kodo</span><span class="o">.</span><span class="n">Client</span><span class="p">;</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">bucket</span><span class="x"> </span><span class="n">kodo</span><span class="o">.</span><span class="n">Bucket</span><span class="p">;</span><span class="x">
+</span><span class="k">var</span><span class="x"> </span><span class="n">ctx</span><span class="x"> </span><span class="n">context</span><span class="o">.</span><span class="n">Context</span><span class="p">;</span><span class="x">
+</span><span class="k">func</span><span class="x"> </span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">MainController</span><span class="p">)</span><span class="x"> </span><span class="n">Get</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
+   </span><span class="n">c</span><span class="o">.</span><span class="n">TplNames</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="s">"index.tpl"</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">PutController</span><span class="x"> </span><span class="k">struct</span><span class="p">{</span><span class="x">
+   </span><span class="n">beego</span><span class="o">.</span><span class="n">Controller</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">PutController</span><span class="p">)</span><span class="x"> </span><span class="n">Get</span><span class="p">(){</span><span class="x">
+   </span><span class="n">c</span><span class="o">.</span><span class="n">TplNames</span><span class="x"> </span><span class="o">=</span><span class="s">"test.tpl"</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">type</span><span class="x"> </span><span class="n">EmailController</span><span class="x"> </span><span class="k">struct</span><span class="p">{</span><span class="x">
+   </span><span class="n">beego</span><span class="o">.</span><span class="n">Controller</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span><span class="k">func</span><span class="p">(</span><span class="n">c</span><span class="x"> </span><span class="o">*</span><span class="n">PutController</span><span class="p">)</span><span class="x"> </span><span class="n">Post</span><span class="p">(){</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"one"</span><span class="p">)</span><span class="x">
+   </span><span class="n">file</span><span class="p">,</span><span class="n">fileHead</span><span class="p">,</span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="n">c</span><span class="o">.</span><span class="n">GetFile</span><span class="p">(</span><span class="s">"uploadfile"</span><span class="p">)</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"two"</span><span class="p">)</span><span class="x">
+   </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">Ctx</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="s">"err"</span><span class="p">)</span><span class="x">
+      </span><span class="k">return</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+   </span><span class="k">defer</span><span class="x"> </span><span class="n">file</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
+   </span><span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="n">fileHead</span><span class="o">.</span><span class="n">Filename</span><span class="p">)</span><span class="x">
+
+
+   </span><span class="n">err</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">c</span><span class="o">.</span><span class="n">SaveToFile</span><span class="p">(</span><span class="s">"uploadfile"</span><span class="p">,</span><span class="s">"./"</span><span class="o">+</span><span class="n">fileHead</span><span class="o">.</span><span class="n">Filename</span><span class="p">)</span><span class="x">
+   </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">Ctx</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="s">"save to file err"</span><span class="p">)</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+   </span><span class="p">}</span><span class="k">else</span><span class="p">{</span><span class="x">
+      </span><span class="n">localFile</span><span class="o">:=</span><span class="n">fileHead</span><span class="o">.</span><span class="n">Filename</span><span class="x">
+      </span><span class="n">err</span><span class="o">:=</span><span class="n">bucket</span><span class="o">.</span><span class="n">PutFile</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span><span class="no">nil</span><span class="p">,</span><span class="n">fileHead</span><span class="o">.</span><span class="n">Filename</span><span class="p">,</span><span class="n">localFile</span><span class="p">,</span><span class="no">nil</span><span class="p">)</span><span class="x">
+      </span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"has err"</span><span class="p">)</span><span class="x">
+      </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">Ctx</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="s">"err"</span><span class="p">)</span><span class="x">
+      </span><span class="k">return</span><span class="x">
+   </span><span class="p">}</span><span class="k">else</span><span class="x"> </span><span class="p">{</span><span class="x">
+      </span><span class="n">c</span><span class="o">.</span><span class="n">Ctx</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="s">"success"</span><span class="p">)</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+   </span><span class="p">}</span><span class="x">
+</span><span class="p">}</span><span class="x">
+</span></code></pre></div></div>
+
+<p>写到这里，好了，功能基本上是实现了。从网页上存到服务器然后服务器上存到七牛服务器。
+每一次上存到golang服务器网页一次等待，golang服务器上存到七牛服务器，网页俩次等待，是不是觉得有点没效率呢？ <br />
+所以就有了从客户端上存到七牛服务器，然后七牛服务器回调给golang服务器的方法。 <br />
+那么下一步我可以做什么呢？那么就好好实现这个功能看看……当然，前提是我有了自己的服务器再说。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/08/17/Android%E5%BE%AE%E4%BF%A1%E5%88%86%E4%BA%AB%E5%AE%9E%E7%8E%B0.html" class="read-next-link"></a>
+            <section>
+                <span>android 微信分享实现以及封装</span>
+                <p>这里的主题主要讲述的是微信的分享功能以及使用</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/08/16/Mac%E4%B8%8B%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AEgolang%E7%8E%AF%E5%A2%83.html" class="read-next-link"></a>
+            <section>
+                <span>mac下如何配置golang环境</span>
+                <p>首先，我们需要知道的是golang是什么？golang是由google在09年开出的语言？ 目的是系统级别的架构 ...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

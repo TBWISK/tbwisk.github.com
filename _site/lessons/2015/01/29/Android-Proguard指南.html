@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Android-Proguard指南 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="Android-Proguard指南">
+    <meta name="keywords"  content="android, 翻译">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Android-Proguard指南 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/29/Android-Proguard%E6%8C%87%E5%8D%97.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            <a href="http://localhost:4000/tags#%E7%BF%BB%E8%AF%91" class="post-tag">翻译</a>
+            
+            
+        </div>
+        <h1>Android-Proguard指南</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-01-29"><i class="iconfont icon-date"></i>29 Jan 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <p><a href="https://github.com/inferjay/AndroidProguardGuide/">android 混淆配置指南英文版</a> <br />
+我只是个默默翻译的搬运工 ，好吧，翻译是为了提高英文水平。</p>
+
+<blockquote>
+  <h2 id="android-proguard-指南">Android Proguard 指南</h2>
+</blockquote>
+
+<p>Android Proguard 混淆配置指南</p>
+
+<p>###ProGuard</p>
+
+<p>这个ProGuard工具可以通过删除未使用的代码和重命名类、字段和方法与语义模糊的名字来 收缩、优化和混淆你的代码。这个结果导致你生成一个更小型号的 .apk 文件，这样会使别人反向逆推工程更加困难。 因为 ProGuard 让你的应用程序的还原工程更加困难。这个对你而言是十分有用的，当你利用这个应用特点来帮助当你的程序度过一些安全和敏感的检测当你正对你的程序授权时。</p>
+
+<p>ProGuard是集成到Android 开发系统中的，因此你不必手动调用这个应用。ProGuard 只有在你编译运行程序的时候才运作，因此当你在调试模式下编译你的程序的时候，你不需要处理混淆代码。是否有 ProGuard 运行是可以完全由你有选择的，但强烈推荐你去运行它。</p>
+
+<p>这个文档描述了如何去启用 和配置 ProGuard 以及使用追朔工具追踪堆栈的混淆过程和解码混淆的时候的堆栈的变化。</p>
+
+<p>###Enabling ProGuard
+当你创建一个Android工程的时候，一个 proguard.cfg 的文件会自动的生成在项目的根目录下面。这个文件定义了  ProGuard 如何去优化和混淆你的代码，因此这是对你而言是十分重要的明白如何去定作什么是你需要的。在默认配置文件覆盖的情况下，你很有可能需要编辑什么是你自己需要的。看到下面部分关于配置 ProGuard 的信息在自定义 ProGuard 配置文件。</p>
+
+<p>为了让ProGuard 能够作为 Ant 或者 Eclipse 运行构建的一部分。设置 proguard.config 的属性 在 project_root /project.properties 文件中。这个路径是可以改变的，你可以使用绝对路径或者相对路径在根目录下。</p>
+
+<p><strong>Note</strong>：当你正使用Android Studio，你需要 添加 Proguard 到你的 gradle.build 文件的构建类型。需要更多的信息，请点击<a href="https://github.com/inferjay/GradlePluginUserGuideCN">Gradle Plugin User Guide</a></p>
+
+<p>如果你让你的 proguard.cfg 文件离开默认的位置（项目的根目录），你可以指定它的位置好像：</p>
+
+<blockquote>
+  <p>proguard.config=proguard.cfg</p>
+</blockquote>
+
+<p>你可以移动这个文件到任何你想要的地方，并且制定绝对的路径给它：</p>
+
+<blockquote>
+  <p>proguard.config=/path/to/proguard.cfg</p>
+</blockquote>
+
+<p>当你构建你的应用在发布模式下，通过臀形 ant release 或者 使用 Eclipse 的Export Wizard ，这个时候构建系统会自动的检查和判断 proguard.config  的选择状态。如果开启混淆，ProGuard 会自动地处理应用的 字节代码 在打包任何东西在生成 .apk 文件之前。在调试的模式下通常不会使用 ProGuard ，因为这个会使调试的过程变得更加的繁琐。</p>
+
+<p>ProGuard 在运行后会输出下面的文件：<br />
+<strong>dump.txt</strong></p>
+
+<p>描述 所有类中 在apk文件中的内部结构。</p>
+
+<p><strong>mapping.txt</strong></p>
+
+<p>列出原始和混淆过后的类，方法和字段名称。这个文件是重要的，当你从发布构建中获取一份错误报告的时候。
+因为它意味着可以跟踪混淆过的堆栈耿总回到原来的类，方法、和成员的名称。由更加的信息，请参考解码混淆过的堆栈跟踪。</p>
+
+<p><strong>seeds.txt</strong></p>
+
+<p>列出没有被混淆的类和成员。</p>
+
+<p><strong>usage.txt</strong></p>
+
+<p>列出被 .apk中被剥夺的代码，这些文件在下面的目录中：</p>
+
+<ul>
+  <li><strong>project_root</strong>/bin/proguard 如果使用的是Ant</li>
+  <li><strong>project_root</strong>/proguard 如果使用的是 Eclipse</li>
+</ul>
+
+<blockquote>
+  <p>Caution: 每一次都是在你发布的模式中运行构建。这些文件会被ProGuard最后生成的文件覆盖。每次保存一个副本当你发布你的应用程序以便释放构建反混淆错误的报告。关于更多的信息为什么要保存这些文件，看看程序发布调试的注意事项。</p>
+</blockquote>
+
+<h3 id="配置-proguard">配置 ProGuard</h3>
+<p>在某些情况下，默认配置 的 proguard.cfg 文件就已经足够了。尽管如此，更多的情况是ProGuard 很难的去分析 和它有可能移除代码是它认为这个是没用的，但你的程序确实需要的，例如：</p>
+
+<ul>
+  <li>一个类 只在 AndroidManifest.xml 文件 中被引用</li>
+  <li>一个使用 JNI 的方法</li>
+  <li>动态引用的字段和方法</li>
+</ul>
+
+<p>默认的 proguard.cfg 文件 试图覆盖的一般情况，但是你可能会遭遇到异常的情况，例如 ClassNotFoundException ，这个会发生在 当 ProGuard 除去一整个类 是你的应用程序 所需要的。</p>
+
+<p>你可以通过在 proguard.cfg 添加一行 -keep 去 修复 错误当 ProGuard 移除你的代码的时候，例如</p>
+
+<p>-keep public class MyClass</p>
+
+<p>当你使用 -keep 选项的时候，他们是有很多的选择和考虑的。因此这是个强烈推荐 你阅读 <a href="https://stuff.mit.edu/afs/sipb/project/android/sdk/android-sdk-linux/tools/proguard/docs/index.html#manual/introduction.html"> ProGuard Manual</a> 来获取更多的信息关于时定制你的 配置文件 。Keep选项 和 Examples 部分是特别有用的。<a href="https://stuff.mit.edu/afs/sipb/project/android/sdk/android-sdk-linux/tools/proguard/docs/index.html#manual/troubleshooting.html"> Troubleshooting </a> 在这个手册的故障排除中介绍了其他常见的问题，你可能会遇到你的代码被剥夺的情况。</p>
+
+<h3 id="decoding-obfuscated-stack-traces">Decoding Obfuscated Stack Traces</h3>
+<p>解析混淆过的堆栈踪迹</p>
+
+<p>当你的混淆过的代码输入到一个堆栈信息中，这些方法的名字是被混淆过的。这个会让调试更加困难，这个是可能的。幸运的，无论何时 ProGuard  运行，它会输入一个 project_root/bin/proguard/mapping.txt 文件。这个会显示和组织 你的类和方法、文件名字 映射到他们混淆后的名字。</p>
+
+<p>这个 windows 脚本 retrace.bat  或者 Linux Mac 的 retrace.sh 脚本 可以 让转换混淆的堆栈信息可读。它位于 sdk_root/tools/proguard/ 目录中。执行回溯工具的语言是：</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>retrace.bat</td>
+      <td>retrace.sh [-verbose] mapping.txt [<stacktrace_file>]</stacktrace_file></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>例如：</p>
+
+<p>retrace.bat -verbose mapping.txt obfuscated_trace.txt</p>
+
+<p>如果你不指定一个数值，retrace 工具会从标准输入中读取。</p>
+
+<p>###Debugging considerations for published applications</p>
+
+<p>保存 mapping.txt 当每个版本发布给用户的时候。通过保留每个副本的mapping.txt文件，可以确保你可以调试如果用户遇到的错误和用户提交混淆后的代码踪迹。一个项目mapping.txt 文件是覆盖到每一次构建项目的时候，因此你需要 关心保存哪个版本是你需要的。</p>
+
+<p>例如，假设你发布一个应用程序和继续发展新功能应用程序的新版本。你可以在不久后发布构建使用 ProGuard 。这个构建 生成 的mapping.txt 会覆盖之前的 mapping.txt 文件。用户提交一个bug 报告 是在应用程序中新出版的，里面包含了一个堆栈跟踪的信息。你不再有办法调试用户的堆栈跟踪信息，因为mapping.txt 文件与版本相关的信息是在用户的设备上面，还有其他的情况是有可能你的 mapping.txt文件 是可能被覆盖的，所以请确保你保存每一个副本文件，预测你可能需要调试的。</p>
+
+<p>如何保存 mapping.txt 文件是你的决定。例如，你可以 重命名这个文件的版本号和构建的编号，或者你可以连通你的源代码进行版本控制。</p>
+
+<hr />
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/read/2015/02/07/Android-Hacks-1-weights-%E7%9A%84%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>Android Hacks 1 weights的使用</span>
+                <p>  有人问，如何让一个 Button 是父布局的 50% width。</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/01/23/fragment%E5%92%8CActivity%E9%80%9A%E4%BF%A1.html" class="read-next-link"></a>
+            <section>
+                <span>fragment和Activity通信</span>
+                <p>Activity的生命周期  从这个图中可以知道Activity 的生命周期</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>

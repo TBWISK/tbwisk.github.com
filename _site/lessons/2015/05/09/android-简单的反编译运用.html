@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>android-简单的反编译运用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="android-简单的反编译运用">
+    <meta name="keywords"  content="hack">
+    <!-- Open Graph -->
+    <meta property="og:title" content="android-简单的反编译运用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2015/05/09/android-%E7%AE%80%E5%8D%95%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%90%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#hack" class="post-tag">hack</a>
+            
+            
+        </div>
+        <h1>android-简单的反编译运用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="15-05-09"><i class="iconfont icon-date"></i>09 May 2015</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="这个是简单的反编译运用">这个是简单的反编译运用</h3>
+
+<blockquote>
+  <p>首先我们需要知道在这次的反编译过程中需要用到的是什么软件？</p>
+</blockquote>
+
+<p>1：apktool2.0<br />
+2：dex2jar-2.0<br />
+3：jd-gui-0.3.5.windows</p>
+
+<p>可能在这些工具不是最近的，不过没关系。给你们一个最新的链接。  <br />
+1：<a href="sourceforge.net/projects/dex2jar/">dex2jar sourcefotget</a> <br />
+2：<a href="github.com/pxb1988/dex2jar">dex2jar github</a> <br />
+3: <a href="http://ibotpeaches.github.io/Apktool/">apktool</a></p>
+
+<p>我的使用的工具包的下载地址<a href="/assets/rar/apk反编译工具.rar">下载</a></p>
+
+<p>那么这次我们的目标是什么呢？好，那我们拿微信来练练手……<br />
+这次的微信版本是 weixin610android540 ，嗯，应该算是最新的在2015年5月9日中
+下载链接  pan.baidu.com/s/1kToYlvT   ehvl</p>
+
+<p><img src="/assets/picture/20150509111249.png" /></p>
+
+<p>首先把 weixin610android540.apk 复制一份到 apktool2.0的目录下面，运行cmd，cd 到该目录。然后使用命令   aoktool.bat d 【apk的名字】 然后运行完毕后的界面如下：</p>
+
+<p><img src="/assets/picture/20150509111617.jpg" /></p>
+
+<p>好，那么第一步完成的，打开  weixin610android540  这个 目录 <br />
+你会看到</p>
+
+<p><img src="/assets/picture/20150509112138.png" /></p>
+
+<p>好了，上面的就是微信的目录。。感觉挺简单吧。真的就是那么简单……</p>
+
+<p><img src="/assets/picture/20150509112506.png" /></p>
+
+<p>下面现在把 weixin610android540.apk 这个文件改名为 weixin610android540.rar 然后把 classes.dex  提取出来，放到dex2jar-2.0的目录下……然后直接双击运行  a_start.bat <br />
+运行后得到 classes-dex2jar.jar 这个文件，最后使用 jd-gui 打开 classes-dex2jar.jar 这个文件。 <br />
+好基本上就结束了……反编译over，嗯，没错……就是这么简单，所以说这篇只能是简单的反编译运用。</p>
+
+<p><img src="/assets/picture/20150509113318.png" /></p>
+
+<h3 id="小结">小结</h3>
+<p>对于安全性……感觉用了360的工具的app很安全，其他的通常都是某部分代码编译错误。为了保护核心不看到，通常使用的是so的核心机制，用c++写核心代码。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://localhost:4000/assets/img/profile.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/11/%E5%85%B3%E4%BA%8Ego%E7%9A%84%E5%B0%8F%E8%84%9A%E6%9C%AC%E8%BF%90%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>关于go的小脚本运用</span>
+                <p>介绍为什么会有这篇文章呢？首先前几天为了更好的翻墙和学习翻墙，不小心找到了一个可以免费翻墙的网站，但但是这个网站却...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/lessons/2015/05/07/Textview%E7%9A%84%E4%BB%BF%E5%BE%AE%E5%8D%9A%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>TextView的仿微博使用</span>
+                <p>介绍每次我们点击微博那个#内容#的时候，我们会如何去想这个是什么原理呢？从android移动端口去考虑。那么这个可...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>
