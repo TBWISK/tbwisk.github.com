@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello Jekyll - 方伟强的独立博客</title>
+    <title>Mysql优化问题 - 方伟强的独立博客</title>
     <meta name="author"  content="方伟强">
-    <meta name="description" content="Hello Jekyll">
-    <meta name="keywords"  content="jekyll">
+    <meta name="description" content="Mysql优化问题">
+    <meta name="keywords"  content="mysql">
     <!-- Open Graph -->
-    <meta property="og:title" content="Hello Jekyll - 方伟强的独立博客">
+    <meta property="og:title" content="Mysql优化问题 - 方伟强的独立博客">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://localhost:4000/2017/04/18/hello-jekyll.html">
+    <meta property="og:url" content="http://localhost:4000/2017/10/01/mysql%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98.html">
     <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
     <meta property="og:site_name" content="方伟强的独立博客">
     <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
@@ -48,49 +48,51 @@
 </header>
 
 
-<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default " data-theme="default">
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
     <div class="post-wrapper">
         <div class="post-tags">
             
             
-            <a href="http://localhost:4000/tags#jekyll" class="post-tag">jekyll</a>
+            <a href="http://localhost:4000/tags#mysql" class="post-tag">mysql</a>
             
             
         </div>
-        <h1>Hello Jekyll</h1>
+        <h1>Mysql优化问题</h1>
         <div class="post-meta">
-            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">Jekyll</a></></span>
-            <time class="post-meta-item" datetime="17-04-18"><i class="iconfont icon-date"></i>18 Apr 2017</time>
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="17-10-01"><i class="iconfont icon-date"></i>01 Oct 2017</time>
         </div>
     </div>
-    
-    <div class="filter"></div>
-    <div class="post-cover" style="background: url('http://on2171g4d.bkt.clouddn.com/jekyll-banner.png') center no-repeat; background-size: cover;">
     
 </header>
 
 <div class="post-content">
     
     <article class="markdown-body">
-        <blockquote>
-  <p>Transform your plain text into static websites and blogs.</p>
-</blockquote>
+        <h3 id="一问题">一：问题</h3>
+<p>在使用mysql数据库的过程中，会出现各种各样的问题。<br />
+1:慢查询<br />
+2:单表数据量大的问题<br />
+3:误操作问题</p>
 
-<h3 id="welcome">Welcome</h3>
+<h3 id="二慢查询">二：慢查询</h3>
 
-<p>This site aims to be a comprehensive guide to Jekyll. We’ll cover topics such as getting your site up and running, creating and managing your content, customizing the way your site works and looks, deploying to various environments, and give you some advice on participating in the future development of Jekyll itself.</p>
+<p>在遇到SQL慢查询的情况，得好好排除问题，判断是什么问题。导致SQL慢查询的因素有很多，可能存在硬件的问题和编写的SQL问题（大多数情况是这个）</p>
 
-<h3 id="so-what-is-jekyll-exactlypermalink">So what is Jekyll, exactly?Permalink</h3>
+<h4 id="引擎选择">引擎选择</h4>
+<p>在mysql需要主要的是，表单的设计以及引擎的选择。<br />
+mysql 常用的存储引擎包括 MYISAM、Innodb 和 Memory，其中各自的特点如下：</p>
 
-<p>Jekyll is a simple, blog-aware, static site generator. It takes a template directory containing raw text files in various formats, runs it through a converter (like <a href="https://daringfireball.net/projects/markdown/">Markdown</a>) and our <a href="https://github.com/Shopify/liquid/wiki">Liquid</a> renderer, and spits out a complete, ready-to-publish static website suitable for serving with your favorite web server. Jekyll also happens to be the engine behind GitHub Pages, which means you can use Jekyll to host your project’s page, blog, or website from GitHub’s servers for free.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1：MYISAM : 全表锁，拥有较高的执行速度，一个写请求请阻塞另外相同表格的所有读写请求，并发性能差，占用空间相对较小，mysql 5.5 及以下仅 MYISAM 支持全文索引，不支持事务。   
+2：Innodb：行级锁（SQL 都走索引查询），并发能力相对强，占用空间是 MYISAM 的 2.5 倍，不支持全文索引（5.6 开始支持），支持事务。   
+3：Memory : 全表锁，存储在内存当中，速度快，但会占用和数据量成正比的内存空间且数据在 mysql 重启时会丢失。   
+基于以上特性，建议绝大部份都设置为 innodb 引擎，特殊的业务再考虑选用 MYISAM 或 Memory ，如全文索引支持或极高的执行效率等。   
+</code></pre></div></div>
 
-<h3 id="helpful-hintspermalink">Helpful HintsPermalink</h3>
+<p>针对业务场景选择好的引擎，可以避免慢的查询问题。</p>
 
-<p>Throughout this guide there are a number of small-but-handy pieces of information that can make using Jekyll easier, more interesting, and less hazardous. Here’s what to look out for.</p>
-
-<h3 id="video-test">Video Test</h3>
-
-<iframe type="text/html" width="100%" height="385" src="http://www.youtube.com/embed/gfmjMWjn-Xg" frameborder="0"></iframe>
+<h4 id="检测数据慢查询">检测数据慢查询</h4>
+<p>EXPLAIN 指令。使用在</p>
 
     </article>
     
@@ -129,21 +131,12 @@
     </section>
     <section class="post-footer-item read-next">
         
-        <div class="read-next-item">
-            <a href="/lessons/2017/04/19/RecyclerView%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
-            <section>
-                <span>RecyclerView的简单使用</span>
-                <p>RecyclerView 的类似ListView的简单使用首先，我们要了解什么是RecyclerView，Recy...</p>
-            </section>
-            
-        </div>
-        
         
         <div class="read-next-item">
-            <a href="/2016/08/26/celeryPractice.html" class="read-next-link"></a>
+            <a href="/2017/09/30/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.html" class="read-next-link"></a>
             <section>
-                <span>celery 优化和实践以及遇到的问题</span>
-                <p>作为一个Celery使用重度用户，看到Celery Best Practices这篇文章,加入我们项目中celer...</p>
+                <span>数据库设计</span>
+                <p>数据库设计简介为什么要进行数据库设计？需求分析 -&gt; 逻辑设计 -&gt; 物理设计 -&gt; 维护优化1...</p>
             </section>
             
         </div>

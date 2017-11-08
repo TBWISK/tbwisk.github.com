@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecyclerView的简单使用 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="RecyclerView的简单使用">
+    <meta name="keywords"  content="android">
+    <!-- Open Graph -->
+    <meta property="og:title" content="RecyclerView的简单使用 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/lessons/2017/04/19/RecyclerView%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8.html">
+    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/prism.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/share.min.css">
+    <link rel="stylesheet" href="http://7xw9wf.com1.z0.glb.clouddn.com/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            
+            
+        </div>
+        <h1>RecyclerView的简单使用</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <time class="post-meta-item" datetime="17-04-19"><i class="iconfont icon-date"></i>19 Apr 2017</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h3 id="recyclerview-的类似listview的简单使用">RecyclerView 的类似ListView的简单使用</h3>
+<p>首先，我们要了解什么是RecyclerView，RecyclerView是v7包中的一个新控件。主要是为了替代listview和gridview的使用，可以很好的提高开发的效率和提升内存优化效率。 <br />
+那么下面介绍的是类似listview多布局的使用，在listview中，我们可以使用多个布局文件item，让布局看起来更加多样化。 <br />
+<!-- more -->
+那么RecyclerView是如何使用的呢？首先明确的是在eclipse中，有时候使用jar包的代码自动补全方面不怎么完善，这是个深坑。</p>
+
+<hr />
+
+<p>主要代码如下……</p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">arg0</span><span class="o">);</span>
+		<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_main</span><span class="o">);</span>
+		<span class="n">RecyclerView</span> <span class="n">lRecyclerView</span> <span class="o">=</span> <span class="o">(</span><span class="n">RecyclerView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">recylerView</span><span class="o">);</span>
+
+		<span class="n">LinearLayoutManager</span> <span class="n">layoutManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinearLayoutManager</span><span class="o">(</span><span class="k">this</span><span class="o">);</span><span class="c1">//RecyclerView的布局类型</span>
+		<span class="n">lRecyclerView</span><span class="o">.</span><span class="na">setLayoutManager</span><span class="o">(</span><span class="n">layoutManager</span><span class="o">);</span>
+
+		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span> <span class="n">one</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;();</span><span class="c1">//数据源</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name1"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name2"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name3"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name4"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name5"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name6"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name7"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name8"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name9"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name10"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name11"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name12"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name13"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name14"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name15"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name16"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name17"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name18"</span><span class="o">));</span>
+
+		<span class="n">RecyAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RecyAdapter</span><span class="o">(</span><span class="n">one</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span><span class="c1">//适配器使用的</span>
+		<span class="n">lRecyclerView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">adapter</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="kd">class</span> <span class="nc">RecyAdapter</span> <span class="kd">extends</span> <span class="n">Adapter</span><span class="o">&lt;</span><span class="n">RecyViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
+		<span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span> <span class="n">lists</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="n">Context</span> <span class="n">context</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="kt">int</span> <span class="n">TYPE1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="kt">int</span> <span class="n">TYPE2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="kt">int</span> <span class="n">TYPE3</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
+
+		<span class="kd">public</span> <span class="nf">RecyAdapter</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span> <span class="n">lists</span><span class="o">,</span> <span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">this</span><span class="o">.</span><span class="na">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">;</span>
+			<span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+			<span class="n">inflater</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getItemCount</span><span class="o">()</span> <span class="o">{</span><span class="c1">//总共有多少个item数目</span>
+			<span class="k">return</span> <span class="n">lists</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getItemViewType</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span><span class="c1">//item的布局类型</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">type</span> <span class="o">==</span> <span class="n">TYPE1</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="n">TYPE1</span><span class="o">;</span>
+			<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">type</span>  <span class="o">==</span> <span class="n">TYPE2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="n">TYPE2</span><span class="o">;</span>
+			<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="n">TYPE3</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="n">RecyViewHolder</span> <span class="n">arg0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span><span class="c1">//绑定数据源 注意坑就在这里，int类型是代表的是第几个……</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">getItemViewType</span><span class="o">(</span><span class="n">position</span><span class="o">)==</span><span class="n">TYPE1</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">arg0</span><span class="o">.</span><span class="na">tv_1</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">""</span><span class="o">+</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">name</span><span class="o">);</span>
+				<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">getItemViewType</span><span class="o">(</span><span class="n">position</span><span class="o">)==</span><span class="n">TYPE2</span><span class="o">)</span> <span class="o">{</span>
+					<span class="n">arg0</span><span class="o">.</span><span class="na">tv_name</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">""</span><span class="o">+</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">name</span><span class="o">);</span>
+					<span class="n">arg0</span><span class="o">.</span><span class="na">iv_2</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
+				<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+					<span class="n">arg0</span><span class="o">.</span><span class="na">iv_3</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">GREEN</span><span class="o">);</span>
+				<span class="o">}</span>
+		<span class="o">}</span>
+
+		<span class="nd">@Override</span>
+		<span class="kd">public</span> <span class="n">RecyViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">arg0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">types</span><span class="o">)</span> <span class="o">{</span><span class="c1">//绑定布局 这里也坑，types的类型是代表什么类型的布局</span>
+			
+			<span class="k">if</span> <span class="o">(</span><span class="n">types</span><span class="o">==</span><span class="n">TYPE1</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item1</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+				<span class="k">return</span> <span class="k">new</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">,</span><span class="n">types</span><span class="o">);</span>
+			<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">types</span><span class="o">==</span><span class="n">TYPE2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item2</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+				<span class="k">return</span> <span class="k">new</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">,</span><span class="n">types</span><span class="o">);</span>
+			<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+				<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item3</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+				<span class="k">return</span> <span class="k">new</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">,</span><span class="n">types</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+
+	<span class="o">}</span>
+
+	<span class="kd">class</span> <span class="nc">RecyViewHolder</span> <span class="kd">extends</span> <span class="n">ViewHolder</span> <span class="o">{</span><span class="c1">//ViewHolder 好熟悉吧，没错就是缓存用的</span>
+		<span class="kd">public</span> <span class="n">TextView</span> <span class="n">tv_1</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="n">ImageView</span> <span class="n">iv_2</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="n">TextView</span> <span class="n">tv_name</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="n">ImageView</span> <span class="n">iv_3</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="n">View</span> <span class="n">view</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">View</span> <span class="n">itemView</span><span class="o">,</span><span class="kt">int</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kd">super</span><span class="o">(</span><span class="n">itemView</span><span class="o">);</span>
+			<span class="n">view</span> <span class="o">=</span> <span class="n">itemView</span><span class="o">;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">type</span><span class="o">==</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">tv_1</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_1</span><span class="o">);</span>
+			<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">type</span><span class="o">==</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="n">iv_2</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_2</span><span class="o">);</span>
+				<span class="n">tv_name</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_name</span><span class="o">);</span>
+			<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
+				<span class="n">iv_3</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_3</span><span class="o">);</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+
+	<span class="o">}</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ItemType</span> <span class="o">{</span><span class="c1">//bean数据结构类型</span>
+	<span class="kd">public</span> <span class="nf">ItemType</span><span class="o">(</span><span class="kt">int</span> <span class="n">type</span><span class="o">,</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">type</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+	<span class="o">}</span>
+	<span class="kd">public</span> <span class="kt">int</span> <span class="n">type</span><span class="o">;</span>
+	<span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>主要的布局文件如何下： <br />
+R.layout.activity_test_main.xml布局</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+     <span class="nt">&lt;android.support.v7.widget.RecyclerView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/recylerView"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+        <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>item布局文件如下
+R.layout.activity_test_mian_item1.xml</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+    <span class="nt">&lt;TextView</span> <span class="na">android:id=</span><span class="s">"@+id/tv_1"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"48dp"</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+
+<p>R.layout.activity_test_mian_item2.xml</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/iv_2"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"20dp"</span>
+        <span class="na">android:background=</span><span class="s">"#cccccc"</span> <span class="nt">/&gt;</span>
+
+    <span class="nt">&lt;TextView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/tv_name"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+
+<p>R.layout.activity_test_mian_item3.xml</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span> <span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+    <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+    <span class="na">android:orientation=</span><span class="s">"vertical"</span> <span class="nt">&gt;</span>
+
+    <span class="nt">&lt;ImageView</span>
+        <span class="na">android:id=</span><span class="s">"@+id/iv_3"</span>
+        <span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+        <span class="na">android:layout_height=</span><span class="s">"20dp"</span>
+        <span class="na">android:layout_margin=</span><span class="s">"10dp"</span>
+        <span class="na">android:background=</span><span class="s">"#cccccccc"</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div></div>
+
+<hr />
+
+<p>效果图： <br />
+<img src="/assets/picture/20150713001525.png" /></p>
+
+<p>跟listview的使用一样，不过就是viewholder变成强制使用了。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="http://7xw9wf.com1.z0.glb.clouddn.com/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2017/09/30/%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1.html" class="read-next-link"></a>
+            <section>
+                <span>数据库设计</span>
+                <p>数据库设计简介为什么要进行数据库设计？需求分析 -&gt; 逻辑设计 -&gt; 物理设计 -&gt; 维护优化1...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/2017/04/18/hello-jekyll.html" class="read-next-link"></a>
+            <section>
+                <span>Hello Jekyll</span>
+                <p>  Transform your plain text into static websites and blogs.</p>
+            </section>
+            
+            <div class="filter"></div>
+            <img src="http://on2171g4d.bkt.clouddn.com/jekyll-banner.png" alt="">
+            
+        </div>
+        
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2017</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/prism.js"></script>
+<script src="http://7xw9wf.com1.z0.glb.clouddn.com/assets/js/index.min.js"></script>
+</body>
+</html>
