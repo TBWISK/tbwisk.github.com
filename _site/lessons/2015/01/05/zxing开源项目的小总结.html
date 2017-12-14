@@ -10,8 +10,8 @@
     <!-- Open Graph -->
     <meta property="og:title" content="zxing开源项目的小总结 - 方伟强的独立博客">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://localhost:4000/lessons/2015/01/05/zxing%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B0%8F%E6%80%BB%E7%BB%93.html">
-    <meta property="og:description" content="昵称悟空，千禧一代，前端开发者/伪极客/灵魂摄影师，热爱技术&设计。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:url" content="http://tbwisk.github.com/lessons/2015/01/05/zxing%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%B0%8F%E6%80%BB%E7%BB%93.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
     <meta property="og:site_name" content="方伟强的独立博客">
     <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
     <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
@@ -53,13 +53,13 @@
         <div class="post-tags">
             
             
-            <a href="http://localhost:4000/tags#android" class="post-tag">android</a>
+            <a href="http://tbwisk.github.com/tags#android" class="post-tag">android</a>
             
             
         </div>
         <h1>zxing开源项目的小总结</h1>
         <div class="post-meta">
-            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">方伟强</a></></span>
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://tbwisk.github.com" target="_blank" rel="author">方伟强</a></></span>
             <time class="post-meta-item" datetime="15-01-05"><i class="iconfont icon-date"></i>05 Jan 2015</time>
         </div>
     </div>
@@ -74,9 +74,9 @@
 zxing是一个关于用java实现的多种格式的1D/2D条码图形处理库。  <br />
 通常被我们用作扫二维码的开源库来使用，也就是扫二维码使用。在现在的手机版本中，我们的软件通常在兼容性方面还是要兼容好2.33 版本的android 也就是 android API 10的安卓系统的手机，  <br />
 于是，这个时候我们可以从github上面翻看他们的历史提交记录，从原始的代码中搜索他们曾经开展的过程以及开始到现在的源码提交写的是什么内容。  <br />
-现在我提供俩个下载，一个是自己弄好的了兼容api 10 的项目<a href="http://localhost:4000/assets/zip/zxing2.33_qcode.zip">项目下载右键另存为</a>这个只能扫描QR码. qcode</p>
+现在我提供俩个下载，一个是自己弄好的了兼容api 10 的项目<a href="http://tbwisk.github.com/assets/zip/zxing2.33_qcode.zip">项目下载右键另存为</a>这个只能扫描QR码. qcode</p>
 
-<p>至于我修改前的项目在<a href="http://localhost:4000/assets/zip/zxing2.33.zip">项目下载右键另存为</a>    里面的项目工程是扫描后可直接返回一个string的数据，也就是扫描的内容。当然，也可以在里面继续修改，从而得知扫描的类型是什么，如果是扫描的数据进行修改或者提交。
+<p>至于我修改前的项目在<a href="http://tbwisk.github.com/assets/zip/zxing2.33.zip">项目下载右键另存为</a>    里面的项目工程是扫描后可直接返回一个string的数据，也就是扫描的内容。当然，也可以在里面继续修改，从而得知扫描的类型是什么，如果是扫描的数据进行修改或者提交。
 	  个人建议，在中国，如果是利用二维码从事一些工作和项目。，那么还是不要直接使用QR码，中国大多数的软件都是扫QR码，那么保密性相对而言比较少，甚至可以说，别人一扫就知道你的内容从而猜出其他的内容。</p>
 
 <p>从某些行业应该使用较少使用的编码方式，甚至只有自己的软件才能使用，那么保密性会从而提升一个等级，甚至安全性也会提高一个等级。 <br />
@@ -180,6 +180,10 @@ zxing是一个关于用java实现的多种格式的1D/2D条码图形处理库。
         
     </section>
     
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
 </section>
 
 <footer class="g-footer">
@@ -208,7 +212,7 @@ this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your pag
 (function() { // DON'T EDIT BELOW THIS LINE
 var d = document, s = d.createElement('script');
 /*写入自己的disqus信息*/
-s.src = 'https://liaokeyu.disqus.com/embed.js';
+s.src = 'http://tbwisk.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();

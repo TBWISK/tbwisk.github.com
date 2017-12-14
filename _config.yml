@@ -31,7 +31,7 @@ nightMode: true
 
 # Comments
 disqus: true
-disqus_url: 'https://tbwisk.disqus.com/embed.js'
+disqus_url: 'http://tbwisk.disqus.com/embed.js'
 
 # Share
 social-share: true
