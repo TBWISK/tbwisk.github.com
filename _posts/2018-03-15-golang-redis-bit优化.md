@@ -3,7 +3,7 @@ layout: post
 title: 'golang-redis-bit优化'
 date: 2018-03-15
 author: tbwisk
-tags: golang,redis
+tags: golang redis
 ---
 
 涉及到redis bit 的操作以及优化
