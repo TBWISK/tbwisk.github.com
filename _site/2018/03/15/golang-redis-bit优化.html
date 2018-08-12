@@ -6,7 +6,7 @@
     <title>golang-redis-bit优化 - 方伟强的独立博客</title>
     <meta name="author"  content="方伟强">
     <meta name="description" content="golang-redis-bit优化">
-    <meta name="keywords"  content="golang,redis">
+    <meta name="keywords"  content="golang, redis">
     <!-- Open Graph -->
     <meta property="og:title" content="golang-redis-bit优化 - 方伟强的独立博客">
     <meta property="og:type" content="website">
@@ -53,7 +53,9 @@
         <div class="post-tags">
             
             
-            <a href="http://localhost:4000/tags#golang,redis" class="post-tag">golang,redis</a>
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            <a href="http://localhost:4000/tags#redis" class="post-tag">redis</a>
             
             
         </div>
@@ -69,7 +71,9 @@
 <div class="post-content">
     
     <article class="markdown-body">
-        <h2 id="使用背景">使用背景</h2>
+        <p>涉及到redis bit 的操作以及优化</p>
+
+<h2 id="使用背景">使用背景</h2>
 
 <p>在redis 中使用 bit 来统计用户的标签信息是否存在。 
 然后有些业务背景 会存在 使用redis pipeline 的方式循环调用该用户的全部标签。<br />
@@ -236,6 +240,15 @@ func GetBitmap(con redis.Conn, key string) []int {
         
     </section>
     <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2018/03/19/golang-%E9%80%9A%E7%94%A8%E4%BC%98%E5%8C%96.html" class="read-next-link"></a>
+            <section>
+                <span>golang-通用优化</span>
+                <p>在golang写服务的过程，以及到一些代码上的优化以及使用技巧。例如，大批量对象使用以及字符串拼写的问题。</p>
+            </section>
+            
+        </div>
         
         
         <div class="read-next-item">
