@@ -132,18 +132,18 @@ Go版本用于构建程序
 关联程序的位置
 注意，运行代理的进程在PID旁边标记了<em>(例如4132</em>)。</p>
 
-<h3 id="-gops-">$ gops <pid></pid></h3>
+<h3 id="-gops--pid">$ gops  pid</h3>
 <p>要报告关于进程的更多信息，运行gops后的PID:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops &lt;pid&gt;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops  pid 
 parent PID:	5985
 threads:	27
 memory usage:	0.199%
 cpu usage:	0.139%
 username:	jbd
 cmd+args:	/Applications/Splice.app/Contents/Resources/Splice Helper.app/Contents/MacOS/Splice Helper -pid 5985
-local/remote:	127.0.0.1:56765 &lt;-&gt; :0 (LISTEN)
-local/remote:	127.0.0.1:56765 &lt;-&gt; 127.0.0.1:50955 (ESTABLISHED)
-local/remote:	100.76.175.164:52353 &lt;-&gt; 54.241.191.232:443 (ESTABLISHED)
+local/remote:	127.0.0.1:56765  -  :0 (LISTEN)
+local/remote:	127.0.0.1:56765  -  127.0.0.1:50955 (ESTABLISHED)
+local/remote:	100.76.175.164:52353  -  54.241.191.232:443 (ESTABLISHED)
 </code></pre></div></div>
 
 <h3 id="-gops-tree">$ gops tree</h3>
@@ -160,10 +160,10 @@ local/remote:	100.76.175.164:52353 &lt;-&gt; 54.241.191.232:443 (ESTABLISHED)
     └── 67243 [gops] {go1.10}
 </code></pre></div></div>
 
-<h3 id="-gops-stack-">$ gops stack (<pid>|<addr>)</addr></pid></h3>
+<h3 id="-gops-stack--pid--addr-">$ gops stack ( pid | addr )</h3>
 <p>为了从目标程序打印当前堆栈跟踪，运行以下命令:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops stack (&lt;pid&gt;|&lt;addr&gt;)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops stack ( pid | addr )
 gops stack 85709
 goroutine 8 [running]:
 runtime/pprof.writeGoroutineStacks(0x13c7bc0, 0xc42000e008, 0xc420ec8520, 0xc420ec8520)
@@ -181,27 +181,27 @@ created by github.com/google/gops/agent.Listen
 # ...
 </code></pre></div></div>
 
-<h3 id="-gops-memstats-">$ gops memstats (<pid>|<addr>)</addr></pid></h3>
+<h3 id="-gops-memstats--pid--addr-">$ gops memstats ( pid | addr )</h3>
 <p>要打印当前的内存统计数据，运行以下命令:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops memstats (&lt;pid&gt;|&lt;addr&gt;)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops memstats ( pid | addr )
 </code></pre></div></div>
 
-<h3 id="gops-gc-">gops gc (<pid>|<addr>)</addr></pid></h3>
+<h3 id="gops-gc--pid--addr-">gops gc ( pid | addr )</h3>
 <p>如果希望强制在目标程序上运行垃圾收集，请运行gc。它将阻塞，直到GC完成。</p>
 
-<h3 id="gops-setgc-">$gops setgc (<pid>|<addr>)</addr></pid></h3>
+<h3 id="gops-setgc--pid--addr-">$gops setgc ( pid | addr )</h3>
 <p>将垃圾收集目标设置为一定的百分比。以下命令将其设置为10%:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops setgc (&lt;pid&gt;|&lt;addr&gt;) 10
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops setgc ( pid | addr ) 10
 </code></pre></div></div>
 
-<h3 id="-gops-version-">$ gops version (<pid>|<addr>)</addr></pid></h3>
+<h3 id="-gops-version--pid--addr-">$ gops version ( pid | addr )</h3>
 <p>gops报告目标程序的Go版本，如果您运行以下命令:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops version (&lt;pid&gt;|&lt;addr&gt;)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops version ( pid | addr )
 devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
 </code></pre></div></div>
 
-<h3 id="gops-stats-">gops stats (<pid>|<addr>)</addr></pid></h3>
+<h3 id="gops-stats--pid--addr-">gops stats ( pid | addr )</h3>
 <p>打印运行时统计信息，例如goroutines和gomaxproc的数量。</p>
 
 <h3 id="profiling">Profiling</h3>
@@ -209,15 +209,15 @@ devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
 <h4 id="pprof">Pprof</h4>
 <p>gops支持CPU和堆pprof配置文件。在读取堆或CPU概要文件之后，它将被分离到go工具pprof中，并允许您交互式地检查概要文件。
 要输入CPU profile ，运行:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-cpu (&lt;pid&gt;|&lt;addr&gt;)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-cpu ( pid | addr )
 </code></pre></div></div>
 <p>要进入堆 profile ，运行:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-heap (&lt;pid&gt;|&lt;addr&gt;)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-heap ( pid | addr )
 </code></pre></div></div>
 
 <h4 id="执行跟踪">执行跟踪</h4>
 <p>gops允许您启动运行时跟踪程序5秒钟并检查结果。</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops trace (&lt;pid&gt;|&lt;addr&gt;)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops trace ( pid | addr )
 </code></pre></div></div>
 
 <h3 id="总结">总结</h3>
