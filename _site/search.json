@@ -1,12 +1,6 @@
 [
   
     {
-      "title"    : "demo",
-      "tags"     : "golang",
-      "url"      : "/2018/07/10/gops%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8.html"
-    } ,
-  
-    {
       "title"    : "gops工具的使用",
       "tags"     : "golang",
       "url"      : "/2018/07/10/gops%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8.html"
