@@ -6,7 +6,7 @@ url: 'http://tbwisk.github.com' # your host
 
 # if you don't need baseurl, you should leave this value blank.
 baseurl: ''
-qiniu_url: 'http://7xw9wf.com1.z0.glb.clouddn.com/'
+qiniu_url: 'http://imgs.txrdb.xyz/'
 github_markdown_url: 'assets/css/github-markdown.css'
 prism_url: 'assets/css/prism.css'
 share_url: 'assets/css/share.min.css'
@@ -21,7 +21,7 @@ nav:
 author: '方伟强'
 nickname: 'tbwisk'
 bio: 'Python开发者&Android，热爱技术&设计，简单乐观爱创造'
-avatar: 'http://7xw9wf.com1.z0.glb.clouddn.com/author.png'
+avatar: 'http://imgs.txrdb.xyz/author.png'
 
 # Search
 search: true
