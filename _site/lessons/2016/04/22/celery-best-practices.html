@@ -101,48 +101,48 @@ workers（任务工作的进程们）可以在不同的机器上。</p>
 <p>如何去安装？</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-                    <span class="c"># install</span>
-                    <span class="n">pip</span> <span class="n">install</span> <span class="n">celery</span>
+                    <span class="c1"># install
+</span>                    <span class="n">pip</span> <span class="n">install</span> <span class="n">celery</span>
 
-                    <span class="c"># celeryconfig.py</span>
-                    <span class="n">RABBITMQ_PORT</span> <span class="o">=</span> <span class="s">'5672'</span>
+                    <span class="c1"># celeryconfig.py
+</span>                    <span class="n">RABBITMQ_PORT</span> <span class="o">=</span> <span class="s">'5672'</span>
                     <span class="n">RABBITMQ_USER</span> <span class="o">=</span> <span class="s">'user'</span>
                     <span class="n">RABBITMQ_PASS</span> <span class="o">=</span> <span class="s">'password'</span>
 
-                    <span class="n">BROKER_URL</span> <span class="o">=</span> <span class="s">'amqp://{0}:{1}@localhost:{2}//'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">BROKER_URL</span> <span class="o">=</span> <span class="s">'amqp://{0}:{1}@localhost:{2}//'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
                         <span class="n">RABBITMQ_USER</span><span class="p">,</span>
                         <span class="n">RABBITMQ_PASS</span><span class="p">,</span>
                         <span class="n">RABBITMQ_PORT</span><span class="p">)</span>
                     <span class="n">CELERY_IMPORTS</span> <span class="o">=</span> <span class="p">(</span><span class="s">'mymodule.tasks'</span><span class="p">,)</span>
 
-                    <span class="c"># and run it</span>
-                    <span class="n">celery</span> <span class="n">worker</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">l</span> <span class="n">INFO</span> <span class="o">-</span><span class="n">n</span> <span class="n">myWorker_1</span>
+                    <span class="c1"># and run it
+</span>                    <span class="n">celery</span> <span class="n">worker</span> <span class="o">-</span><span class="n">E</span> <span class="o">-</span><span class="n">l</span> <span class="n">INFO</span> <span class="o">-</span><span class="n">n</span> <span class="n">myWorker_1</span>
 </code></pre></div></div>
 
 <p>如何去使用？</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    <span class="c"># in tasks.py</span>
-                    <span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s">'myapp'</span><span class="p">)</span>
-                    <span class="n">app</span><span class="o">.</span><span class="n">config_from_object</span><span class="p">(</span><span class="s">'celeryconfig'</span><span class="p">)</span>
-                    <span class="c">## app.config_from_object('django.conf:settings')</span>
-                    <span class="c">## app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)</span>
-
-                    <span class="nd">@app.task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    <span class="c1"># in tasks.py
+</span>                    <span class="n">app</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s">'myapp'</span><span class="p">)</span>
+                    <span class="n">app</span><span class="p">.</span><span class="n">config_from_object</span><span class="p">(</span><span class="s">'celeryconfig'</span><span class="p">)</span>
+                    <span class="c1">## app.config_from_object('django.conf:settings')
+</span>                    <span class="c1">## app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
+</span>
+                    <span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
                     <span class="k">def</span> <span class="nf">regular_py_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
                         <span class="k">print</span><span class="p">(</span><span class="s">"Doing stuff..."</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>如何去使用?</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="c"># calling it</span>
-        <span class="kn">from</span> <span class="nn">tasks</span> <span class="kn">import</span> <span class="o">*</span>
-        <span class="n">regular_py_function</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="c1"># calling it
+</span>        <span class="kn">from</span> <span class="nn">tasks</span> <span class="kn">import</span> <span class="o">*</span>
+        <span class="n">regular_py_function</span><span class="p">.</span><span class="n">delay</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="c"># or</span>
-        <span class="n">regular_py_function</span><span class="o">.</span><span class="n">apply_async</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">retry</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="c1"># or
+</span>        <span class="n">regular_py_function</span><span class="p">.</span><span class="n">apply_async</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">retry</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-        <span class="c"># or even better</span>
-        <span class="kn">from</span> <span class="nn">celery.execute</span> <span class="kn">import</span> <span class="n">send_task</span>
+        <span class="c1"># or even better
+</span>        <span class="kn">from</span> <span class="nn">celery.execute</span> <span class="kn">import</span> <span class="n">send_task</span>
         <span class="n">send_task</span><span class="p">(</span><span class="s">"tasks.regular_py_function"</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{})</span>
 </code></pre></div></div>
 
@@ -151,8 +151,8 @@ workers（任务工作的进程们）可以在不同的机器上。</p>
 <p>1：不用使用数据库作为broker,这个是个坏的主义。甚至在开发环境中。 <br />
 2：使用多个队列，不要只使用默认队列</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#下面的代码存在问题</span>
- <span class="n">CELERY_QUEUES</span> <span class="o">=</span> <span class="p">(</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#下面的代码存在问题
+</span> <span class="n">CELERY_QUEUES</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">Queue</span><span class="p">(</span><span class="s">'default'</span><span class="p">,</span> <span class="n">Exchange</span><span class="p">(</span><span class="s">'default'</span><span class="p">),</span> <span class="n">routing_key</span><span class="o">=</span><span class="s">'default'</span><span class="p">),</span>
         <span class="n">Queue</span><span class="p">(</span><span class="s">'for_task_A'</span><span class="p">,</span> <span class="n">Exchange</span><span class="p">(</span><span class="s">'for_task_A'</span><span class="p">),</span> <span class="n">routing_key</span><span class="o">=</span><span class="s">'for_task_A'</span><span class="p">),</span>
         <span class="n">Queue</span><span class="p">(</span><span class="s">'for_task_B'</span><span class="p">,</span> <span class="n">Exchange</span><span class="p">(</span><span class="s">'for_task_B'</span><span class="p">),</span> <span class="n">routing_key</span><span class="o">=</span><span class="s">'for_task_B'</span><span class="p">),</span>
@@ -174,27 +174,27 @@ celery worker <span class="nt">-E</span> <span class="nt">-l</span> INFO <span c
 
 <p>4:使用错误处理器</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="n">app</span><span class="o">.</span><span class="n">task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default_retry_delay</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            <span class="n">app</span><span class="p">.</span><span class="n">task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default_retry_delay</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
             <span class="k">def</span> <span class="nf">awesome_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">print</span><span class="p">(</span><span class="s">"Doing some network IO"</span><span class="p">)</span>
-                    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://httpbin.org/get'</span><span class="p">)</span>
+                    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://httpbin.org/get'</span><span class="p">)</span>
                     <span class="n">parse_request</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-                <span class="k">except</span> <span class="n">ConnectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">except</span> <span class="nb">ConnectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
                 <span class="k">except</span> <span class="n">MyException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
                     <span class="n">do_some_cleanup</span><span class="p">()</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="c"># or don't</span>
-</code></pre></div></div>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="c1"># or don't
+</span></code></pre></div></div>
 
 <p>5:如果你们需要返回的结果，那么就跟踪结果。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> CELERY_IGNORE_RESULT = True
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> CELERY_IGNORE_RESULT = True
 </code></pre></div></div>
 
 <p>6:使用Flower-https://github.com/mher/flower</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            pip install flower
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>            pip install flower
             celery flower --port=5555 # http://localhost:5555/
 </code></pre></div></div>
 <p>a:任务进程和历史<br />
@@ -215,11 +215,11 @@ d:远程控制</p>
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -269,7 +269,7 @@ d:远程控制</p>
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

@@ -81,9 +81,9 @@
 <p>首先你需要先获取一个Context对象，理解Context()在继承关系上的结构。Application和Activity都是继续Context的。</p>
 
 <h4 id="写操作">写操作</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">Context</span> <span class="n">aContext</span> <span class="o">=</span><span class="n">getApplication</span><span class="o">();</span>
-	<span class="n">SharedPreferences</span> <span class="n">sharedPreferences</span> <span class="o">=</span> <span class="n">aContext</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="n">MODE_PRIVATE</span><span class="o">);</span>
-	<span class="n">Editor</span> <span class="n">editor</span> <span class="o">=</span> <span class="n">sharedPreferences</span><span class="o">.</span><span class="na">edit</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nc">Context</span> <span class="n">aContext</span> <span class="o">=</span><span class="n">getApplication</span><span class="o">();</span>
+	<span class="nc">SharedPreferences</span> <span class="n">sharedPreferences</span> <span class="o">=</span> <span class="n">aContext</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="no">MODE_PRIVATE</span><span class="o">);</span>
+	<span class="nc">Editor</span> <span class="n">editor</span> <span class="o">=</span> <span class="n">sharedPreferences</span><span class="o">.</span><span class="na">edit</span><span class="o">();</span>
 	<span class="n">editor</span><span class="o">.</span><span class="na">putBoolean</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
 	<span class="n">editor</span><span class="o">.</span><span class="na">putFloat</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
 	<span class="n">editor</span><span class="o">.</span><span class="na">putInt</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
@@ -96,21 +96,21 @@
 name是文件的名字，若存在则打开，不存在则新建一个。mode是存在Context中的静态int 数据标志flag，有MODE_PRIVATE，MODE_WORLD_READABLE，MODE_WORLD_WRITEABLE，MODE_MULTI_PROCESS 但MODE_WORLD_READABLE，MODE_WORLD_WRITEABLE不推荐被使用。通常使用需要用 Context.MODE_PRIVATE</p>
 
 <h4 id="读操作">读操作</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="n">Context</span> <span class="n">aContext</span> <span class="o">=</span><span class="n">getApplication</span><span class="o">();</span>
-	<span class="n">SharedPreferences</span> <span class="n">sharedPreferences</span> <span class="o">=</span> <span class="n">aContext</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="n">MODE_PRIVATE</span><span class="o">);</span>
-	<span class="n">String</span> <span class="n">kk</span> <span class="o">=</span> <span class="n">sharedPreferences</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defValue</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="nc">Context</span> <span class="n">aContext</span> <span class="o">=</span><span class="n">getApplication</span><span class="o">();</span>
+	<span class="nc">SharedPreferences</span> <span class="n">sharedPreferences</span> <span class="o">=</span> <span class="n">aContext</span><span class="o">.</span><span class="na">getSharedPreferences</span><span class="o">(</span><span class="s">"name"</span><span class="o">,</span> <span class="no">MODE_PRIVATE</span><span class="o">);</span>
+	<span class="nc">String</span> <span class="n">kk</span> <span class="o">=</span> <span class="n">sharedPreferences</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">defValue</span><span class="o">);</span>
 </code></pre></div></div>
 <p>这个需要注意的是defvalue的值，这个读取数据当这个key没有数据的时候的返回值。</p>
 
 <h3 id="保存到文件file">保存到文件File</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">File</span><span class="o">(</span><span class="n">File</span> <span class="n">dir</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span>   
-<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">file</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">and</span> <span class="n">name</span><span class="o">.</span>   
-<span class="nf">File</span><span class="o">(</span><span class="n">String</span> <span class="n">path</span><span class="o">)</span>   
-<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">file</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">path</span><span class="o">.</span>   
-<span class="nf">File</span><span class="o">(</span><span class="n">String</span> <span class="n">dirPath</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span>   
-<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">File</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">path</span> <span class="n">and</span> <span class="n">file</span> <span class="n">name</span><span class="o">,</span> <span class="n">placing</span> <span class="n">a</span> <span class="n">path</span> <span class="n">separator</span> <span class="n">between</span> <span class="n">the</span> <span class="n">two</span><span class="o">.</span>    
-<span class="nf">File</span><span class="o">(</span><span class="n">URI</span> <span class="n">uri</span><span class="o">)</span>    
-<span class="n">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">File</span> <span class="n">using</span> <span class="n">the</span> <span class="n">path</span> <span class="n">of</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">URI</span><span class="o">.</span>  
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">File</span><span class="o">(</span><span class="nc">File</span> <span class="n">dir</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span>   
+<span class="nc">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">file</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">and</span> <span class="n">name</span><span class="o">.</span>   
+<span class="nf">File</span><span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="o">)</span>   
+<span class="nc">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="n">file</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">path</span><span class="o">.</span>   
+<span class="nf">File</span><span class="o">(</span><span class="nc">String</span> <span class="n">dirPath</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">)</span>   
+<span class="nc">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="nc">File</span> <span class="n">using</span> <span class="n">the</span> <span class="n">specified</span> <span class="n">directory</span> <span class="n">path</span> <span class="n">and</span> <span class="n">file</span> <span class="n">name</span><span class="o">,</span> <span class="n">placing</span> <span class="n">a</span> <span class="n">path</span> <span class="n">separator</span> <span class="n">between</span> <span class="n">the</span> <span class="n">two</span><span class="o">.</span>    
+<span class="nf">File</span><span class="o">(</span><span class="no">URI</span> <span class="n">uri</span><span class="o">)</span>    
+<span class="nc">Constructs</span> <span class="n">a</span> <span class="k">new</span> <span class="nc">File</span> <span class="n">using</span> <span class="n">the</span> <span class="n">path</span> <span class="n">of</span> <span class="n">the</span> <span class="n">specified</span> <span class="no">URI</span><span class="o">.</span>  
 </code></pre></div></div>
 
 <p>这个时候需要科普的是指是，android 设备有俩个文件存储区域，”internal”和”external”储存，sd card （external storage）为可卸载的存储部件。虽然后来有点变化，但从一块手机内置的储存中，在逻辑上是分为internl和external  <br />
@@ -150,34 +150,34 @@ name是文件的名字，若存在则打开，不存在则新建一个。mode是
   <li>context.getFilesDir() :返回一个file，表示你的app的internal目录</li>
   <li>context.getCacheDir() ：返回一个file，表示你的app的internal缓存目录，既然是缓存目录，那么就是这个文件一旦不需要的时候能够马上被删除，而且给予明确的缓存大小。在系统的内部储存空间不够的时候，会自动选择删除缓存文件。 <br />
 在那些目录下可以创建新的文件，如下
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">getFilesDir</span><span class="o">(),</span> <span class="s">"filename"</span><span class="o">);</span>
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">getFilesDir</span><span class="o">(),</span> <span class="s">"filename"</span><span class="o">);</span>
 </code></pre></div>    </div>
   </li>
 </ul>
 
 <p>有多种的方式可以写入internal目录，例如执行openFileOutput来获取一个FileOutputStream来写入目录。这个方面需要了解一下linux的I/O 函数的使用，毕竟android的内核是linux</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	 <span class="n">String</span> <span class="n">filename</span> <span class="o">=</span> <span class="s">"newfile"</span><span class="o">;</span>
-     <span class="n">String</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"Hello world!"</span><span class="o">;</span>
-     <span class="n">FileOutputStream</span> <span class="n">outputStream</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	 <span class="nc">String</span> <span class="n">filename</span> <span class="o">=</span> <span class="s">"newfile"</span><span class="o">;</span>
+     <span class="nc">String</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"Hello world!"</span><span class="o">;</span>
+     <span class="nc">FileOutputStream</span> <span class="n">outputStream</span><span class="o">;</span>
      <span class="k">try</span> <span class="o">{</span>
-       	  <span class="n">outputStream</span> <span class="o">=</span> <span class="n">openFileOutput</span><span class="o">(</span><span class="n">filename</span><span class="o">,</span> <span class="n">Context</span><span class="o">.</span><span class="na">MODE_PRIVATE</span><span class="o">);</span>
+       	  <span class="n">outputStream</span> <span class="o">=</span> <span class="n">openFileOutput</span><span class="o">(</span><span class="n">filename</span><span class="o">,</span> <span class="nc">Context</span><span class="o">.</span><span class="na">MODE_PRIVATE</span><span class="o">);</span>
           <span class="n">outputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">string</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
           <span class="n">outputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
          	<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
         <span class="o">}</span>
 </code></pre></div></div>
 <p>在上面的方法中，需要注意的是  留意 ContextWrapper类，这个是对Context的代理实现一些方法。里面有对文件路径的获取方法。
 写入目录。这个方面需要了解一下linux的I/O 函数的使用，毕竟android的内核是linux <br />
 创建缓存文件的另一个方法就是   File.createTempFile();</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="n">File</span> <span class="nf">getTempFile</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span> <span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
-    	<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="nc">File</span> <span class="nf">getTempFile</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span> <span class="nc">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+    	<span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
     	<span class="k">try</span> <span class="o">{</span>
-    		<span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">getLastPathSegment</span><span class="o">();</span>
-    		<span class="n">file</span> <span class="o">=</span> <span class="n">File</span><span class="o">.</span><span class="na">createTempFile</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">context</span><span class="o">.</span><span class="na">getCacheDir</span><span class="o">());</span>
+    		<span class="nc">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="nc">Uri</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">url</span><span class="o">).</span><span class="na">getLastPathSegment</span><span class="o">();</span>
+    		<span class="n">file</span> <span class="o">=</span> <span class="nc">File</span><span class="o">.</span><span class="na">createTempFile</span><span class="o">(</span><span class="n">fileName</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="n">context</span><span class="o">.</span><span class="na">getCacheDir</span><span class="o">());</span>
     		<span class="c1">//从某种角度，函数有多种，基本都有自己的职能。在某一领域适用</span>
     	<span class="o">}</span>
-    		<span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    		<span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
     	<span class="c1">// Error while creating file</span>
     	<span class="o">}</span>
     	<span class="k">return</span> <span class="n">file</span><span class="o">;</span>
@@ -192,17 +192,17 @@ name是文件的名字，若存在则打开，不存在则新建一个。mode是
 <p>首先，我们可以确定的是 external storage 可能是不可用的，比如SD卡被拔出，那么在访问之前需要判断是否可用。可以用 getExternalStorageState()来查询external storage的状态。如果返回的 MEDIA_MOUNTED ，那么该External Storage就可读写。详情注意 一下 Environment 类</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cm">/*下面的函数判断external storage 是否可读可写 */</span>
     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isExternalStorageWritable</span><span class="o">()</span> <span class="o">{</span>
-    	<span class="n">String</span> <span class="n">state</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStorageState</span><span class="o">();</span>
-    	<span class="k">if</span> <span class="o">(</span><span class="n">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
+    	<span class="nc">String</span> <span class="n">state</span> <span class="o">=</span> <span class="nc">Environment</span><span class="o">.</span><span class="na">getExternalStorageState</span><span class="o">();</span>
+    	<span class="k">if</span> <span class="o">(</span><span class="nc">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
     		<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     	<span class="o">}</span>
     	<span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
     <span class="o">}</span>
     <span class="cm">/* 检查external storage 至少可以读*/</span>
     <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isExternalStorageReadable</span><span class="o">()</span> <span class="o">{</span>
-    	<span class="n">String</span> <span class="n">state</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStorageState</span><span class="o">();</span>
-    	<span class="k">if</span> <span class="o">(</span><span class="n">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">)</span> <span class="o">||</span>
-    		<span class="n">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED_READ_ONLY</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
+    	<span class="nc">String</span> <span class="n">state</span> <span class="o">=</span> <span class="nc">Environment</span><span class="o">.</span><span class="na">getExternalStorageState</span><span class="o">();</span>
+    	<span class="k">if</span> <span class="o">(</span><span class="nc">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">)</span> <span class="o">||</span>
+    		<span class="nc">Environment</span><span class="o">.</span><span class="na">MEDIA_MOUNTED_READ_ONLY</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">state</span><span class="o">))</span> <span class="o">{</span>
     	<span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     <span class="o">}</span>
     <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
@@ -251,11 +251,11 @@ File 的getFreeSpace() 函数，返回的是long，单位bytes<br />
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -305,7 +305,7 @@ File 的getFreeSpace() 函数，返回的是long，单位bytes<br />
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

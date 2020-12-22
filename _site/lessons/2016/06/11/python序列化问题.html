@@ -84,14 +84,14 @@ c&gt;xml 序列化</p>
 <span class="k">except</span> <span class="nb">ImportError</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">pickle</span>
 
-<span class="kn">import</span> <span class="nn">redis</span> <span class="c"># pip install redis</span>
-
-<span class="n">r</span> <span class="o">=</span> <span class="n">redis</span><span class="o">.</span><span class="n">StrictRedis</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="s">"localhost"</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">redis</span> <span class="c1"># pip install redis
+</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">redis</span><span class="p">.</span><span class="n">StrictRedis</span><span class="p">(</span><span class="n">h</span><span class="o">=</span><span class="s">"localhost"</span><span class="p">)</span>
 <span class="n">l_item</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
 
-<span class="n">r</span><span class="o">.</span><span class="nb">set</span><span class="p">(</span><span class="s">"list"</span><span class="p">,</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">l_item</span><span class="p">))</span> <span class="c">#把数据set进redis</span>
-<span class="n">p1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">"list"</span><span class="p">)</span>
-<span class="n">l_p_item</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="n">r</span><span class="p">.</span><span class="nb">set</span><span class="p">(</span><span class="s">"list"</span><span class="p">,</span><span class="n">pickle</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">l_item</span><span class="p">))</span> <span class="c1">#把数据set进redis
+</span><span class="n">p1</span> <span class="o">=</span> <span class="n">r</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"list"</span><span class="p">)</span>
+<span class="n">l_p_item</span> <span class="o">=</span> <span class="n">pickle</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">l_p_item</span><span class="p">:</span>
      <span class="k">print</span> <span class="n">item</span><span class="p">,</span>
 
@@ -111,11 +111,11 @@ c&gt;xml 序列化</p>
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -165,7 +165,7 @@ c&gt;xml 序列化</p>
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

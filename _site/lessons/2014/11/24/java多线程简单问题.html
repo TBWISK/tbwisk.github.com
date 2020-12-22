@@ -76,18 +76,18 @@
 
 <h3 id="多线程编程的好处是什么">多线程编程的好处是什么？</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在多线程序中，多个线程被并发的执行以提高程序的效率，CPU不会因为某个线程需要等待资源而进入空闲的状态。多个线程共享堆内存，因此创建多个线程去执行一些任务会比创建多个进程更好。例如在下载文件的时候，多个线程的下载是共享下载的资源的，所以多个线程的下载可以更快。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>在多线程序中，多个线程被并发的执行以提高程序的效率，CPU不会因为某个线程需要等待资源而进入空闲的状态。多个线程共享堆内存，因此创建多个线程去执行一些任务会比创建多个进程更好。例如在下载文件的时候，多个线程的下载是共享下载的资源的，所以多个线程的下载可以更快。
 </code></pre></div></div>
 
 <h3 id="如何在java中运用多线程">如何在java中运用多线程</h3>
 <h4 id="对某一资源的共同使用和修改">对某一资源的共同使用和修改</h4>
 <p>对于资源的使用，有可能会出现同一时间内对对象的使用，造成错误的发生。例如下面的代码</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test02</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">Run1</span> <span class="n">run</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Run1</span><span class="o">();</span>
-		<span class="n">Thread</span> <span class="n">th</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
-		<span class="n">Thread</span> <span class="n">th1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
-		<span class="n">Thread</span> <span class="n">th2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">Run1</span> <span class="n">run</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Run1</span><span class="o">();</span>
+		<span class="nc">Thread</span> <span class="n">th</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
+		<span class="nc">Thread</span> <span class="n">th1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
+		<span class="nc">Thread</span> <span class="n">th2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
 		<span class="n">th</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
 		<span class="n">th1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
 		<span class="n">th2</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
@@ -95,14 +95,14 @@
 
 <span class="o">}</span>
 
- <span class="kd">class</span> <span class="nc">Run1</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+ <span class="kd">class</span> <span class="nc">Run1</span> <span class="kd">implements</span> <span class="nc">Runnable</span><span class="o">{</span>
 	 <span class="kd">private</span>  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">100</span><span class="o">;</span>
 
 	<span class="nd">@Override</span>
 	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
 		<span class="c1">// TODO Auto-generated method stub</span>
 		<span class="k">while</span><span class="o">(</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">){</span>
-			<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">"   "</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
+			<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">"   "</span><span class="o">+</span><span class="n">i</span><span class="o">);</span>
 			<span class="n">i</span><span class="o">--;</span>
 		<span class="o">}</span>
 		
@@ -116,12 +116,12 @@
 <p>在这个时候需要在某段代码中使用锁，来确保这段代码只能某个线程去访问。synchronized（）这个很好的复合的代码的保护。</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test02</span> <span class="o">{</span>
-	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">Run1</span> <span class="n">run</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Run1</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">Run1</span> <span class="n">run</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Run1</span><span class="o">();</span>
 		
-		<span class="n">Thread</span> <span class="n">th</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
-		<span class="n">Thread</span> <span class="n">th1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
-		<span class="n">Thread</span> <span class="n">th2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
+		<span class="nc">Thread</span> <span class="n">th</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
+		<span class="nc">Thread</span> <span class="n">th1</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
+		<span class="nc">Thread</span> <span class="n">th2</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">run</span><span class="o">);</span>
 		
 		<span class="n">th</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
 		<span class="n">th1</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
@@ -130,10 +130,10 @@
 
 <span class="o">}</span>
 
- <span class="kd">class</span> <span class="nc">Run1</span> <span class="kd">implements</span> <span class="n">Runnable</span><span class="o">{</span>
+ <span class="kd">class</span> <span class="nc">Run1</span> <span class="kd">implements</span> <span class="nc">Runnable</span><span class="o">{</span>
 	 <span class="kd">private</span>  <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span><span class="mi">10000</span><span class="o">;</span>
-	 <span class="kd">private</span> <span class="n">Object</span> <span class="n">one</span><span class="o">=</span><span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
-	 <span class="kd">private</span> <span class="n">Boolean</span> <span class="n">changed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
+	 <span class="kd">private</span> <span class="nc">Object</span> <span class="n">one</span><span class="o">=</span><span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+	 <span class="kd">private</span> <span class="nc">Boolean</span> <span class="n">changed</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
 	<span class="nd">@Override</span>
 	<span class="kd">public</span>  <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
 		<span class="c1">// TODO Auto-generated method stub</span>
@@ -142,7 +142,7 @@
 			<span class="k">if</span><span class="o">(</span><span class="n">i</span><span class="o">!=</span><span class="mi">1</span><span class="o">){</span>
 				
 			<span class="kd">synchronized</span> <span class="o">(</span><span class="n">one</span><span class="o">)</span> <span class="o">{</span>
-				 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">"   "</span><span class="o">+</span><span class="n">i</span><span class="o">--);</span>
+				 <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()+</span><span class="s">"   "</span><span class="o">+</span><span class="n">i</span><span class="o">--);</span>
 			<span class="o">}</span>
 			<span class="o">}</span><span class="k">else</span> <span class="n">changed</span><span class="o">=</span><span class="kc">false</span><span class="o">;</span>
 		<span class="o">}</span>
@@ -160,14 +160,14 @@
 方法con.await() con.signal();</p>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">BoundedBuffer</span> <span class="o">{</span>
-   <span class="kd">final</span> <span class="n">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReentrantLock</span><span class="o">();</span>
-   <span class="kd">final</span> <span class="n">Condition</span> <span class="n">notFull</span>  <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span> 
-   <span class="kd">final</span> <span class="n">Condition</span> <span class="n">notEmpty</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span> 
+   <span class="kd">final</span> <span class="nc">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReentrantLock</span><span class="o">();</span>
+   <span class="kd">final</span> <span class="nc">Condition</span> <span class="n">notFull</span>  <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span> 
+   <span class="kd">final</span> <span class="nc">Condition</span> <span class="n">notEmpty</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span> 
 
-   <span class="kd">final</span> <span class="n">Object</span><span class="o">[]</span> <span class="n">items</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">[</span><span class="mi">100</span><span class="o">];</span>
+   <span class="kd">final</span> <span class="nc">Object</span><span class="o">[]</span> <span class="n">items</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">[</span><span class="mi">100</span><span class="o">];</span>
    <span class="kt">int</span> <span class="n">putptr</span><span class="o">,</span> <span class="n">takeptr</span><span class="o">,</span> <span class="n">count</span><span class="o">;</span>
 
-   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="n">Object</span> <span class="n">x</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="nc">Object</span> <span class="n">x</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
      <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
      <span class="k">try</span> <span class="o">{</span>
        <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span>
@@ -181,12 +181,12 @@
      <span class="o">}</span>
    <span class="o">}</span>
 
-   <span class="kd">public</span> <span class="n">Object</span> <span class="nf">take</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+   <span class="kd">public</span> <span class="nc">Object</span> <span class="nf">take</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
      <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
      <span class="k">try</span> <span class="o">{</span>
        <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>
          <span class="n">notEmpty</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
-       <span class="n">Object</span> <span class="n">x</span> <span class="o">=</span> <span class="n">items</span><span class="o">[</span><span class="n">takeptr</span><span class="o">];</span>
+       <span class="nc">Object</span> <span class="n">x</span> <span class="o">=</span> <span class="n">items</span><span class="o">[</span><span class="n">takeptr</span><span class="o">];</span>
        <span class="k">if</span> <span class="o">(++</span><span class="n">takeptr</span> <span class="o">==</span> <span class="n">items</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="n">takeptr</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
        <span class="o">--</span><span class="n">count</span><span class="o">;</span>
        <span class="n">notFull</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
@@ -217,11 +217,11 @@
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -271,7 +271,7 @@
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

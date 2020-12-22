@@ -76,7 +76,7 @@
 </blockquote>
 
 <p>Toast的使用是十分的简单的。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"Hi!"</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="s">"Hi!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
 </code></pre></div></div>
 <p>有时候我们需要Toast的弹出的位置刚好当前控件的位置，那么如何去控制呢？<br />
 这个时候涉及到</p>
@@ -128,51 +128,51 @@
 
 <p>下面是Activity的代码</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test7</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test7</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
 		<span class="c1">// TODO Auto-generated method stub</span>
 		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-		<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test7</span><span class="o">);</span>
-		<span class="n">Button</span> <span class="n">button1</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">);</span>
-		<span class="n">Button</span> <span class="n">button2</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">);</span>
-		<span class="n">Button</span> <span class="n">button3</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button3</span><span class="o">);</span>
-		<span class="n">Button</span> <span class="n">button4</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button4</span><span class="o">);</span>
+		<span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test7</span><span class="o">);</span>
+		<span class="nc">Button</span> <span class="n">button1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">);</span>
+		<span class="nc">Button</span> <span class="n">button2</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">);</span>
+		<span class="nc">Button</span> <span class="n">button3</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button3</span><span class="o">);</span>
+		<span class="nc">Button</span> <span class="n">button4</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button4</span><span class="o">);</span>
 		<span class="n">button1</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="n">onClickListener</span><span class="o">);</span>
 		<span class="n">button2</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="n">onClickListener</span><span class="o">);</span>
 		<span class="n">button3</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="n">onClickListener</span><span class="o">);</span>
 		<span class="n">button4</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="n">onClickListener</span><span class="o">);</span>
 	<span class="o">}</span>
 
-	<span class="kd">private</span> <span class="n">OnClickListener</span> <span class="n">onClickListener</span> <span class="o">=</span> <span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">OnClickListener</span> <span class="n">onClickListener</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
 
 		<span class="nd">@Override</span>
-		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
 
 			<span class="k">switch</span> <span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">getId</span><span class="o">())</span> <span class="o">{</span>
 
-			<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">:</span>
-				<span class="n">Toast</span> <span class="n">toast1</span> <span class="o">=</span> <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
-						<span class="s">"Bottom button1!"</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
-				<span class="n">toast1</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="n">Gravity</span><span class="o">.</span><span class="na">TOP</span> <span class="o">|</span> <span class="n">Gravity</span><span class="o">.</span><span class="na">LEFT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+			<span class="k">case</span> <span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button1</span><span class="o">:</span>
+				<span class="nc">Toast</span> <span class="n">toast1</span> <span class="o">=</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
+						<span class="s">"Bottom button1!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
+				<span class="n">toast1</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="nc">Gravity</span><span class="o">.</span><span class="na">TOP</span> <span class="o">|</span> <span class="nc">Gravity</span><span class="o">.</span><span class="na">LEFT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 				<span class="n">toast1</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
 				<span class="k">break</span><span class="o">;</span>
-			<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">:</span>
-				<span class="n">Toast</span> <span class="n">toast2</span> <span class="o">=</span> <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
-						<span class="s">"Bottom button2!"</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
-				<span class="n">toast2</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="n">Gravity</span><span class="o">.</span><span class="na">TOP</span> <span class="o">|</span> <span class="n">Gravity</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+			<span class="k">case</span> <span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button2</span><span class="o">:</span>
+				<span class="nc">Toast</span> <span class="n">toast2</span> <span class="o">=</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
+						<span class="s">"Bottom button2!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
+				<span class="n">toast2</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="nc">Gravity</span><span class="o">.</span><span class="na">TOP</span> <span class="o">|</span> <span class="nc">Gravity</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 				<span class="n">toast2</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
 				<span class="k">break</span><span class="o">;</span>
-			<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button3</span><span class="o">:</span>
-				<span class="n">Toast</span> <span class="n">toast3</span> <span class="o">=</span> <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
-						<span class="s">"Bottom button3!"</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
-				<span class="n">toast3</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="n">Gravity</span><span class="o">.</span><span class="na">BOTTOM</span> <span class="o">|</span> <span class="n">Gravity</span><span class="o">.</span><span class="na">LEFT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+			<span class="k">case</span> <span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button3</span><span class="o">:</span>
+				<span class="nc">Toast</span> <span class="n">toast3</span> <span class="o">=</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
+						<span class="s">"Bottom button3!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
+				<span class="n">toast3</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="nc">Gravity</span><span class="o">.</span><span class="na">BOTTOM</span> <span class="o">|</span> <span class="nc">Gravity</span><span class="o">.</span><span class="na">LEFT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 				<span class="n">toast3</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
 				<span class="k">break</span><span class="o">;</span>
-			<span class="k">case</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button4</span><span class="o">:</span>
-				<span class="n">Toast</span> <span class="n">toast4</span> <span class="o">=</span> <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
-						<span class="s">"Bottom button4!"</span><span class="o">,</span> <span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
-				<span class="n">toast4</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="n">Gravity</span><span class="o">.</span><span class="na">BOTTOM</span> <span class="o">|</span> <span class="n">Gravity</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+			<span class="k">case</span> <span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button4</span><span class="o">:</span>
+				<span class="nc">Toast</span> <span class="n">toast4</span> <span class="o">=</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">(),</span>
+						<span class="s">"Bottom button4!"</span><span class="o">,</span> <span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">);</span>
+				<span class="n">toast4</span><span class="o">.</span><span class="na">setGravity</span><span class="o">(</span><span class="nc">Gravity</span><span class="o">.</span><span class="na">BOTTOM</span> <span class="o">|</span> <span class="nc">Gravity</span><span class="o">.</span><span class="na">RIGHT</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 				<span class="n">toast4</span><span class="o">.</span><span class="na">show</span><span class="o">();</span>
 				<span class="k">break</span><span class="o">;</span>
 
@@ -217,11 +217,11 @@ toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT, 0, 0);</p>
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -271,7 +271,7 @@ toast.setGravity(Gravity.BOTTOM | Gravity.RIGHT, 0, 0);</p>
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

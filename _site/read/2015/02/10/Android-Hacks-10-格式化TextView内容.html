@@ -98,23 +98,23 @@
 </code></pre></div></div>
 
 <p>实现代码</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test6</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test6</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
 		<span class="c1">// TODO Auto-generated method stub</span>
 		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-		<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test6</span><span class="o">);</span>
+		<span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test6</span><span class="o">);</span>
 
-		<span class="n">TextView</span> <span class="n">mTextView1</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textview1</span><span class="o">);</span>
-		<span class="n">String</span> <span class="n">text</span> <span class="o">=</span> <span class="s">"Visit &lt;a href=\"http://www.it-ebooks.info/\"&gt;It ebooks info&lt;/a&gt;&lt;font color=\"red\"&gt;This is some text!&lt;/font&gt;"</span><span class="o">;</span>
-		<span class="n">mTextView1</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span><span class="n">text</span><span class="o">));</span>
-		<span class="n">mTextView1</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span><span class="c1">//涉及文本特定内容点击跳转</span>
+		<span class="nc">TextView</span> <span class="n">mTextView1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textview1</span><span class="o">);</span>
+		<span class="nc">String</span> <span class="n">text</span> <span class="o">=</span> <span class="s">"Visit &lt;a href=\"http://www.it-ebooks.info/\"&gt;It ebooks info&lt;/a&gt;&lt;font color=\"red\"&gt;This is some text!&lt;/font&gt;"</span><span class="o">;</span>
+		<span class="n">mTextView1</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="nc">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span><span class="n">text</span><span class="o">));</span>
+		<span class="n">mTextView1</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="nc">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span><span class="c1">//涉及文本特定内容点击跳转</span>
 
-		<span class="n">TextView</span> <span class="n">mTextView2</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textview2</span><span class="o">);</span>
+		<span class="nc">TextView</span> <span class="n">mTextView2</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">textview2</span><span class="o">);</span>
 		<span class="n">mTextView2</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"zaqweertyuiopsdfglxcvnmn"</span><span class="o">);</span>
-		<span class="n">Spannable</span> <span class="n">sText</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpannableString</span><span class="o">(</span><span class="n">mTextView2</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
-		<span class="n">sText</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="n">BackgroundColorSpan</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">),</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
-		<span class="n">sText</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="n">ForegroundColorSpan</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">BLUE</span><span class="o">),</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+		<span class="nc">Spannable</span> <span class="n">sText</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SpannableString</span><span class="o">(</span><span class="n">mTextView2</span><span class="o">.</span><span class="na">getText</span><span class="o">());</span>
+		<span class="n">sText</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="nc">BackgroundColorSpan</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">),</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+		<span class="n">sText</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="nc">ForegroundColorSpan</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">BLUE</span><span class="o">),</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 		<span class="n">mTextView2</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="n">sText</span><span class="o">);</span>
 
 	<span class="o">}</span>
@@ -146,11 +146,11 @@ SpannableString 的使用的时候注意范围，因为有些范围是一定的�
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -200,7 +200,7 @@ SpannableString 的使用的时候注意范围，因为有些范围是一定的�
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

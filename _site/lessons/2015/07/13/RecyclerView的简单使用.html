@@ -79,53 +79,53 @@
 <hr />
 
 <p>主要代码如下……</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TestActivity</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">arg0</span><span class="o">);</span>
-		<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_main</span><span class="o">);</span>
-		<span class="n">RecyclerView</span> <span class="n">lRecyclerView</span> <span class="o">=</span> <span class="o">(</span><span class="n">RecyclerView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">recylerView</span><span class="o">);</span>
+		<span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_main</span><span class="o">);</span>
+		<span class="nc">RecyclerView</span> <span class="n">lRecyclerView</span> <span class="o">=</span> <span class="o">(</span><span class="nc">RecyclerView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">recylerView</span><span class="o">);</span>
 
-		<span class="n">LinearLayoutManager</span> <span class="n">layoutManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinearLayoutManager</span><span class="o">(</span><span class="k">this</span><span class="o">);</span><span class="c1">//RecyclerView的布局类型</span>
+		<span class="nc">LinearLayoutManager</span> <span class="n">layoutManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LinearLayoutManager</span><span class="o">(</span><span class="k">this</span><span class="o">);</span><span class="c1">//RecyclerView的布局类型</span>
 		<span class="n">lRecyclerView</span><span class="o">.</span><span class="na">setLayoutManager</span><span class="o">(</span><span class="n">layoutManager</span><span class="o">);</span>
 
-		<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span> <span class="n">one</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;();</span><span class="c1">//数据源</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name1"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name2"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name3"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name4"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name5"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name6"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name7"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name8"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name9"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name10"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name11"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name12"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name13"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name14"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name15"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name16"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name17"</span><span class="o">));</span>
-		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name18"</span><span class="o">));</span>
+		<span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">ItemType</span><span class="o">&gt;</span> <span class="n">one</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">ItemType</span><span class="o">&gt;();</span><span class="c1">//数据源</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name1"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name2"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name3"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name4"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name5"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="s">"name6"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name7"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name8"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name9"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name10"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span><span class="s">"name11"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name12"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name13"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name14"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name15"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name16"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name17"</span><span class="o">));</span>
+		<span class="n">one</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">ItemType</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span><span class="s">"name18"</span><span class="o">));</span>
 
-		<span class="n">RecyAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">RecyAdapter</span><span class="o">(</span><span class="n">one</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span><span class="c1">//适配器使用的</span>
+		<span class="nc">RecyAdapter</span> <span class="n">adapter</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">RecyAdapter</span><span class="o">(</span><span class="n">one</span><span class="o">,</span> <span class="k">this</span><span class="o">);</span><span class="c1">//适配器使用的</span>
 		<span class="n">lRecyclerView</span><span class="o">.</span><span class="na">setAdapter</span><span class="o">(</span><span class="n">adapter</span><span class="o">);</span>
 	<span class="o">}</span>
 
-	<span class="kd">class</span> <span class="nc">RecyAdapter</span> <span class="kd">extends</span> <span class="n">Adapter</span><span class="o">&lt;</span><span class="n">RecyViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
-		<span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span> <span class="n">lists</span><span class="o">;</span>
-		<span class="kd">private</span> <span class="n">Context</span> <span class="n">context</span><span class="o">;</span>
-		<span class="kd">private</span> <span class="kt">int</span> <span class="n">TYPE1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
-		<span class="kd">private</span> <span class="kt">int</span> <span class="n">TYPE2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
-		<span class="kd">private</span> <span class="kt">int</span> <span class="n">TYPE3</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
-		<span class="kd">private</span> <span class="n">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
+	<span class="kd">class</span> <span class="nc">RecyAdapter</span> <span class="kd">extends</span> <span class="nc">Adapter</span><span class="o">&lt;</span><span class="nc">RecyViewHolder</span><span class="o">&gt;</span> <span class="o">{</span>
+		<span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ItemType</span><span class="o">&gt;</span> <span class="n">lists</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="kt">int</span> <span class="no">TYPE1</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="kt">int</span> <span class="no">TYPE2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="kt">int</span> <span class="no">TYPE3</span> <span class="o">=</span> <span class="mi">3</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="nc">LayoutInflater</span> <span class="n">inflater</span><span class="o">;</span>
 
-		<span class="kd">public</span> <span class="nf">RecyAdapter</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ItemType</span><span class="o">&gt;</span> <span class="n">lists</span><span class="o">,</span> <span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">public</span> <span class="nf">RecyAdapter</span><span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">ItemType</span><span class="o">&gt;</span> <span class="n">lists</span><span class="o">,</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
 			<span class="k">this</span><span class="o">.</span><span class="na">lists</span> <span class="o">=</span> <span class="n">lists</span><span class="o">;</span>
 			<span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
-			<span class="n">inflater</span> <span class="o">=</span> <span class="n">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+			<span class="n">inflater</span> <span class="o">=</span> <span class="nc">LayoutInflater</span><span class="o">.</span><span class="na">from</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
 		<span class="o">}</span>
 
 		<span class="nd">@Override</span>
@@ -135,71 +135,71 @@
 
 		<span class="nd">@Override</span>
 		<span class="kd">public</span> <span class="kt">int</span> <span class="nf">getItemViewType</span><span class="o">(</span><span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span><span class="c1">//item的布局类型</span>
-			<span class="k">if</span> <span class="o">(</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">type</span> <span class="o">==</span> <span class="n">TYPE1</span><span class="o">)</span> <span class="o">{</span>
-				<span class="k">return</span> <span class="n">TYPE1</span><span class="o">;</span>
-			<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">type</span>  <span class="o">==</span> <span class="n">TYPE2</span><span class="o">)</span> <span class="o">{</span>
-				<span class="k">return</span> <span class="n">TYPE2</span><span class="o">;</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">type</span> <span class="o">==</span> <span class="no">TYPE1</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="no">TYPE1</span><span class="o">;</span>
+			<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">type</span>  <span class="o">==</span> <span class="no">TYPE2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="k">return</span> <span class="no">TYPE2</span><span class="o">;</span>
 			<span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-				<span class="k">return</span> <span class="n">TYPE3</span><span class="o">;</span>
+				<span class="k">return</span> <span class="no">TYPE3</span><span class="o">;</span>
 			<span class="o">}</span>
 		<span class="o">}</span>
 
 		<span class="nd">@Override</span>
-		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="n">RecyViewHolder</span> <span class="n">arg0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span><span class="c1">//绑定数据源 注意坑就在这里，int类型是代表的是第几个……</span>
-				<span class="k">if</span> <span class="o">(</span><span class="n">getItemViewType</span><span class="o">(</span><span class="n">position</span><span class="o">)==</span><span class="n">TYPE1</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onBindViewHolder</span><span class="o">(</span><span class="nc">RecyViewHolder</span> <span class="n">arg0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">position</span><span class="o">)</span> <span class="o">{</span><span class="c1">//绑定数据源 注意坑就在这里，int类型是代表的是第几个……</span>
+				<span class="k">if</span> <span class="o">(</span><span class="n">getItemViewType</span><span class="o">(</span><span class="n">position</span><span class="o">)==</span><span class="no">TYPE1</span><span class="o">)</span> <span class="o">{</span>
 					<span class="n">arg0</span><span class="o">.</span><span class="na">tv_1</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">""</span><span class="o">+</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">name</span><span class="o">);</span>
-				<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">getItemViewType</span><span class="o">(</span><span class="n">position</span><span class="o">)==</span><span class="n">TYPE2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">getItemViewType</span><span class="o">(</span><span class="n">position</span><span class="o">)==</span><span class="no">TYPE2</span><span class="o">)</span> <span class="o">{</span>
 					<span class="n">arg0</span><span class="o">.</span><span class="na">tv_name</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">""</span><span class="o">+</span><span class="n">lists</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">position</span><span class="o">).</span><span class="na">name</span><span class="o">);</span>
-					<span class="n">arg0</span><span class="o">.</span><span class="na">iv_2</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
+					<span class="n">arg0</span><span class="o">.</span><span class="na">iv_2</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">RED</span><span class="o">);</span>
 				<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-					<span class="n">arg0</span><span class="o">.</span><span class="na">iv_3</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="n">Color</span><span class="o">.</span><span class="na">GREEN</span><span class="o">);</span>
+					<span class="n">arg0</span><span class="o">.</span><span class="na">iv_3</span><span class="o">.</span><span class="na">setBackgroundColor</span><span class="o">(</span><span class="nc">Color</span><span class="o">.</span><span class="na">GREEN</span><span class="o">);</span>
 				<span class="o">}</span>
 		<span class="o">}</span>
 
 		<span class="nd">@Override</span>
-		<span class="kd">public</span> <span class="n">RecyViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="n">ViewGroup</span> <span class="n">arg0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">types</span><span class="o">)</span> <span class="o">{</span><span class="c1">//绑定布局 这里也坑，types的类型是代表什么类型的布局</span>
+		<span class="kd">public</span> <span class="nc">RecyViewHolder</span> <span class="nf">onCreateViewHolder</span><span class="o">(</span><span class="nc">ViewGroup</span> <span class="n">arg0</span><span class="o">,</span> <span class="kt">int</span> <span class="n">types</span><span class="o">)</span> <span class="o">{</span><span class="c1">//绑定布局 这里也坑，types的类型是代表什么类型的布局</span>
 			
-			<span class="k">if</span> <span class="o">(</span><span class="n">types</span><span class="o">==</span><span class="n">TYPE1</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item1</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">types</span><span class="o">==</span><span class="no">TYPE1</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item1</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
 				<span class="k">return</span> <span class="k">new</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">,</span><span class="n">types</span><span class="o">);</span>
-			<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">types</span><span class="o">==</span><span class="n">TYPE2</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item2</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+			<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">types</span><span class="o">==</span><span class="no">TYPE2</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item2</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
 				<span class="k">return</span> <span class="k">new</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">,</span><span class="n">types</span><span class="o">);</span>
 			<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-				<span class="n">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item3</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+				<span class="nc">View</span> <span class="n">view</span> <span class="o">=</span> <span class="n">inflater</span><span class="o">.</span><span class="na">inflate</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">activity_test_mian_item3</span><span class="o">,</span> <span class="n">arg0</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
 				<span class="k">return</span> <span class="k">new</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">view</span><span class="o">,</span><span class="n">types</span><span class="o">);</span>
 			<span class="o">}</span>
 		<span class="o">}</span>
 
 	<span class="o">}</span>
 
-	<span class="kd">class</span> <span class="nc">RecyViewHolder</span> <span class="kd">extends</span> <span class="n">ViewHolder</span> <span class="o">{</span><span class="c1">//ViewHolder 好熟悉吧，没错就是缓存用的</span>
-		<span class="kd">public</span> <span class="n">TextView</span> <span class="n">tv_1</span><span class="o">;</span>
-		<span class="kd">public</span> <span class="n">ImageView</span> <span class="n">iv_2</span><span class="o">;</span>
-		<span class="kd">public</span> <span class="n">TextView</span> <span class="n">tv_name</span><span class="o">;</span>
-		<span class="kd">public</span> <span class="n">ImageView</span> <span class="n">iv_3</span><span class="o">;</span>
-		<span class="kd">private</span> <span class="n">View</span> <span class="n">view</span><span class="o">;</span>
-		<span class="kd">public</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="n">View</span> <span class="n">itemView</span><span class="o">,</span><span class="kt">int</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">class</span> <span class="nc">RecyViewHolder</span> <span class="kd">extends</span> <span class="nc">ViewHolder</span> <span class="o">{</span><span class="c1">//ViewHolder 好熟悉吧，没错就是缓存用的</span>
+		<span class="kd">public</span> <span class="nc">TextView</span> <span class="n">tv_1</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="nc">ImageView</span> <span class="n">iv_2</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="nc">TextView</span> <span class="n">tv_name</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="nc">ImageView</span> <span class="n">iv_3</span><span class="o">;</span>
+		<span class="kd">private</span> <span class="nc">View</span> <span class="n">view</span><span class="o">;</span>
+		<span class="kd">public</span> <span class="nf">RecyViewHolder</span><span class="o">(</span><span class="nc">View</span> <span class="n">itemView</span><span class="o">,</span><span class="kt">int</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
 			<span class="kd">super</span><span class="o">(</span><span class="n">itemView</span><span class="o">);</span>
 			<span class="n">view</span> <span class="o">=</span> <span class="n">itemView</span><span class="o">;</span>
 			<span class="k">if</span> <span class="o">(</span><span class="n">type</span><span class="o">==</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">tv_1</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_1</span><span class="o">);</span>
+				<span class="n">tv_1</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_1</span><span class="o">);</span>
 			<span class="o">}</span><span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">type</span><span class="o">==</span><span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">iv_2</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_2</span><span class="o">);</span>
-				<span class="n">tv_name</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_name</span><span class="o">);</span>
+				<span class="n">iv_2</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_2</span><span class="o">);</span>
+				<span class="n">tv_name</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">tv_name</span><span class="o">);</span>
 			<span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-				<span class="n">iv_3</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_3</span><span class="o">);</span>
+				<span class="n">iv_3</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ImageView</span><span class="o">)</span> <span class="n">view</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">iv_3</span><span class="o">);</span>
 			<span class="o">}</span>
 		<span class="o">}</span>
 
 	<span class="o">}</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ItemType</span> <span class="o">{</span><span class="c1">//bean数据结构类型</span>
-	<span class="kd">public</span> <span class="nf">ItemType</span><span class="o">(</span><span class="kt">int</span> <span class="n">type</span><span class="o">,</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+	<span class="kd">public</span> <span class="nf">ItemType</span><span class="o">(</span><span class="kt">int</span> <span class="n">type</span><span class="o">,</span><span class="nc">String</span> <span class="n">name</span><span class="o">){</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">type</span><span class="o">;</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
 	<span class="o">}</span>
 	<span class="kd">public</span> <span class="kt">int</span> <span class="n">type</span><span class="o">;</span>
-	<span class="kd">public</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
 <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
@@ -295,11 +295,11 @@ R.layout.activity_test_mian_item1.xml</p>
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -349,7 +349,7 @@ R.layout.activity_test_mian_item1.xml</p>
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

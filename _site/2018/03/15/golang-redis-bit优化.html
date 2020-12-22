@@ -83,38 +83,38 @@
 假设一个用户有200个标签，pipeline 的方式就用了 200个 getbit ，然而get 就仅仅操作了一次。<br />
 至于获取得到 的字符串，如何拼接成 可用到 bit[] ，则需要程序去处理。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package main
 
-<span class="n">import</span> <span class="p">(</span>
-	<span class="s2">"fmt"</span>
+import (
+	"fmt"
 
-	<span class="s2">"github.com/garyburd/redigo/redis"</span>
-<span class="p">)</span>
+	"github.com/garyburd/redigo/redis"
+)
 
-<span class="n">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">dial</span> <span class="p">:=</span> <span class="n">redis</span><span class="p">.</span><span class="n">DialDatabase</span><span class="p">(</span><span class="m">3</span><span class="p">)</span>
-	<span class="n">con</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">redis</span><span class="p">.</span><span class="n">Dial</span><span class="p">(</span><span class="s2">"tcp"</span><span class="p">,</span> <span class="s2">"127.0.0.1:6379"</span><span class="p">,</span> <span class="n">dial</span><span class="p">)</span>
-	<span class="k">if</span> <span class="n">err</span> <span class="c1">!= nil {
-</span>		<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">fmt</span><span class="p">.</span><span class="n">Errorf</span><span class="p">(</span><span class="s2">"error ,%v"</span><span class="p">,</span> <span class="n">err</span><span class="p">))</span>
-		<span class="n">return</span>
-	<span class="p">}</span>
-	<span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">7</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-		<span class="n">con</span><span class="p">.</span><span class="nf">Send</span><span class="p">(</span><span class="s2">"getbit"</span><span class="p">,</span> <span class="s2">"apple"</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">err</span> <span class="p">=</span> <span class="n">con</span><span class="p">.</span><span class="n">Flush</span><span class="p">()</span>
-	<span class="n">var</span> <span class="n">results</span> <span class="p">[]</span><span class="n">int</span>
+func main() {
+	dial := redis.DialDatabase(3)
+	con, err := redis.Dial("tcp", "127.0.0.1:6379", dial)
+	if err != nil {
+		fmt.Println(fmt.Errorf("error ,%v", err))
+		return
+	}
+	for i := 0; i &lt; 7; i++ {
+		con.Send("getbit", "apple", i)
+	}
+	err = con.Flush()
+	var results []int
 
-	<span class="n">for</span> <span class="n">i</span> <span class="p">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="m">7</span><span class="p">;</span> <span class="n">i</span><span class="p">++</span> <span class="p">{</span>
-		<span class="n">result</span><span class="p">,</span> <span class="n">_</span> <span class="p">:=</span> <span class="n">redis</span><span class="p">.</span><span class="n">Int</span><span class="p">(</span><span class="n">con</span><span class="p">.</span><span class="n">Receive</span><span class="p">())</span>
-		<span class="n">results</span> <span class="p">=</span> <span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
-	<span class="p">}</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
-	<span class="n">resp</span><span class="p">,</span> <span class="n">err</span> <span class="p">:=</span> <span class="n">redis</span><span class="p">.</span><span class="k">String</span><span class="p">(</span><span class="n">con</span><span class="p">.</span><span class="k">Do</span><span class="p">(</span><span class="s2">"get"</span><span class="p">,</span> <span class="s2">"apple"</span><span class="p">))</span>
-	<span class="n">fmt</span><span class="p">.</span><span class="n">Println</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="p">//</span><span class="err">输出</span>
-<span class="p">//[</span><span class="m">0</span> <span class="m">1</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">1</span> <span class="m">0</span><span class="p">]</span>
-<span class="p">//</span><span class="n">D</span> <span class="p">&lt;</span><span class="n">nil</span><span class="p">&gt;</span>
+	for i := 0; i &lt; 7; i++ {
+		result, _ := redis.Int(con.Receive())
+		results = append(results, result)
+	}
+	fmt.Println(results)
+	resp, err := redis.String(con.Do("get", "apple"))
+	fmt.Println(resp, err)
+}
+//输出
+//[0 1 0 0 0 1 0]
+//D &lt;nil&gt;
 
 </code></pre></div></div>
 
@@ -124,7 +124,7 @@
 本质上，数据都是二进制组成的，能不能把 D 转换为 []byte形式，之后通过解析每个 byte所代表的二进制。<br />
 这里需要理解的是，8 bit = 1byte 建议去理解下，为何会这样</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resp, err := redis.Bytes(con.Do("get", "apple"))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>resp, err := redis.Bytes(con.Do("get", "apple"))
 fmt.Println(resp, err)
 //于是换算成 byte
 //[68] &lt;nil&gt;
@@ -134,7 +134,7 @@ fmt.Println(resp, err)
 <p>68 为什么会对应的是 D 呢？参照 ascii码表 
 一个byte最大的数值就是254 2^8 次方
 之后把68转换为 二进制就可以了</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    resps, _ := redis.Bytes(con.Do("get", "apple"))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    resps, _ := redis.Bytes(con.Do("get", "apple"))
 	for _, resp := range resps {
 		fmt.Println(strconv.FormatUint(uint64(resp), 2))
 	}
@@ -143,7 +143,7 @@ fmt.Println(resp, err)
 </code></pre></div></div>
 
 <p>所以又可以改成</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
 for _, orign := range origns {
 		item := strconv.FormatUint(uint64(orign), 2)
 		itemLen := len(item)
@@ -158,7 +158,7 @@ for _, orign := range origns {
 <h2 id="结论">结论：</h2>
 <p>最后经过一系列的优化代码
 可以把代码写成</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var poolBuffer *sync.Pool      
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>var poolBuffer *sync.Pool      
 func init(){
     poolBuffer = &amp;sync.Pool{
 	New: func() interface{} {
@@ -215,11 +215,11 @@ func GetBitmap(con redis.Conn, key string) []int {
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -269,7 +269,7 @@ func GetBitmap(con redis.Conn, key string) []int {
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

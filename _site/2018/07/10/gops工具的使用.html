@@ -78,7 +78,7 @@ gops是一个命令，用于列出和诊断系统上当前运行的Go进程。
 <p>github 地址 https://github.com/google/gops</p>
 
 <h3 id="使用方式">使用方式</h3>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops
 983   980    uplink-soecks  go1.9   /usr/local/bin/uplink-soecks
 52697 52695  gops           go1.10  /Users/jbd/bin/gops
 4132  4130   foops        * go1.9   /Users/jbd/bin/foops
@@ -92,20 +92,20 @@ gops是一个命令，用于列出和诊断系统上当前运行的Go进程。
 <p>对于启动诊断代理的进程，gops可以报告其他信息，如当前堆栈跟踪、Go版本、内存统计信息等。
 例子如下：</p>
 
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
-	</span><span class="s">"log"</span><span class="x">
-	</span><span class="s">"time"</span><span class="x">
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">(</span>
+	<span class="s">"log"</span>
+	<span class="s">"time"</span>
 
-	</span><span class="s">"github.com/google/gops/agent"</span><span class="x">
-</span><span class="p">)</span><span class="x">
+	<span class="s">"github.com/google/gops/agent"</span>
+<span class="p">)</span>
 
-</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
-	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">agent</span><span class="o">.</span><span class="n">Listen</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">Options</span><span class="p">{});</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="x"> </span><span class="no">nil</span><span class="x"> </span><span class="p">{</span><span class="x">
-		</span><span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
-	</span><span class="p">}</span><span class="x">
-	</span><span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Hour</span><span class="p">)</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">agent</span><span class="o">.</span><span class="n">Listen</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">Options</span><span class="p">{});</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="n">log</span><span class="o">.</span><span class="n">Fatal</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+	<span class="p">}</span>
+	<span class="n">time</span><span class="o">.</span><span class="n">Sleep</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">Hour</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <p>上面的是简单的demo，可配合http服务使用</p>
 
 <h3 id="手册">手册</h3>
@@ -116,7 +116,7 @@ gops是一个命令，用于列出和诊断系统上当前运行的Go进程。
 
 <h4 id="列出本地运行的所有进程">列出本地运行的所有进程</h4>
 <p>打印所有go的进程 ，可以 直接 运行 gops 而不需要其他参数：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops
 983   980    uplink-soecks  go1.9   /usr/local/bin/uplink-soecks
 52697 52695  gops           go1.10  /Users/jbd/bin/gops
 4132  4130   foops        * go1.9   /Users/jbd/bin/foops
@@ -134,7 +134,7 @@ Go版本用于构建程序
 
 <h3 id="-gops--pid">$ gops  pid</h3>
 <p>要报告关于进程的更多信息，运行gops后的PID:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops  pid 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops  pid 
 parent PID:	5985
 threads:	27
 memory usage:	0.199%
@@ -148,7 +148,7 @@ local/remote:	100.76.175.164:52353  -  54.241.191.232:443 (ESTABLISHED)
 
 <h3 id="-gops-tree">$ gops tree</h3>
 <p>要显示具有所有正在运行的Go进程的进程树，运行以下命令:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops tree
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops tree
 
 ...
 ├── 1
@@ -163,7 +163,7 @@ local/remote:	100.76.175.164:52353  -  54.241.191.232:443 (ESTABLISHED)
 <h3 id="-gops-stack--pid--addr-">$ gops stack ( pid | addr )</h3>
 <p>为了从目标程序打印当前堆栈跟踪，运行以下命令:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops stack ( pid | addr )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops stack ( pid | addr )
 gops stack 85709
 goroutine 8 [running]:
 runtime/pprof.writeGoroutineStacks(0x13c7bc0, 0xc42000e008, 0xc420ec8520, 0xc420ec8520)
@@ -183,7 +183,7 @@ created by github.com/google/gops/agent.Listen
 
 <h3 id="-gops-memstats--pid--addr-">$ gops memstats ( pid | addr )</h3>
 <p>要打印当前的内存统计数据，运行以下命令:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops memstats ( pid | addr )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops memstats ( pid | addr )
 </code></pre></div></div>
 
 <h3 id="gops-gc--pid--addr-">gops gc ( pid | addr )</h3>
@@ -191,13 +191,13 @@ created by github.com/google/gops/agent.Listen
 
 <h3 id="gops-setgc--pid--addr-">$gops setgc ( pid | addr )</h3>
 <p>将垃圾收集目标设置为一定的百分比。以下命令将其设置为10%:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops setgc ( pid | addr ) 10
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops setgc ( pid | addr ) 10
 </code></pre></div></div>
 
 <h3 id="-gops-version--pid--addr-">$ gops version ( pid | addr )</h3>
 <p>gops报告目标程序的Go版本，如果您运行以下命令:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops version ( pid | addr )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops version ( pid | addr )
 devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
 </code></pre></div></div>
 
@@ -209,15 +209,15 @@ devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
 <h4 id="pprof">Pprof</h4>
 <p>gops支持CPU和堆pprof配置文件。在读取堆或CPU概要文件之后，它将被分离到go工具pprof中，并允许您交互式地检查概要文件。
 要输入CPU profile ，运行:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-cpu ( pid | addr )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-cpu ( pid | addr )
 </code></pre></div></div>
 <p>要进入堆 profile ，运行:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-heap ( pid | addr )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops pprof-heap ( pid | addr )
 </code></pre></div></div>
 
 <h4 id="执行跟踪">执行跟踪</h4>
 <p>gops允许您启动运行时跟踪程序5秒钟并检查结果。</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops trace ( pid | addr )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ gops trace ( pid | addr )
 </code></pre></div></div>
 
 <h3 id="总结">总结</h3>
@@ -237,11 +237,11 @@ devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -263,6 +263,15 @@ devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
     </section>
     <section class="post-footer-item read-next">
         
+        <div class="read-next-item">
+            <a href="/2020/04/28/redigo%E7%9A%84%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>go如何选取使用redis的库</span>
+                <p>背景当我们遇到问题的时候，如何去选择一个库呢？ 首先可以找 github上面 的 go awesome例如 htt...</p>
+            </section>
+            
+        </div>
+        
         
         <div class="read-next-item">
             <a href="/2018/03/19/golang-%E9%80%9A%E7%94%A8%E4%BC%98%E5%8C%96.html" class="read-next-link"></a>
@@ -282,7 +291,7 @@ devel +6a3c6c0 Sat Jan 14 05:57:07 2017 +0000
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

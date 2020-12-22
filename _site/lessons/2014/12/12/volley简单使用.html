@@ -99,14 +99,14 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 
 <h3 id="使用的函数说明">使用的函数说明：</h3>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">add</span><span class="o">(){</span>
-    	<span class="n">RequestQueue</span> <span class="n">mQueue</span> <span class="o">=</span><span class="kc">null</span><span class="o">;</span>
-        <span class="n">mQueue</span> <span class="o">=</span> <span class="n">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">());</span>  
-        <span class="n">mQueue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">StringRequest</span><span class="o">(</span><span class="n">Method</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">"http://www.baidu.com"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Listener</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+    	<span class="nc">RequestQueue</span> <span class="n">mQueue</span> <span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+        <span class="n">mQueue</span> <span class="o">=</span> <span class="nc">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">getApplicationContext</span><span class="o">());</span>  
+        <span class="n">mQueue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="nc">StringRequest</span><span class="o">(</span><span class="nc">Method</span><span class="o">.</span><span class="na">GET</span><span class="o">,</span> <span class="s">"http://www.baidu.com"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Listener</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span> <span class="o">{</span>
 
 			<span class="nd">@Override</span>
-			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="nc">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
 				<span class="c1">// TODO Auto-generated method stub</span>
-				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+				<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
 			<span class="o">}</span>
 		<span class="o">},</span>  
                     <span class="kc">null</span><span class="o">));</span>  
@@ -114,17 +114,17 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 </code></pre></div></div>
 <p>上述的代码是get方式，至于post方式则</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">StringRequest</span> <span class="n">stringRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringRequest</span><span class="o">(</span><span class="n">Method</span><span class="o">.</span><span class="na">POST</span><span class="o">,</span> <span class="s">"http://www.baidu.com"</span><span class="o">,</span>  <span class="k">new</span> <span class="n">Listener</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;()</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">StringRequest</span> <span class="n">stringRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">StringRequest</span><span class="o">(</span><span class="nc">Method</span><span class="o">.</span><span class="na">POST</span><span class="o">,</span> <span class="s">"http://www.baidu.com"</span><span class="o">,</span>  <span class="k">new</span> <span class="nc">Listener</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;()</span> <span class="o">{</span>
 
 			<span class="nd">@Override</span>
-			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="nc">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
 				<span class="c1">// TODO Auto-generated method stub</span>
-				<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+				<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">arg0</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
 			<span class="o">}</span>
 		<span class="o">},</span> <span class="n">errorListener</span><span class="o">)</span> <span class="o">{</span>   
     <span class="nd">@Override</span>   
-    <span class="kd">protected</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="nf">getParams</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">AuthFailureError</span> <span class="o">{</span>  
-        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;();</span>  
+    <span class="kd">protected</span> <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getParams</span><span class="o">()</span> <span class="kd">throws</span> <span class="nc">AuthFailureError</span> <span class="o">{</span>  
+        <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;</span> <span class="n">map</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">String</span><span class="o">&gt;();</span>  
         <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"params1"</span><span class="o">,</span> <span class="s">"value1"</span><span class="o">);</span>  
         <span class="n">map</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"params2"</span><span class="o">,</span> <span class="s">"value2"</span><span class="o">);</span>  
         <span class="k">return</span> <span class="n">map</span><span class="o">;</span>  
@@ -133,17 +133,17 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 </code></pre></div></div>
 
 <h3 id="图片加载">图片加载</h3>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">ImageRequest</span> <span class="n">imageRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageRequest</span><span class="o">(</span>  
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">ImageRequest</span> <span class="n">imageRequest</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageRequest</span><span class="o">(</span>  
             <span class="n">picture_url</span><span class="o">,</span>  
-            <span class="k">new</span> <span class="n">Response</span><span class="o">.</span><span class="na">Listener</span><span class="o">&lt;</span><span class="n">Bitmap</span><span class="o">&gt;()</span> <span class="o">{</span>  
+            <span class="k">new</span> <span class="nc">Response</span><span class="o">.</span><span class="na">Listener</span><span class="o">&lt;</span><span class="nc">Bitmap</span><span class="o">&gt;()</span> <span class="o">{</span>  
                 <span class="nd">@Override</span>  
-                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="n">Bitmap</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>  
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onResponse</span><span class="o">(</span><span class="nc">Bitmap</span> <span class="n">response</span><span class="o">)</span> <span class="o">{</span>  
                     <span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>  
                 <span class="o">}</span>  
-            <span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">Config</span><span class="o">.</span><span class="na">RGB_565</span><span class="o">,</span> <span class="k">new</span> <span class="n">Response</span><span class="o">.</span><span class="na">ErrorListener</span><span class="o">()</span> <span class="o">{</span>  
+            <span class="o">},</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="nc">Config</span><span class="o">.</span><span class="na">RGB_565</span><span class="o">,</span> <span class="k">new</span> <span class="nc">Response</span><span class="o">.</span><span class="na">ErrorListener</span><span class="o">()</span> <span class="o">{</span>  
                 <span class="nd">@Override</span>  
-                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onErrorResponse</span><span class="o">(</span><span class="n">VolleyError</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>  
-                    <span class="n">imageView</span><span class="o">.</span><span class="na">setImageResource</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">);</span>  
+                <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onErrorResponse</span><span class="o">(</span><span class="nc">VolleyError</span> <span class="n">error</span><span class="o">)</span> <span class="o">{</span>  
+                    <span class="n">imageView</span><span class="o">.</span><span class="na">setImageResource</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">);</span>  
                 <span class="o">}</span>  
             <span class="o">});</span>  
 </code></pre></div></div>
@@ -151,48 +151,48 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 <p>ImageRequest image = new ImageRequest(url, listener, maxWidth, maxHeight, decodeConfig, errorListener)<br />
  listener 控制的是成功后的操作。</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">ImageLoader</span> <span class="n">imageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mQueue</span><span class="o">,</span> <span class="k">new</span> <span class="n">ImageCache</span><span class="o">()</span> <span class="o">{</span>  
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nc">ImageLoader</span> <span class="n">imageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageLoader</span><span class="o">(</span><span class="n">mQueue</span><span class="o">,</span> <span class="k">new</span> <span class="nc">ImageCache</span><span class="o">()</span> <span class="o">{</span>  
         <span class="nd">@Override</span>  
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">url</span><span class="o">,</span> <span class="nc">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
         <span class="o">}</span>  
       <span class="c1">//实现缓存机制</span>
         <span class="nd">@Override</span>  
-        <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="kd">public</span> <span class="nc">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>  
             <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>  
         <span class="o">}</span>  
     <span class="o">});</span>  
 
-    <span class="n">ImageListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="n">ImageLoader</span><span class="o">.</span><span class="na">getImageListener</span><span class="o">(</span><span class="n">imageView</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">failed_image</span><span class="o">);</span> 
+    <span class="nc">ImageListener</span> <span class="n">listener</span> <span class="o">=</span> <span class="nc">ImageLoader</span><span class="o">.</span><span class="na">getImageListener</span><span class="o">(</span><span class="n">imageView</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">failed_image</span><span class="o">);</span> 
 
     <span class="n">imageLoader</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"picture_url"</span><span class="o">,</span>  
                 <span class="n">listener</span><span class="o">,</span> <span class="mi">200</span><span class="o">,</span> <span class="mi">200</span><span class="o">);</span> 
 
 <span class="c1">//对ImageCache实现缓存机制</span>
-    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">BitmapCache</span> <span class="kd">implements</span> <span class="n">ImageCache</span> <span class="o">{</span>  
+    <span class="kd">public</span> <span class="kd">class</span> <span class="nc">BitmapCache</span> <span class="kd">implements</span> <span class="nc">ImageCache</span> <span class="o">{</span>  
   
-    <span class="kd">private</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Bitmap</span><span class="o">&gt;</span> <span class="n">mCache</span><span class="o">;</span>  
+    <span class="kd">private</span> <span class="nc">LruCache</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Bitmap</span><span class="o">&gt;</span> <span class="n">mCache</span><span class="o">;</span>  
   
     <span class="kd">public</span> <span class="nf">BitmapCache</span><span class="o">()</span> <span class="o">{</span>  
         <span class="kt">int</span> <span class="n">maxSize</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="o">;</span>  
-        <span class="n">mCache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Bitmap</span><span class="o">&gt;(</span><span class="n">maxSize</span><span class="o">)</span> <span class="o">{</span>  
+        <span class="n">mCache</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LruCache</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span> <span class="nc">Bitmap</span><span class="o">&gt;(</span><span class="n">maxSize</span><span class="o">)</span> <span class="o">{</span>  
             <span class="nd">@Override</span>  
-            <span class="kd">protected</span> <span class="kt">int</span> <span class="nf">sizeOf</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
+            <span class="kd">protected</span> <span class="kt">int</span> <span class="nf">sizeOf</span><span class="o">(</span><span class="nc">String</span> <span class="n">key</span><span class="o">,</span> <span class="nc">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
                 <span class="k">return</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getRowBytes</span><span class="o">()</span> <span class="o">*</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getHeight</span><span class="o">();</span>  
             <span class="o">}</span>  
         <span class="o">};</span>  
     <span class="o">}</span>  
   
     <span class="nd">@Override</span>  
-    <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>  
+    <span class="kd">public</span> <span class="nc">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>  
         <span class="k">return</span> <span class="n">mCache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>  
     <span class="o">}</span>  
   
     <span class="nd">@Override</span>  
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">url</span><span class="o">,</span> <span class="nc">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>  
         <span class="n">mCache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">);</span>  
     <span class="o">}</span>  
 
-  <span class="n">ImageLoader</span> <span class="n">imageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mQueue</span><span class="o">,</span> <span class="k">new</span> <span class="n">BitmapCache</span><span class="o">());</span><span class="c1">//最后的功能实现</span>
+  <span class="nc">ImageLoader</span> <span class="n">imageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageLoader</span><span class="o">(</span><span class="n">mQueue</span><span class="o">,</span> <span class="k">new</span> <span class="nc">BitmapCache</span><span class="o">());</span><span class="c1">//最后的功能实现</span>
 <span class="o">}</span> 
 </code></pre></div></div>
 
@@ -220,16 +220,16 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 </code></pre></div></div>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-    <span class="n">networkImageView</span> <span class="o">=</span> <span class="o">(</span><span class="n">NetworkImageView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">network_image_view</span><span class="o">);</span> 
-    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setDefaultImageResId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">);</span>  
-    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setErrorImageResId</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">failed_image</span><span class="o">);</span>  
+    <span class="n">networkImageView</span> <span class="o">=</span> <span class="o">(</span><span class="nc">NetworkImageView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">network_image_view</span><span class="o">);</span> 
+    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setDefaultImageResId</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">default_image</span><span class="o">);</span>  
+    <span class="n">networkImageView</span><span class="o">.</span><span class="na">setErrorImageResId</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">failed_image</span><span class="o">);</span>  
     <span class="n">networkImageView</span><span class="o">.</span><span class="na">setImageUrl</span><span class="o">(</span><span class="s">"picture_url"</span><span class="o">,</span> <span class="n">imageLoader</span><span class="o">);</span>
 </code></pre></div></div>
 
 <p>基本上volley就这样，而且我们还可以自订自己的Request</p>
 
 <p>单例模式的volley使用，在volley使用的时候，我们有时候需要注意的是RequestQueue最好是伴随着一个应用的随时使用，这样不会产生多于的操作并且容易掌控，虽然可以继承Application中使用OnCreat方法来调用，但模块化的单例模式能更好的定制。</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">test</span><span class="o">.</span><span class="na">net</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.example.test.net</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">android.content.Context</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">android.graphics.Bitmap</span><span class="o">;</span>
@@ -243,48 +243,48 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="n">mInstance</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">RequestQueue</span> <span class="n">mRequestQueue</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Context</span> <span class="n">mCtx</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="n">ImageLoader</span> <span class="n">mImageLoader</span><span class="o">;</span>
-    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">){</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">MySingleton</span> <span class="n">mInstance</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">RequestQueue</span> <span class="n">mRequestQueue</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="nc">Context</span> <span class="n">mCtx</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">ImageLoader</span> <span class="n">mImageLoader</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">){</span>
         <span class="n">mCtx</span><span class="o">=</span> <span class="n">context</span><span class="o">;</span>
         <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="n">getRequestQueue</span><span class="o">();</span>
-        <span class="n">mImageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mRequestQueue</span><span class="o">,</span><span class="k">new</span> <span class="n">ImageCache</span><span class="o">()</span> <span class="o">{</span>
-            <span class="kd">private</span> <span class="kd">final</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Bitmap</span><span class="o">&gt;</span> 
-            <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span><span class="n">Bitmap</span><span class="o">&gt;(</span><span class="mi">20</span><span class="o">);</span><span class="c1">//缓存设置</span>
+        <span class="n">mImageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ImageLoader</span><span class="o">(</span><span class="n">mRequestQueue</span><span class="o">,</span><span class="k">new</span> <span class="nc">ImageCache</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="kd">final</span> <span class="nc">LruCache</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span><span class="nc">Bitmap</span><span class="o">&gt;</span> 
+            <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LruCache</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">,</span><span class="nc">Bitmap</span><span class="o">&gt;(</span><span class="mi">20</span><span class="o">);</span><span class="c1">//缓存设置</span>
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">arg1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">arg0</span><span class="o">,</span> <span class="nc">Bitmap</span> <span class="n">arg1</span><span class="o">)</span> <span class="o">{</span>
                 <span class="c1">// TODO Auto-generated method stub</span>
                 <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">arg0</span><span class="o">,</span> <span class="n">arg1</span><span class="o">);</span>
             <span class="o">}</span>
             
             <span class="nd">@Override</span>
-            <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">public</span> <span class="nc">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">arg0</span><span class="o">)</span> <span class="o">{</span>
                 <span class="c1">// TODO Auto-generated method stub</span>
                 <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">arg0</span><span class="o">);</span>
             <span class="o">}</span>
         <span class="o">});</span>
     <span class="o">}</span>
     
-    <span class="kd">public</span> <span class="n">RequestQueue</span> <span class="nf">getRequestQueue</span><span class="o">(){</span>
+    <span class="kd">public</span> <span class="nc">RequestQueue</span> <span class="nf">getRequestQueue</span><span class="o">(){</span>
         <span class="k">if</span><span class="o">(</span><span class="n">mRequestQueue</span><span class="o">==</span><span class="kc">null</span><span class="o">){</span>
-            <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="n">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">mCtx</span><span class="o">);</span>
+            <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="nc">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">mCtx</span><span class="o">);</span>
         <span class="o">}</span>
         <span class="k">return</span> <span class="n">mRequestQueue</span><span class="o">;</span>
     <span class="o">}</span><span class="c1">//获取 RequestQueue 队列</span>
     
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">Context</span> <span class="n">con</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="nc">MySingleton</span> <span class="nf">getInstance</span><span class="o">(</span><span class="nc">Context</span> <span class="n">con</span><span class="o">){</span>
         <span class="k">if</span><span class="o">(</span><span class="n">mInstance</span><span class="o">==</span><span class="kc">null</span><span class="o">){</span>
-            <span class="n">mInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">(</span><span class="n">con</span><span class="o">);</span>
+            <span class="n">mInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MySingleton</span><span class="o">(</span><span class="n">con</span><span class="o">);</span>
         <span class="o">}</span>
         <span class="k">return</span> <span class="n">mInstance</span><span class="o">;</span>
     <span class="o">}</span><span class="c1">//单例模式</span>
-    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">addToRequestQueue</span><span class="o">(</span><span class="n">Request</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">req</span><span class="o">){</span>
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">addToRequestQueue</span><span class="o">(</span><span class="nc">Request</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">req</span><span class="o">){</span>
         <span class="n">getRequestQueue</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
     <span class="o">}</span><span class="c1">//把 String 或者 JSON 请求 添加到队列中</span>
     
-    <span class="kd">public</span> <span class="n">ImageLoader</span> <span class="nf">getImageLoader</span><span class="o">(){</span>
+    <span class="kd">public</span> <span class="nc">ImageLoader</span> <span class="nf">getImageLoader</span><span class="o">(){</span>
         <span class="k">return</span> <span class="n">mImageLoader</span><span class="o">;</span><span class="c1">//</span>
     <span class="o">}</span>
     <span class="cm">/* 上面的用法
@@ -306,11 +306,11 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -360,7 +360,7 @@ mImageLoader.get(url, listener);//url是图片的地址</p>
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

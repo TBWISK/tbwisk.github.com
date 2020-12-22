@@ -74,12 +74,12 @@
 </blockquote>
 
 <h2 id="基础很重要">基础很重要</h2>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　我是按照我这次的经历来写的，只是个人的感想。　　
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　我是按照我这次的经历来写的，只是个人的感想。　　
 　　基础很重要，重新回顾一下昨天的面试，我已经蠢到家了。在一些细节上的问题回答不出来，对于数据库也还给老师了。好吧，这个是没有复习的原罪。
 </code></pre></div></div>
 
 <h3 id="java的基础类型有哪里">java的基础类型有哪里</h3>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　这个问题看起来很蠢吧，但我也回答错误了。
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　这个问题看起来很蠢吧，但我也回答错误了。
 正确答案是：byte short int long float double bollean char 
 　　但我的回答却多了个 String
 String
@@ -88,20 +88,20 @@ String
 </code></pre></div></div>
 
 <h3 id="string-和stringbuffer的区别">String 和StringBuffer的区别</h3>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　当听到这个的时候，我在想到底有什么区别，然后我傻乎乎的说，现在不是推荐使用StringBuilder么。好，那么你说说String 和StringBuilder的区别。　　
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　当听到这个的时候，我在想到底有什么区别，然后我傻乎乎的说，现在不是推荐使用StringBuilder么。好，那么你说说String 和StringBuilder的区别。　　
 　　现在想想总感觉到处都是槽点。我的回答是，StringBuilder的效率比String快，效率高。哪里快了？说来听听……当时我就楞了，QAQ答不上来
 　　String 是java.lang.String ，StringBuffer是java.lang.StringBuilder，从某种程度上而言，就是对象的可操作据别，因为StringBuilder可以操作append 在对象的后天添加数据，而不改变对象本身一开始头指向的内存地址。通常一开始申请StringBuilder的时候，会自身分配比较大的内存空间，在里面的数据满了后会自身扩展内存空间。但首地址是不会改变的。并且，StringBuilder可在对象内任意位置删除字符和增加字符，替代字符。　　
 　　但String则会改变内存地址，除非是只声明了一次，并且没有在后面使用的时候 + 某些字符串。　　
 </code></pre></div></div>
 
 <h3 id="hashmap-和-hashset的区别">HashMap 和 HashSet的区别</h3>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　当时这个的时候，我想。。。。俩者有区别么，不都是hash计算的么。　　
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　当时这个的时候，我想。。。。俩者有区别么，不都是hash计算的么。　　
 　　后来感觉好像区别在于储存的时候，hashmap是键值对储存 hashset是hash计算储存，就是储存的方式是不一样的。然后再读取的方式上，hashmap可以直接get(键)读取，然后hashset呢……好像是迭代器读取，用到Iterator读取数据。
 从某种程度上，hashmap的存储方式是储存那些可能需要经常修改的数据和读取的数据，因为hashmap中的函数有 put set delete replace。　　
 </code></pre></div></div>
 
 <h4 id="badend">badend</h4>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　第一次的技术面试就这样的over了，连面试的大大都很想找话题了。但我实在是不知道如何回答好QAQ 也不知道如何去面对好。反正出门的那一刻，我得继续努力找下一份实习和得努力的学习去了，顺便在思考了一天后写下了这篇东西。生活还是要继续的……　　
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>　　第一次的技术面试就这样的over了，连面试的大大都很想找话题了。但我实在是不知道如何回答好QAQ 也不知道如何去面对好。反正出门的那一刻，我得继续努力找下一份实习和得努力的学习去了，顺便在思考了一天后写下了这篇东西。生活还是要继续的……　　
 </code></pre></div></div>
 
 
@@ -116,11 +116,11 @@ String
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -170,7 +170,7 @@ String
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

@@ -96,11 +96,11 @@
 
 <p>Celery非常容易设置，通常它会使用默认的queue用来存放任务（除非你显示指定其他queue）。通常写法如下：</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nd">@app.task</span><span class="p">()</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">task</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">my_taskA</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="s">"doing something here..."</span><span class="p">)</span>
 
-    <span class="nd">@app.task</span><span class="p">()</span>
+    <span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">task</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">my_taskB</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="s">"doing something here..."</span><span class="p">)</span>
 </code></pre></div></div>
@@ -139,13 +139,13 @@
 
 <p>大多数任务并没有使用错误处理，如果任务失败，那就失败了。在一些情况下这很不错，但是作者见到的多数失败任务都是去调用第三方API然后出现了网络错误，或者资源不可用这些错误，而对于这些错误，最简单的方式就是重试一下，也许就是第三方API临时服务或者网络出现问题，没准马上就好了，那么为什么不试着重试一下呢？</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@app.task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default_retry_delay</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">task</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">default_retry_delay</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">max_retries</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">my_task_A</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s">"doing stuff here..."</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">SomeNetworkException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s">"maybe do some clenup here...."</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">retry</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="5使用flower">5:使用Flower</h3>
@@ -196,51 +196,51 @@
 
 <p>错误解决方法：</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="n">cmd</span> <span class="o">=</span> <span class="s">'/opt/.virtualenvs/wxmonitor/bin/celery multi restart worker -A weixin -P gevent -c 100 -l INFO --pidfile="/srv/wxmonitor.imyyh.com/application/celerybeat2.pid"  --without-mingle'</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+    <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>下面的是解决方法：</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># coding:utf-8</span>
-<span class="kn">import</span> <span class="nn">MySQLdb</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># coding:utf-8
+</span><span class="kn">import</span> <span class="nn">MySQLdb</span>
 <span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">tz</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="c"># 用于一个小时检查一次有没有运行celery</span>
-<span class="c"># 如果没有运行celery 在重启</span>
-<span class="c"># 代码运行成面 依赖 是 cron crontab 的linxu工具</span>
-<span class="c"># 因此代码中不可依赖 django的模块</span>
-<span class="k">def</span> <span class="nf">chagetime</span><span class="p">(</span><span class="n">now</span><span class="p">):</span>
-    <span class="n">from_zone</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">gettz</span><span class="p">(</span><span class="s">'UTC'</span><span class="p">)</span>
-    <span class="n">to_zone</span> <span class="o">=</span> <span class="n">tz</span><span class="o">.</span><span class="n">gettz</span><span class="p">(</span><span class="s">'CST'</span><span class="p">)</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">from_zone</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">to_zone</span><span class="p">)</span>
+<span class="c1"># 用于一个小时检查一次有没有运行celery
+# 如果没有运行celery 在重启
+# 代码运行成面 依赖 是 cron crontab 的linxu工具
+# 因此代码中不可依赖 django的模块
+</span><span class="k">def</span> <span class="nf">chagetime</span><span class="p">(</span><span class="n">now</span><span class="p">):</span>
+    <span class="n">from_zone</span> <span class="o">=</span> <span class="n">tz</span><span class="p">.</span><span class="n">gettz</span><span class="p">(</span><span class="s">'UTC'</span><span class="p">)</span>
+    <span class="n">to_zone</span> <span class="o">=</span> <span class="n">tz</span><span class="p">.</span><span class="n">gettz</span><span class="p">(</span><span class="s">'CST'</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">now</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">from_zone</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">to_zone</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">connect</span><span class="p">():</span>
-    <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">MySQLdb</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="s">''</span><span class="p">,</span>
                            <span class="n">passwd</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">db</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">charset</span><span class="o">=</span><span class="s">'utf8'</span><span class="p">)</span>
     <span class="n">sql</span> <span class="o">=</span> <span class="s">"select * from account_weixinreadstart order by id desc limit 0,1"</span>
-    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="p">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
     <span class="n">app</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">items</span> <span class="o">=</span> <span class="n">cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="n">cursor</span><span class="p">.</span><span class="n">fetchall</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
                 <span class="n">app</span> <span class="o">=</span> <span class="n">i</span>
-    <span class="n">old_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">chagetime</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="o">.</span><span class="n">timetuple</span><span class="p">())</span>
-    <span class="n">new_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-    <span class="k">print</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="n">old_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">chagetime</span><span class="p">(</span><span class="n">app</span><span class="p">).</span><span class="n">timetuple</span><span class="p">())</span>
+    <span class="n">new_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">print</span> <span class="n">datetime</span><span class="p">.</span><span class="n">today</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">new_time</span> <span class="o">-</span> <span class="n">old_time</span> <span class="o">&gt;</span> <span class="mi">40</span> <span class="o">*</span> <span class="mi">60</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="s">"/srv/wxmonitor.imyyh.com/application/celeryworker.pid"</span>
         <span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="n">cmd</span> <span class="o">=</span> <span class="s">"kill -hup </span><span class="si">%</span><span class="s">s"</span> <span class="o">%</span> <span class="n">item</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">f</span><span class="p">.</span><span class="n">readlines</span><span class="p">()</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">strip</span><span class="p">()</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="s">"kill -hup %s"</span> <span class="o">%</span> <span class="n">item</span>
         <span class="k">print</span> <span class="s">"cmd"</span><span class="p">,</span> <span class="n">cmd</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">print</span> <span class="s">"not need"</span>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
@@ -302,11 +302,11 @@ ConnectionError: Too many connections
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -356,7 +356,7 @@ ConnectionError: Too many connections
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

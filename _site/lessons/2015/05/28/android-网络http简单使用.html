@@ -90,24 +90,24 @@
 
 <p>handler代码如下：</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="n">Handler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Handler</span><span class="o">(){</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="nc">Handler</span> <span class="n">handler</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Handler</span><span class="o">(){</span>
         <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
             <span class="kd">super</span><span class="o">.</span><span class="na">handleMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
             <span class="k">switch</span> <span class="o">(</span><span class="n">msg</span><span class="o">.</span><span class="na">what</span><span class="o">){</span>
                 <span class="k">case</span> <span class="mi">1</span><span class="o">:</span>
-                    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="s">"成功登录"</span><span class="o">,</span><span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                    <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="s">"成功登录"</span><span class="o">,</span><span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
                     <span class="k">break</span><span class="o">;</span>
                 <span class="k">case</span> <span class="mi">2</span><span class="o">:</span>
-                    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="s">"密码错误"</span><span class="o">,</span><span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                    <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="s">"密码错误"</span><span class="o">,</span><span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
                     <span class="k">break</span><span class="o">;</span>
 
                 <span class="k">case</span> <span class="mi">3</span><span class="o">:</span>
-                    <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="s">"系统出错"</span><span class="o">,</span><span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+                    <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="s">"系统出错"</span><span class="o">,</span><span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_SHORT</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
                     <span class="k">break</span><span class="o">;</span>
                 <span class="k">case</span> <span class="mi">4</span><span class="o">:</span>
-                    <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"handler 4"</span><span class="o">);</span>
-                    <span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">((</span><span class="n">Bitmap</span><span class="o">)</span> <span class="n">msg</span><span class="o">.</span><span class="na">obj</span><span class="o">);</span>
+                    <span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span><span class="s">"handler 4"</span><span class="o">);</span>
+                    <span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">((</span><span class="nc">Bitmap</span><span class="o">)</span> <span class="n">msg</span><span class="o">.</span><span class="na">obj</span><span class="o">);</span>
                     <span class="k">break</span><span class="o">;</span>
             <span class="o">}</span>
         <span class="o">}</span>
@@ -117,15 +117,15 @@
 <p>handler处理的是主线程的界面数据，从Thread中接受返回的数据，但记得……hander可能会造成内存泄漏，那么如何去优化呢？</p>
 
 <p>优化</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">class</span>  <span class="nc">Myhandler</span> <span class="kd">extends</span> <span class="n">Handler</span><span class="o">{</span>
-        <span class="kd">private</span> <span class="kd">final</span> <span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">MainActivity</span><span class="o">&gt;</span> <span class="n">mActivity</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kd">class</span>  <span class="nc">Myhandler</span> <span class="kd">extends</span> <span class="nc">Handler</span><span class="o">{</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">WeakReference</span><span class="o">&lt;</span><span class="nc">MainActivity</span><span class="o">&gt;</span> <span class="n">mActivity</span><span class="o">;</span>
 
-        <span class="kd">private</span> <span class="nf">Myhandler</span><span class="o">(</span><span class="n">WeakReference</span><span class="o">&lt;</span><span class="n">MainActivity</span><span class="o">&gt;</span> <span class="n">mActivity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nf">Myhandler</span><span class="o">(</span><span class="nc">WeakReference</span><span class="o">&lt;</span><span class="nc">MainActivity</span><span class="o">&gt;</span> <span class="n">mActivity</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">this</span><span class="o">.</span><span class="na">mActivity</span> <span class="o">=</span> <span class="n">mActivity</span><span class="o">;</span>
         <span class="o">}</span>
 
         <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="n">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">handleMessage</span><span class="o">(</span><span class="nc">Message</span> <span class="n">msg</span><span class="o">)</span> <span class="o">{</span>
             <span class="kd">super</span><span class="o">.</span><span class="na">handleMessage</span><span class="o">(</span><span class="n">msg</span><span class="o">);</span>
         <span class="o">}</span>
     <span class="o">}</span>
@@ -137,20 +137,20 @@
 返回的数据类型  <br />
 1是登录正常 <br />
 2是密码错误</p>
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="s2">"version"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">}</span><span class="w">
-</span><span class="p">{</span><span class="s2">"version"</span><span class="p">:</span><span class="s2">"2"</span><span class="p">}</span><span class="w">
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="nl">"version"</span><span class="p">:</span><span class="s2">"1"</span><span class="p">}</span><span class="w">
+</span><span class="p">{</span><span class="nl">"version"</span><span class="p">:</span><span class="s2">"2"</span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
 <hr />
 
 <p>android 的Http原生请求  HttpURLConnection</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">getnet</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">getnet</span><span class="o">(</span><span class="nc">String</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
 
         <span class="k">try</span> <span class="o">{</span>
-            <span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"http://192.168.1.130:1010/login?name="</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">"&amp;password="</span> <span class="o">+</span> <span class="n">password</span><span class="o">;</span>
+            <span class="nc">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"http://192.168.1.130:1010/login?name="</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="s">"&amp;password="</span> <span class="o">+</span> <span class="n">password</span><span class="o">;</span>
 <span class="c1">//            String url = "http://www.baidu.com";</span>
-            <span class="n">URL</span> <span class="n">url1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-            <span class="n">HttpURLConnection</span> <span class="n">httpURLConnection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url1</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+            <span class="no">URL</span> <span class="n">url1</span> <span class="o">=</span> <span class="k">new</span> <span class="no">URL</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+            <span class="nc">HttpURLConnection</span> <span class="n">httpURLConnection</span> <span class="o">=</span> <span class="o">(</span><span class="nc">HttpURLConnection</span><span class="o">)</span> <span class="n">url1</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
             <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">setRequestProperty</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">,</span>
                     <span class="s">"application/x-www-form-urlencoded"</span><span class="o">);</span>
             <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">setDoInput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
@@ -162,28 +162,28 @@
             <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
 
            <span class="k">if</span> <span class="o">(</span><span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()==</span><span class="mi">200</span><span class="o">){</span>
-               <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+               <span class="nc">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
                <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
                <span class="kt">byte</span> <span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">byte</span><span class="o">[</span><span class="mi">1024</span><span class="o">];</span>
 <span class="c1">//            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);</span>
 <span class="c1">//            while((i= inputStream.read(bytes))!=-1){</span>
 <span class="c1">//                Log.w("inputStream","read "+i);</span>
 <span class="c1">//            }</span>
-               <span class="n">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="n">InputStreamReader</span><span class="o">(</span><span class="n">inputStream</span><span class="o">));</span>
+               <span class="nc">BufferedReader</span> <span class="n">bufferedReader</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">BufferedReader</span><span class="o">(</span><span class="k">new</span> <span class="nc">InputStreamReader</span><span class="o">(</span><span class="n">inputStream</span><span class="o">));</span>
 
-               <span class="n">String</span> <span class="n">result</span> <span class="o">=</span><span class="s">""</span><span class="o">;</span>
-               <span class="n">String</span> <span class="n">inputstring</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
+               <span class="nc">String</span> <span class="n">result</span> <span class="o">=</span><span class="s">""</span><span class="o">;</span>
+               <span class="nc">String</span> <span class="n">inputstring</span> <span class="o">=</span> <span class="s">""</span><span class="o">;</span>
                <span class="k">while</span> <span class="o">(</span> <span class="o">(</span><span class="n">inputstring</span><span class="o">=</span><span class="n">bufferedReader</span><span class="o">.</span><span class="na">readLine</span><span class="o">())!=</span><span class="kc">null</span> <span class="o">){</span>
                    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">+</span><span class="n">inputstring</span><span class="o">;</span>
                <span class="o">}</span>
-               <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="s">"TAG"</span><span class="o">,</span><span class="n">result</span><span class="o">);</span>
+               <span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="s">"TAG"</span><span class="o">,</span><span class="n">result</span><span class="o">);</span>
                <span class="k">try</span> <span class="o">{</span>
-                   <span class="n">JSONObject</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+                   <span class="nc">JSONObject</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JSONObject</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
                    <span class="kt">int</span>  <span class="n">version</span> <span class="o">=</span>  <span class="n">jsonObject</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="s">"version"</span><span class="o">);</span>
 <span class="c1">//                    Message message = Message.obtain();</span>
 <span class="c1">//                   message.what = version;</span>
                    <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="n">version</span><span class="o">);</span>
-               <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">JSONException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+               <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">JSONException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
                    <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
                <span class="o">}</span>
@@ -193,12 +193,12 @@
 <span class="c1">//            objectOutputStream.flush();</span>
 <span class="c1">//            objectOutputStream.close();</span>
            <span class="o">}</span><span class="k">else</span> <span class="o">{</span>
-               <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">""</span><span class="o">+</span><span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()+</span><span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getResponseMessage</span><span class="o">());</span>
+               <span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span><span class="s">""</span><span class="o">+</span><span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getResponseCode</span><span class="o">()+</span><span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getResponseMessage</span><span class="o">());</span>
            <span class="o">}</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MalformedURLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">MalformedURLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
             <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
             <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
         <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
@@ -213,22 +213,22 @@
 <p>apache的http请求 <br />
 对于获得的数据都要注意的是 获取getStatusCode http的状态，只有code==200的时候才是正常的。</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">httpget</span><span class="o">(</span><span class="n">String</span> <span class="n">string</span><span class="o">){</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">httpget</span><span class="o">(</span><span class="nc">String</span> <span class="n">string</span><span class="o">){</span>
 
         <span class="k">try</span> <span class="o">{</span>
-            <span class="n">HttpGet</span> <span class="n">httpGet</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HttpGet</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
-            <span class="n">HttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultHttpClient</span><span class="o">();</span>
-            <span class="n">HttpResponse</span> <span class="n">httpResponse</span> <span class="o">=</span> <span class="n">httpClient</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpGet</span><span class="o">);</span>
+            <span class="nc">HttpGet</span> <span class="n">httpGet</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HttpGet</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+            <span class="nc">HttpClient</span> <span class="n">httpClient</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DefaultHttpClient</span><span class="o">();</span>
+            <span class="nc">HttpResponse</span> <span class="n">httpResponse</span> <span class="o">=</span> <span class="n">httpClient</span><span class="o">.</span><span class="na">execute</span><span class="o">(</span><span class="n">httpGet</span><span class="o">);</span>
             <span class="k">if</span> <span class="o">(</span><span class="n">httpResponse</span><span class="o">.</span><span class="na">getStatusLine</span><span class="o">().</span><span class="na">getStatusCode</span><span class="o">()==</span><span class="mi">200</span><span class="o">){</span>
-                <span class="n">String</span> <span class="n">strResult</span> <span class="o">=</span> <span class="n">EntityUtils</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">httpResponse</span><span class="o">.</span><span class="na">getEntity</span><span class="o">());</span>
-                <span class="n">JSONObject</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JSONObject</span><span class="o">(</span><span class="n">strResult</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">strResult</span> <span class="o">=</span> <span class="nc">EntityUtils</span><span class="o">.</span><span class="na">toString</span><span class="o">(</span><span class="n">httpResponse</span><span class="o">.</span><span class="na">getEntity</span><span class="o">());</span>
+                <span class="nc">JSONObject</span> <span class="n">jsonObject</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JSONObject</span><span class="o">(</span><span class="n">strResult</span><span class="o">);</span>
              <span class="kt">int</span> <span class="n">version</span> <span class="o">=</span>   <span class="n">jsonObject</span><span class="o">.</span><span class="na">optInt</span><span class="o">(</span><span class="s">"version"</span><span class="o">);</span>
                 <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="n">version</span><span class="o">);</span>
             <span class="o">}</span>
-        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
             <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
-         <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">JSONException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+         <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">JSONException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
             <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
             <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
         <span class="o">}</span>
@@ -240,37 +240,37 @@
 
 <p>下面的是介绍如何下载一个图片和在imageview上使用显示从网上获取的图片</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span>  <span class="nf">getImageBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">){</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kt">void</span>  <span class="nf">getImageBitmap</span><span class="o">(</span><span class="nc">String</span> <span class="n">url</span><span class="o">){</span>
        <span class="k">try</span> <span class="o">{</span>
-           <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"getImageBitmap start"</span><span class="o">);</span>
-           <span class="n">URL</span> <span class="n">url1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-         <span class="n">HttpURLConnection</span> <span class="n">httpURLConnection</span> <span class="o">=</span> <span class="o">(</span><span class="n">HttpURLConnection</span><span class="o">)</span> <span class="n">url1</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
+           <span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span><span class="s">"getImageBitmap start"</span><span class="o">);</span>
+           <span class="no">URL</span> <span class="n">url1</span> <span class="o">=</span> <span class="k">new</span> <span class="no">URL</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+         <span class="nc">HttpURLConnection</span> <span class="n">httpURLConnection</span> <span class="o">=</span> <span class="o">(</span><span class="nc">HttpURLConnection</span><span class="o">)</span> <span class="n">url1</span><span class="o">.</span><span class="na">openConnection</span><span class="o">();</span>
            <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">setDoInput</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
            <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">connect</span><span class="o">();</span>
-           <span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
-            <span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span>   <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
+           <span class="nc">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="n">httpURLConnection</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">();</span>
+            <span class="nc">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span>   <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
             <span class="n">inputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-           <span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Environment</span><span class="o">.</span><span class="na">getExternalStorageDirectory</span><span class="o">().</span><span class="na">toString</span><span class="o">()</span> <span class="o">+</span><span class="s">"/image.jpg"</span><span class="o">;</span>
+           <span class="nc">String</span> <span class="n">s</span> <span class="o">=</span> <span class="nc">Environment</span><span class="o">.</span><span class="na">getExternalStorageDirectory</span><span class="o">().</span><span class="na">toString</span><span class="o">()</span> <span class="o">+</span><span class="s">"/image.jpg"</span><span class="o">;</span>
 
-           <span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+           <span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
 
-           <span class="n">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
-           <span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span><span class="mi">100</span><span class="o">,</span><span class="n">outputStream</span><span class="o">);</span>
-           <span class="n">FileOutputStream</span> <span class="n">fileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
+           <span class="nc">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayOutputStream</span><span class="o">();</span>
+           <span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span><span class="mi">100</span><span class="o">,</span><span class="n">outputStream</span><span class="o">);</span>
+           <span class="nc">FileOutputStream</span> <span class="n">fileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
            <span class="n">fileOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">());</span>
            <span class="n">fileOutputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 
-           <span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span><span class="s">"bitmap get off :"</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getRowBytes</span><span class="o">());</span>
-           <span class="n">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="n">Message</span><span class="o">.</span><span class="na">obtain</span><span class="o">();</span>
+           <span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span><span class="s">"bitmap get off :"</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getRowBytes</span><span class="o">());</span>
+           <span class="nc">Message</span> <span class="n">message</span> <span class="o">=</span> <span class="nc">Message</span><span class="o">.</span><span class="na">obtain</span><span class="o">();</span>
            <span class="n">message</span><span class="o">.</span><span class="na">obj</span> <span class="o">=</span> <span class="n">bitmap</span><span class="o">;</span>
            <span class="n">message</span><span class="o">.</span><span class="na">what</span> <span class="o">=</span> <span class="mi">4</span><span class="o">;</span>
            <span class="n">handler</span><span class="o">.</span><span class="na">sendMessage</span><span class="o">(</span><span class="n">message</span><span class="o">);</span>
 <span class="c1">//        return bitmap;</span>
-       <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">MalformedURLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+       <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">MalformedURLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
            <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
        <span class="o">}</span>
-        <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
             <span class="n">handler</span><span class="o">.</span><span class="na">sendEmptyMessage</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
        <span class="o">}</span>
@@ -300,11 +300,11 @@
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -354,7 +354,7 @@
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

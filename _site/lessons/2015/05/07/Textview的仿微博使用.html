@@ -77,82 +77,82 @@
 对了，文中的demo例子是属于android simpledemo ，我只是对某些内容进行深入~~
 先贴代码</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextViewMainActivity</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">TextViewMainActivity</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
         <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-        <span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">textviewmainactivity</span><span class="o">);</span>
+        <span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">textviewmainactivity</span><span class="o">);</span>
         <span class="n">init</span><span class="o">();</span>
     <span class="o">}</span>
 
     <span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
-        <span class="n">TextView</span> <span class="n">textViewResource</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_html_resource</span><span class="o">);</span>
+        <span class="nc">TextView</span> <span class="n">textViewResource</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_html_resource</span><span class="o">);</span>
         <span class="n">textViewResource</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span>
-                <span class="n">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span><span class="n">getResources</span><span class="o">().</span><span class="na">getString</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">link_text_manual</span><span class="o">)));</span>
-        <span class="n">textViewResource</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+                <span class="nc">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span><span class="n">getResources</span><span class="o">().</span><span class="na">getString</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">string</span><span class="o">.</span><span class="na">link_text_manual</span><span class="o">)));</span>
+        <span class="n">textViewResource</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="nc">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
 <span class="c1">//</span>
 
-        <span class="n">TextView</span> <span class="n">textViewHtml</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_html_program</span><span class="o">);</span>
+        <span class="nc">TextView</span> <span class="n">textViewHtml</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_html_program</span><span class="o">);</span>
         <span class="n">textViewHtml</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span>
-                <span class="n">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span>
+                <span class="nc">Html</span><span class="o">.</span><span class="na">fromHtml</span><span class="o">(</span>
                         <span class="s">"&lt;b&gt;text_html_program: Constructed from HTML programmatically.&lt;/b&gt;"</span>
                                 <span class="o">+</span> <span class="s">"  Text with a &lt;a href=\"http://www.google.com\"&gt;link&lt;/a&gt; "</span>
                                 <span class="o">+</span> <span class="s">"created in the Java source code using HTML."</span><span class="o">));</span>
-        <span class="n">textViewHtml</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+        <span class="n">textViewHtml</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="nc">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
 
 <span class="c1">//</span>
-        <span class="n">SpannableString</span> <span class="n">ss</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpannableString</span><span class="o">(</span>
+        <span class="nc">SpannableString</span> <span class="n">ss</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SpannableString</span><span class="o">(</span>
                 <span class="s">"text_spannable: Manually created spans. Click here to dial the phone."</span><span class="o">);</span>
-        <span class="n">ss</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="n">StyleSpan</span><span class="o">(</span><span class="n">Typeface</span><span class="o">.</span><span class="na">BOLD</span><span class="o">),</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">39</span><span class="o">,</span>
-                <span class="n">Spanned</span><span class="o">.</span><span class="na">SPAN_INCLUSIVE_INCLUSIVE</span><span class="o">);</span>
-        <span class="n">ss</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="n">URLSpan</span><span class="o">(</span><span class="s">"tel:4155551212"</span><span class="o">),</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">10</span><span class="o">,</span>
-                <span class="n">Spanned</span><span class="o">.</span><span class="na">SPAN_EXCLUSIVE_EXCLUSIVE</span><span class="o">);</span>
+        <span class="n">ss</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="nc">StyleSpan</span><span class="o">(</span><span class="nc">Typeface</span><span class="o">.</span><span class="na">BOLD</span><span class="o">),</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">39</span><span class="o">,</span>
+                <span class="nc">Spanned</span><span class="o">.</span><span class="na">SPAN_INCLUSIVE_INCLUSIVE</span><span class="o">);</span>
+        <span class="n">ss</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="k">new</span> <span class="nc">URLSpan</span><span class="o">(</span><span class="s">"tel:4155551212"</span><span class="o">),</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">40</span> <span class="o">+</span> <span class="mi">10</span><span class="o">,</span>
+                <span class="nc">Spanned</span><span class="o">.</span><span class="na">SPAN_EXCLUSIVE_EXCLUSIVE</span><span class="o">);</span>
 
 <span class="c1">//</span>
-        <span class="n">TextView</span> <span class="n">textViewSpan</span> <span class="o">=</span> <span class="o">(</span><span class="n">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_spannable</span><span class="o">);</span>
-        <span class="n">String</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"#hello#what is yout ##name ,my name is #Yello#"</span><span class="o">;</span>
-        <span class="n">SpannableString</span> <span class="n">spStr</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpannableString</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
-        <span class="n">Pattern</span> <span class="n">pattern</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"#[^#]+#"</span><span class="o">);</span>
-        <span class="n">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+        <span class="nc">TextView</span> <span class="n">textViewSpan</span> <span class="o">=</span> <span class="o">(</span><span class="nc">TextView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">text_spannable</span><span class="o">);</span>
+        <span class="nc">String</span> <span class="n">string</span> <span class="o">=</span> <span class="s">"#hello#what is yout ##name ,my name is #Yello#"</span><span class="o">;</span>
+        <span class="nc">SpannableString</span> <span class="n">spStr</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">SpannableString</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
+        <span class="nc">Pattern</span> <span class="n">pattern</span> <span class="o">=</span> <span class="nc">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"#[^#]+#"</span><span class="o">);</span>
+        <span class="nc">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="na">matcher</span><span class="o">(</span><span class="n">string</span><span class="o">);</span>
         <span class="kt">boolean</span> <span class="n">result</span> <span class="o">=</span> <span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">();</span>
         <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">)</span> <span class="o">{</span>
             <span class="k">do</span> <span class="o">{</span>
 
-                <span class="n">MyClickSpan</span> <span class="n">clickSpan</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyClickSpan</span><span class="o">(</span><span class="k">this</span><span class="o">,</span><span class="n">matcher</span><span class="o">.</span><span class="na">group</span><span class="o">());</span> <span class="c1">//设置超链接</span>
-                <span class="n">spStr</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="n">clickSpan</span><span class="o">,</span> <span class="n">matcher</span><span class="o">.</span><span class="na">start</span><span class="o">(),</span> <span class="n">matcher</span><span class="o">.</span><span class="na">end</span><span class="o">(),</span> <span class="n">Spanned</span><span class="o">.</span><span class="na">SPAN_INCLUSIVE_EXCLUSIVE</span><span class="o">);</span>
+                <span class="nc">MyClickSpan</span> <span class="n">clickSpan</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MyClickSpan</span><span class="o">(</span><span class="k">this</span><span class="o">,</span><span class="n">matcher</span><span class="o">.</span><span class="na">group</span><span class="o">());</span> <span class="c1">//设置超链接</span>
+                <span class="n">spStr</span><span class="o">.</span><span class="na">setSpan</span><span class="o">(</span><span class="n">clickSpan</span><span class="o">,</span> <span class="n">matcher</span><span class="o">.</span><span class="na">start</span><span class="o">(),</span> <span class="n">matcher</span><span class="o">.</span><span class="na">end</span><span class="o">(),</span> <span class="nc">Spanned</span><span class="o">.</span><span class="na">SPAN_INCLUSIVE_EXCLUSIVE</span><span class="o">);</span>
 
             <span class="o">}</span><span class="k">while</span> <span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">());</span>
             <span class="n">textViewSpan</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">spStr</span><span class="o">);</span>
-            <span class="n">textViewSpan</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="n">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+            <span class="n">textViewSpan</span><span class="o">.</span><span class="na">setMovementMethod</span><span class="o">(</span><span class="nc">LinkMovementMethod</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
         <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
             <span class="n">textViewSpan</span><span class="o">.</span><span class="na">setText</span><span class="o">(</span><span class="s">"匹配失败"</span><span class="o">);</span>
         <span class="o">}</span>
 
     <span class="o">}</span>
 
-    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">MyClickSpan</span> <span class="kd">extends</span> <span class="n">ClickableSpan</span> <span class="o">{</span>
-        <span class="kd">private</span> <span class="n">Context</span> <span class="n">context</span><span class="o">;</span>
-        <span class="kd">private</span> <span class="n">String</span> <span class="n">string</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">MyClickSpan</span> <span class="kd">extends</span> <span class="nc">ClickableSpan</span> <span class="o">{</span>
+        <span class="kd">private</span> <span class="nc">Context</span> <span class="n">context</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="nc">String</span> <span class="n">string</span><span class="o">;</span>
 
-        <span class="kd">public</span> <span class="nf">MyClickSpan</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">,</span><span class="n">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="nf">MyClickSpan</span><span class="o">(</span><span class="nc">Context</span> <span class="n">context</span><span class="o">,</span><span class="nc">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span>
             <span class="kd">super</span><span class="o">();</span>
             <span class="k">this</span><span class="o">.</span><span class="na">context</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
             <span class="k">this</span><span class="o">.</span><span class="na">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">;</span>
         <span class="o">}</span>
 
         <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDrawState</span><span class="o">(</span><span class="n">TextPaint</span> <span class="n">ds</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">updateDrawState</span><span class="o">(</span><span class="nc">TextPaint</span> <span class="n">ds</span><span class="o">)</span> <span class="o">{</span>
             <span class="kd">super</span><span class="o">.</span><span class="na">updateDrawState</span><span class="o">(</span><span class="n">ds</span><span class="o">);</span>
             <span class="n">ds</span><span class="o">.</span><span class="na">setColor</span><span class="o">(</span><span class="n">ds</span><span class="o">.</span><span class="na">linkColor</span><span class="o">);</span>
             <span class="n">ds</span><span class="o">.</span><span class="na">setUnderlineText</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
         <span class="o">}</span>
 
         <span class="nd">@Override</span>
-        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">widget</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">widget</span><span class="o">)</span> <span class="o">{</span>
 <span class="c1">//            Intent intent = new Intent(context, MainActivity.class);</span>
 <span class="c1">//            startActivity(intent);</span>
-            <span class="n">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="n">string</span><span class="o">,</span><span class="n">Toast</span><span class="o">.</span><span class="na">LENGTH_LONG</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+            <span class="nc">Toast</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="n">context</span><span class="o">,</span><span class="n">string</span><span class="o">,</span><span class="nc">Toast</span><span class="o">.</span><span class="na">LENGTH_LONG</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
         <span class="o">}</span>
     <span class="o">}</span>
 <span class="o">}</span>
@@ -260,11 +260,11 @@
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -314,7 +314,7 @@
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

@@ -77,56 +77,56 @@
 </blockquote>
 
 <p>那么下面先贴乱兮兮的代码：</p>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Test1 project main.go</span><span class="x">
-</span><span class="k">package</span><span class="x"> </span><span class="n">main</span><span class="x">
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Test1 project main.go</span>
+<span class="k">package</span> <span class="n">main</span>
 
-</span><span class="k">import</span><span class="x"> </span><span class="p">(</span><span class="x">
-	</span><span class="s">"net/http"</span><span class="x">
-	</span><span class="s">"fmt"</span><span class="x">
-	</span><span class="s">"io/ioutil"</span><span class="x">
-	</span><span class="s">"regexp"</span><span class="x">
-</span><span class="c">//	"encoding/json"</span><span class="x">
-	</span><span class="s">"os"</span><span class="x">
-	</span><span class="s">"strings"</span><span class="x">
-</span><span class="p">)</span><span class="x">
+<span class="k">import</span> <span class="p">(</span>
+	<span class="s">"net/http"</span>
+	<span class="s">"fmt"</span>
+	<span class="s">"io/ioutil"</span>
+	<span class="s">"regexp"</span>
+<span class="c">//	"encoding/json"</span>
+	<span class="s">"os"</span>
+	<span class="s">"strings"</span>
+<span class="p">)</span>
  
-</span><span class="k">func</span><span class="x"> </span><span class="n">main</span><span class="p">()</span><span class="x"> </span><span class="p">{</span><span class="x">
-   	</span><span class="n">resp</span><span class="x"> </span><span class="p">,</span><span class="n">err</span><span class="x"> </span><span class="o">:=</span><span class="n">http</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="s">"http://www.ishadowsocks.com"</span><span class="p">)</span><span class="x">
-	</span><span class="n">pattern</span><span class="x"> </span><span class="o">:=</span><span class="s">"密码:[</span><span class="se">\\</span><span class="s">d]*"</span><span class="x">
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+   	<span class="n">resp</span> <span class="p">,</span><span class="n">err</span> <span class="o">:=</span><span class="n">http</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="s">"http://www.ishadowsocks.com"</span><span class="p">)</span>
+	<span class="n">pattern</span> <span class="o">:=</span><span class="s">"密码:[</span><span class="se">\\</span><span class="s">d]*"</span>
 	
-	</span><span class="k">if</span><span class="x"> </span><span class="n">err</span><span class="x"> </span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
-		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="x">
-		</span><span class="k">return</span><span class="x">
-	</span><span class="p">}</span><span class="x">
+	<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span><span class="no">nil</span><span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
 
-	</span><span class="n">a</span><span class="x"> </span><span class="p">,</span><span class="n">er</span><span class="o">:=</span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span><span class="x">
-	</span><span class="k">if</span><span class="x"> </span><span class="n">er</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span><span class="x">
-		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">er</span><span class="p">)</span><span class="x">
-		</span><span class="k">return</span><span class="x">
-	</span><span class="p">}</span><span class="x">
+	<span class="n">a</span> <span class="p">,</span><span class="n">er</span><span class="o">:=</span><span class="n">ioutil</span><span class="o">.</span><span class="n">ReadAll</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">Body</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">er</span><span class="o">!=</span><span class="no">nil</span><span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">er</span><span class="p">)</span>
+		<span class="k">return</span>
+	<span class="p">}</span>
 
-	 </span><span class="n">ok</span><span class="p">,</span><span class="n">_</span><span class="o">:=</span><span class="x"> </span><span class="n">regexp</span><span class="o">.</span><span class="n">MatchString</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span><span class="x"> </span><span class="kt">string</span><span class="p">(</span><span class="n">a</span><span class="p">));</span><span class="x">
-	</span><span class="k">if</span><span class="x"> </span><span class="n">ok</span><span class="p">{</span><span class="x">
-		</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"ok"</span><span class="p">)</span><span class="x">
-		</span><span class="p">}</span><span class="x">
-	</span><span class="n">reg</span><span class="p">,</span><span class="x"> </span><span class="n">_</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">regexp</span><span class="o">.</span><span class="n">Compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span><span class="x">
-    </span><span class="n">all</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">reg</span><span class="o">.</span><span class="n">FindAllString</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="x"> </span><span class="o">-</span><span class="m">1</span><span class="p">)</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">all</span><span class="p">)</span><span class="c">//输出密码</span><span class="x">
-	</span><span class="c">//然后匹配个算法是纯数字</span><span class="x">
-	</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">all</span><span class="p">[</span><span class="m">0</span><span class="p">])</span><span class="x">
-	</span><span class="n">bbs</span><span class="x"> </span><span class="o">:=</span><span class="n">strings</span><span class="o">.</span><span class="n">Replace</span><span class="p">(</span><span class="n">all</span><span class="p">[</span><span class="m">0</span><span class="p">],</span><span class="s">"密码:"</span><span class="p">,</span><span class="s">""</span><span class="p">,</span><span class="m">1</span><span class="p">)</span><span class="x">
-	</span><span class="n">all_1</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"{</span><span class="se">\n\"</span><span class="s">configs</span><span class="se">\"</span><span class="s"> : [</span><span class="se">\n</span><span class="s">{</span><span class="se">\"</span><span class="s">server</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">US.SSSERVER.PW</span><span class="se">\"</span><span class="s">,</span><span class="se">\n\"</span><span class="s">server_port</span><span class="se">\"</span><span class="s"> : 8989,</span><span class="se">\n\"</span><span class="s">password</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">"</span><span class="x">
-	</span><span class="n">all_2</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">bbs</span><span class="o">+</span><span class="s">"</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">"</span><span class="x">
-	</span><span class="n">all_3</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="s">"</span><span class="se">\"</span><span class="s">method</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">aes-256-cfb</span><span class="se">\"</span><span class="s">,</span><span class="se">\n\"</span><span class="s">remarks</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">这个是备忘录</span><span class="se">\"</span><span class="s">}</span><span class="se">\n</span><span class="s">],</span><span class="se">\n\"</span><span class="s">index</span><span class="se">\"</span><span class="s"> : 0,</span><span class="se">\n\"</span><span class="s">global</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">enabled</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">shareOverLan</span><span class="se">\"</span><span class="s"> : true,</span><span class="se">\n\"</span><span class="s">isDefault</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">localPort</span><span class="se">\"</span><span class="s"> : 1080}"</span><span class="x">
+	 <span class="n">ok</span><span class="p">,</span><span class="n">_</span><span class="o">:=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">MatchString</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="kt">string</span><span class="p">(</span><span class="n">a</span><span class="p">));</span>
+	<span class="k">if</span> <span class="n">ok</span><span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"ok"</span><span class="p">)</span>
+		<span class="p">}</span>
+	<span class="n">reg</span><span class="p">,</span> <span class="n">_</span> <span class="o">:=</span> <span class="n">regexp</span><span class="o">.</span><span class="n">Compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="n">all</span> <span class="o">:=</span> <span class="n">reg</span><span class="o">.</span><span class="n">FindAllString</span><span class="p">(</span><span class="kt">string</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="o">-</span><span class="m">1</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">all</span><span class="p">)</span><span class="c">//输出密码</span>
+	<span class="c">//然后匹配个算法是纯数字</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">all</span><span class="p">[</span><span class="m">0</span><span class="p">])</span>
+	<span class="n">bbs</span> <span class="o">:=</span><span class="n">strings</span><span class="o">.</span><span class="n">Replace</span><span class="p">(</span><span class="n">all</span><span class="p">[</span><span class="m">0</span><span class="p">],</span><span class="s">"密码:"</span><span class="p">,</span><span class="s">""</span><span class="p">,</span><span class="m">1</span><span class="p">)</span>
+	<span class="n">all_1</span> <span class="o">:=</span> <span class="s">"{</span><span class="se">\n\"</span><span class="s">configs</span><span class="se">\"</span><span class="s"> : [</span><span class="se">\n</span><span class="s">{</span><span class="se">\"</span><span class="s">server</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">US.SSSERVER.PW</span><span class="se">\"</span><span class="s">,</span><span class="se">\n\"</span><span class="s">server_port</span><span class="se">\"</span><span class="s"> : 8989,</span><span class="se">\n\"</span><span class="s">password</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">"</span>
+	<span class="n">all_2</span> <span class="o">:=</span> <span class="n">bbs</span><span class="o">+</span><span class="s">"</span><span class="se">\"</span><span class="s">,</span><span class="se">\n</span><span class="s">"</span>
+	<span class="n">all_3</span> <span class="o">:=</span> <span class="s">"</span><span class="se">\"</span><span class="s">method</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">aes-256-cfb</span><span class="se">\"</span><span class="s">,</span><span class="se">\n\"</span><span class="s">remarks</span><span class="se">\"</span><span class="s"> : </span><span class="se">\"</span><span class="s">这个是备忘录</span><span class="se">\"</span><span class="s">}</span><span class="se">\n</span><span class="s">],</span><span class="se">\n\"</span><span class="s">index</span><span class="se">\"</span><span class="s"> : 0,</span><span class="se">\n\"</span><span class="s">global</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">enabled</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">shareOverLan</span><span class="se">\"</span><span class="s"> : true,</span><span class="se">\n\"</span><span class="s">isDefault</span><span class="se">\"</span><span class="s"> : false,</span><span class="se">\n\"</span><span class="s">localPort</span><span class="se">\"</span><span class="s"> : 1080}"</span>
 	
-	</span><span class="n">bbs_all</span><span class="o">:=</span><span class="n">all_1</span><span class="o">+</span><span class="n">all_2</span><span class="o">+</span><span class="n">all_3</span><span class="x">
-	</span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">bbs_all</span><span class="p">)</span><span class="x">
+	<span class="n">bbs_all</span><span class="o">:=</span><span class="n">all_1</span><span class="o">+</span><span class="n">all_2</span><span class="o">+</span><span class="n">all_3</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">bbs_all</span><span class="p">)</span>
 	
-	</span><span class="n">file</span><span class="p">,</span><span class="n">_</span><span class="o">:=</span><span class="n">os</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="s">"gui-config.json"</span><span class="p">)</span><span class="x">
-	</span><span class="n">file</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="n">bbs_all</span><span class="p">)</span><span class="x">
-	</span><span class="n">file</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span><span class="x">
-	</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+	<span class="n">file</span><span class="p">,</span><span class="n">_</span><span class="o">:=</span><span class="n">os</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="s">"gui-config.json"</span><span class="p">)</span>
+	<span class="n">file</span><span class="o">.</span><span class="n">WriteString</span><span class="p">(</span><span class="n">bbs_all</span><span class="p">)</span>
+	<span class="n">file</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
+	<span class="p">}</span>
+</code></pre></div></div>
 
 <p>那么从代码中讲解一开始的思路吧。首先使用GET 提取网页的信息，然后观看这些信息中有没有保存密码的那个数据字符串。 <br />
 想办法匹配这个字符串……看网页中浏览看到，匹配的字符为密码：纯数字 …… 没错就是纯数字，那么匹配的规则就出现了</p>
@@ -138,19 +138,19 @@
 目标的json</p>
 
 <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-</span><span class="s2">"configs"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-</span><span class="p">{</span><span class="s2">"server"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"US.SSSERVER.PW"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"server_port"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">8989</span><span class="p">,</span><span class="w">
-</span><span class="s2">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"08474740"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"method"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"aes-256-cfb"</span><span class="p">,</span><span class="w">
-</span><span class="s2">"remarks"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"这个是备忘录"</span><span class="p">}</span><span class="w">
+</span><span class="nl">"configs"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+</span><span class="p">{</span><span class="nl">"server"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"US.SSSERVER.PW"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"server_port"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">8989</span><span class="p">,</span><span class="w">
+</span><span class="nl">"password"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"08474740"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"method"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"aes-256-cfb"</span><span class="p">,</span><span class="w">
+</span><span class="nl">"remarks"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"这个是备忘录"</span><span class="p">}</span><span class="w">
 </span><span class="p">],</span><span class="w">
-</span><span class="s2">"index"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-</span><span class="s2">"global"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-</span><span class="s2">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-</span><span class="s2">"shareOverLan"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-</span><span class="s2">"isDefault"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-</span><span class="s2">"localPort"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">}</span><span class="w">
+</span><span class="nl">"index"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+</span><span class="nl">"global"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+</span><span class="nl">"enabled"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+</span><span class="nl">"shareOverLan"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+</span><span class="nl">"isDefault"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+</span><span class="nl">"localPort"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">1080</span><span class="p">}</span><span class="w">
 </span></code></pre></div></div>
 
 <p>实话告诉你吧，这个json就是翻墙软件的一个配置文档…… <br />
@@ -183,11 +183,11 @@ pause是程序运行结束没，不会自动关闭</p>
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -237,7 +237,7 @@ pause是程序运行结束没，不会自动关闭</p>
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

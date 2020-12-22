@@ -91,128 +91,128 @@
 </blockquote>
 
 <p>####全部代码</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test16</span> <span class="kd">extends</span> <span class="n">Activity</span> <span class="o">{</span>
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">pathString</span> <span class="o">=</span> <span class="s">"/sdcard/myImage/"</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"/sdcard/myImage/"</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Test16</span> <span class="kd">extends</span> <span class="nc">Activity</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">pathString</span> <span class="o">=</span> <span class="s">"/sdcard/myImage/"</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"/sdcard/myImage/"</span><span class="o">;</span>
 	<span class="c1">//或者 Environment.getDataDirectory()+"/myImage/";</span>
-	<span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">"Test16.class"</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="n">Button</span> <span class="n">button</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="n">ImageView</span> <span class="n">imageView</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">final</span> <span class="kd">static</span> <span class="nc">String</span> <span class="no">TAG</span> <span class="o">=</span> <span class="s">"Test16.class"</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">Button</span> <span class="n">button</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">ImageView</span> <span class="n">imageView</span><span class="o">;</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onCreate</span><span class="o">(</span><span class="nc">Bundle</span> <span class="n">savedInstanceState</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">(</span><span class="n">savedInstanceState</span><span class="o">);</span>
-		<span class="n">setContentView</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test16</span><span class="o">);</span>
+		<span class="n">setContentView</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">layout</span><span class="o">.</span><span class="na">test16</span><span class="o">);</span>
 		<span class="n">init</span><span class="o">();</span>
 		
 	<span class="o">}</span>
 
 	<span class="kd">private</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">button</span> <span class="o">=</span> <span class="o">(</span><span class="n">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button</span><span class="o">);</span>
-		<span class="n">imageView</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">imageview</span><span class="o">);</span>
-		<span class="n">button</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="n">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">button</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Button</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">button</span><span class="o">);</span>
+		<span class="n">imageView</span> <span class="o">=</span> <span class="o">(</span><span class="nc">ImageView</span><span class="o">)</span> <span class="n">findViewById</span><span class="o">(</span><span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">imageview</span><span class="o">);</span>
+		<span class="n">button</span><span class="o">.</span><span class="na">setOnClickListener</span><span class="o">(</span><span class="k">new</span> <span class="nc">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
 
 			<span class="nd">@Override</span>
-			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="n">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">Intent</span> <span class="n">pickIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_GET_CONTENT</span><span class="o">);</span>
+			<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="nc">View</span> <span class="n">v</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">Intent</span> <span class="n">pickIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Intent</span><span class="o">(</span><span class="nc">Intent</span><span class="o">.</span><span class="na">ACTION_GET_CONTENT</span><span class="o">);</span>
 				<span class="n">pickIntent</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="s">"image/*"</span><span class="o">);</span>
 				<span class="c1">// 設置從content中获取的内容和格式</span>
 
-				<span class="n">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="n">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">pickIntent</span><span class="o">,</span> <span class="s">"全部"</span><span class="o">);</span>
+				<span class="nc">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="nc">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">pickIntent</span><span class="o">,</span> <span class="s">"全部"</span><span class="o">);</span>
 
-				<span class="n">name</span> <span class="o">=</span> <span class="n">pathString</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="s">".jpg"</span><span class="o">;</span><span class="c1">// 用时间戳</span>
+				<span class="n">name</span> <span class="o">=</span> <span class="n">pathString</span> <span class="o">+</span> <span class="nc">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="s">".jpg"</span><span class="o">;</span><span class="c1">// 用时间戳</span>
 																		<span class="c1">// 生成图片，那么图片就可以不重复</span>
-				<span class="n">File</span> <span class="n">vFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+				<span class="nc">File</span> <span class="n">vFile</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
 				<span class="k">if</span> <span class="o">(!</span><span class="n">vFile</span><span class="o">.</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
 					<span class="n">vFile</span><span class="o">.</span><span class="na">getParentFile</span><span class="o">().</span><span class="na">mkdir</span><span class="o">();</span>
 				<span class="o">}</span><span class="c1">// 判断当前目录有没有这个文件，没有则创建</span>
-				<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">fromFile</span><span class="o">(</span><span class="n">vFile</span><span class="o">);</span>
+				<span class="nc">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="nc">Uri</span><span class="o">.</span><span class="na">fromFile</span><span class="o">(</span><span class="n">vFile</span><span class="o">);</span>
 				<span class="c1">// 把 file文件转换为uri 类型</span>
 
-				<span class="n">Intent</span> <span class="n">takePhotoIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
-						<span class="n">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
+				<span class="nc">Intent</span> <span class="n">takePhotoIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Intent</span><span class="o">(</span>
+						<span class="nc">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
 				<span class="c1">// 设置意图为 照相机</span>
-				<span class="n">takePhotoIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">EXTRA_OUTPUT</span><span class="o">,</span> <span class="n">uri</span><span class="o">);</span>
+				<span class="n">takePhotoIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">MediaStore</span><span class="o">.</span><span class="na">EXTRA_OUTPUT</span><span class="o">,</span> <span class="n">uri</span><span class="o">);</span>
 				<span class="c1">// 设置intent多种类型</span>
 
-				<span class="n">chooserIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">EXTRA_INITIAL_INTENTS</span><span class="o">,</span>
-						<span class="k">new</span> <span class="n">Intent</span><span class="o">[]</span> <span class="o">{</span> <span class="n">takePhotoIntent</span> <span class="o">});</span>
+				<span class="n">chooserIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">Intent</span><span class="o">.</span><span class="na">EXTRA_INITIAL_INTENTS</span><span class="o">,</span>
+						<span class="k">new</span> <span class="nc">Intent</span><span class="o">[]</span> <span class="o">{</span> <span class="n">takePhotoIntent</span> <span class="o">});</span>
 				<span class="n">startActivityForResult</span><span class="o">(</span><span class="n">chooserIntent</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 			<span class="o">}</span>
 		<span class="o">});</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">onActivityResult</span><span class="o">(</span><span class="kt">int</span> <span class="n">requestCode</span><span class="o">,</span> <span class="kt">int</span> <span class="n">resultCode</span><span class="o">,</span> <span class="nc">Intent</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
 		<span class="c1">// TODO Auto-generated method stub</span>
 		<span class="kd">super</span><span class="o">.</span><span class="na">onActivityResult</span><span class="o">(</span><span class="n">requestCode</span><span class="o">,</span> <span class="n">resultCode</span><span class="o">,</span> <span class="n">data</span><span class="o">);</span>
 		<span class="k">if</span> <span class="o">(</span><span class="n">data</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
 			<span class="c1">// 对相机处理</span>
 			<span class="k">try</span> <span class="o">{</span>
-				<span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">exists</span><span class="o">()))</span> <span class="o">{</span>
+				<span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">exists</span><span class="o">()))</span> <span class="o">{</span>
 					<span class="k">return</span><span class="o">;</span>
 				<span class="o">}</span><span class="c1">// 避免報錯</span>
 					<span class="c1">// 在文件点击选择的时候，如果不选择，那么文件不存在，会报错 retrun可以避免报错</span>
-				<span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span>
+				<span class="nc">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span>
 						<span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">name</span><span class="o">)));</span>
 				<span class="c1">// 从文件中获取图片，然后解析为bitmanp</span>
 
-				<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Options</span><span class="o">();</span>
-				<span class="n">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
-				<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
+				<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Options</span><span class="o">();</span>
+				<span class="nc">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayOutputStream</span><span class="o">();</span>
+				<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
 				<span class="c1">// 对图片压缩处理输出为 outputstream</span>
 
 				<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span><span class="c1">// 设置true 不会返回图片</span>
 
 				<span class="c1">// BitmapFactory.decodeStream(new ByteArrayInputStream(</span>
 				<span class="c1">// outputStream.toByteArray()), null, options);</span>
-				<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
+				<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
 						<span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">options</span><span class="o">);</span>
 				<span class="c1">// 解析图片bitmap，返回bitmap的长宽高</span>
 				<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
 				<span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span> <span class="o">=</span> <span class="n">simple</span><span class="o">(</span><span class="n">options</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
 				<span class="c1">// 返回inSampleSize壓縮比例</span>
-				<span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span>
+				<span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">(</span>
 						<span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">()),</span> <span class="kc">null</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
 				
-				<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-				<span class="n">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
+				<span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+				<span class="nc">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
 				<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
 						<span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
 				<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
 				<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 				<span class="c1">//保存可以正常显示的图片bitmap</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"成功"</span><span class="o">);</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"成功"</span><span class="o">);</span>
 				<span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
-			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"找不到文件"</span><span class="o">);</span>
+			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"找不到文件"</span><span class="o">);</span>
 				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"io报错"</span><span class="o">);</span>
+			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"io报错"</span><span class="o">);</span>
 				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
 			<span class="o">}</span>
 
 		<span class="o">}</span> <span class="k">else</span> <span class="o">{</span><span class="c1">// 對gallery的處理</span>
-			<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+			<span class="nc">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
 			<span class="k">try</span> <span class="o">{</span>
-				<span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">MediaStore</span><span class="o">.</span><span class="na">Images</span><span class="o">.</span><span class="na">Media</span><span class="o">.</span><span class="na">getBitmap</span><span class="o">(</span>
+				<span class="nc">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="nc">MediaStore</span><span class="o">.</span><span class="na">Images</span><span class="o">.</span><span class="na">Media</span><span class="o">.</span><span class="na">getBitmap</span><span class="o">(</span>
 						<span class="k">this</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">(),</span> <span class="n">uri</span><span class="o">);</span>
 
-				<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Options</span><span class="o">();</span>
-				<span class="n">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
-				<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
+				<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Options</span><span class="o">();</span>
+				<span class="nc">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayOutputStream</span><span class="o">();</span>
+				<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
 				<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span><span class="c1">// 设置true 不会返回图片</span>
 
 				<span class="c1">// BitmapFactory.decodeStream(new ByteArrayInputStream(</span>
 				<span class="c1">// outputStream.toByteArray()), null, options);</span>
 
-				<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
+				<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
 						<span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">options</span><span class="o">);</span>
 
 				<span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span> <span class="o">=</span> <span class="n">simple</span><span class="o">(</span><span class="n">options</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
 
 				<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"inSampleSize 大小为"</span> <span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"inSampleSize 大小为"</span> <span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span>
 						<span class="o">+</span> <span class="s">"  outHeight"</span> <span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">outHeight</span> <span class="o">+</span> <span class="s">"  "</span> <span class="o">+</span> <span class="s">"outWidth"</span>
 						<span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">outWidth</span><span class="o">);</span>
 
@@ -221,19 +221,19 @@
 				<span class="c1">// new ByteArrayInputStream(outputStream</span>
 				<span class="c1">// .toByteArray()), null, options);</span>
 
-				<span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span>
+				<span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span>
 						<span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span>
 						<span class="n">options</span><span class="o">);</span>
 
 				<span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
 
-					<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">CompressFormat</span><span class="o">.</span><span class="na">PNG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
+					<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">CompressFormat</span><span class="o">.</span><span class="na">PNG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
 
 					<span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
-					<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Bitmap2的ByteCount为： "</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getByteCount</span><span class="o">()</span>
+					<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"Bitmap2的ByteCount为： "</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getByteCount</span><span class="o">()</span>
 							<span class="o">+</span> <span class="s">"  ||"</span><span class="o">);</span>
-					<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-					<span class="n">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span>
+					<span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+					<span class="nc">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span>
 							<span class="n">file</span><span class="o">);</span>
 
 					<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
@@ -242,15 +242,15 @@
 					<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 				<span class="o">}</span>
 
-			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
 			<span class="o">}</span>
 		<span class="o">}</span>
 	<span class="o">}</span>
 
-	<span class="kd">private</span> <span class="kt">int</span> <span class="nf">simple</span><span class="o">(</span><span class="n">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kt">int</span> <span class="nf">simple</span><span class="o">(</span><span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span><span class="o">,</span> <span class="kt">int</span> <span class="n">h</span><span class="o">,</span> <span class="kt">int</span> <span class="n">w</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
 
 		<span class="k">if</span> <span class="o">(</span><span class="n">options</span><span class="o">.</span><span class="na">outHeight</span> <span class="o">&gt;</span> <span class="n">h</span> <span class="o">||</span> <span class="n">options</span><span class="o">.</span><span class="na">outWidth</span> <span class="o">&gt;</span> <span class="n">w</span><span class="o">)</span> <span class="o">{</span>
@@ -312,29 +312,29 @@
 <p>#####代码块分析 <br />
 <em>点击事件的代码</em> <br />
  intent</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Intent</span> <span class="n">pickIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_GET_CONTENT</span><span class="o">);</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Intent</span> <span class="n">pickIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Intent</span><span class="o">(</span><span class="nc">Intent</span><span class="o">.</span><span class="na">ACTION_GET_CONTENT</span><span class="o">);</span>
 <span class="n">pickIntent</span><span class="o">.</span><span class="na">setType</span><span class="o">(</span><span class="s">"image/*"</span><span class="o">);</span>
 				<span class="c1">// 設置從content中获取的内容和格式</span>
 
-<span class="n">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="n">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">pickIntent</span><span class="o">,</span> <span class="s">"全部"</span><span class="o">);</span>
+<span class="nc">Intent</span> <span class="n">chooserIntent</span> <span class="o">=</span> <span class="nc">Intent</span><span class="o">.</span><span class="na">createChooser</span><span class="o">(</span><span class="n">pickIntent</span><span class="o">,</span> <span class="s">"全部"</span><span class="o">);</span>
 
-<span class="n">name</span> <span class="o">=</span> <span class="n">pathString</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="s">".jpg"</span><span class="o">;</span><span class="c1">// 用时间戳</span>
+<span class="n">name</span> <span class="o">=</span> <span class="n">pathString</span> <span class="o">+</span> <span class="nc">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()</span> <span class="o">+</span> <span class="s">".jpg"</span><span class="o">;</span><span class="c1">// 用时间戳</span>
 																		<span class="c1">// 生成图片，那么图片就可以不重复</span>
-<span class="n">File</span> <span class="n">vFile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+<span class="nc">File</span> <span class="n">vFile</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
 	<span class="k">if</span> <span class="o">(!</span><span class="n">vFile</span><span class="o">.</span><span class="na">exists</span><span class="o">())</span> <span class="o">{</span>
 	<span class="n">vFile</span><span class="o">.</span><span class="na">getParentFile</span><span class="o">().</span><span class="na">mkdir</span><span class="o">();</span>
 	<span class="o">}</span><span class="c1">// 判断当前目录有没有这个文件，没有则创建</span>
-	<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">fromFile</span><span class="o">(</span><span class="n">vFile</span><span class="o">);</span>
+	<span class="nc">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="nc">Uri</span><span class="o">.</span><span class="na">fromFile</span><span class="o">(</span><span class="n">vFile</span><span class="o">);</span>
 				<span class="c1">// 把 file文件转换为uri 类型</span>
 
-<span class="n">Intent</span> <span class="n">takePhotoIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span>
-						<span class="n">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
+<span class="nc">Intent</span> <span class="n">takePhotoIntent</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Intent</span><span class="o">(</span>
+						<span class="nc">MediaStore</span><span class="o">.</span><span class="na">ACTION_IMAGE_CAPTURE</span><span class="o">);</span>
 	<span class="c1">// 设置意图为 照相机</span>
-<span class="n">takePhotoIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">MediaStore</span><span class="o">.</span><span class="na">EXTRA_OUTPUT</span><span class="o">,</span> <span class="n">uri</span><span class="o">);</span>
+<span class="n">takePhotoIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">MediaStore</span><span class="o">.</span><span class="na">EXTRA_OUTPUT</span><span class="o">,</span> <span class="n">uri</span><span class="o">);</span>
 	<span class="c1">// 设置intent多种类型</span>
 
-<span class="n">chooserIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">EXTRA_INITIAL_INTENTS</span><span class="o">,</span>
-			<span class="k">new</span> <span class="n">Intent</span><span class="o">[]</span> <span class="o">{</span> <span class="n">takePhotoIntent</span> <span class="o">});</span>
+<span class="n">chooserIntent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="nc">Intent</span><span class="o">.</span><span class="na">EXTRA_INITIAL_INTENTS</span><span class="o">,</span>
+			<span class="k">new</span> <span class="nc">Intent</span><span class="o">[]</span> <span class="o">{</span> <span class="n">takePhotoIntent</span> <span class="o">});</span>
 <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">chooserIntent</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
 </code></pre></div></div>
 <blockquote>
@@ -361,46 +361,46 @@ FileOutputStream 利用保存文件</p>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">(</span><span class="n">data</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
 			<span class="c1">// 对相机处理</span>
 	<span class="k">try</span> <span class="o">{</span>
-		<span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">exists</span><span class="o">()))</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">exists</span><span class="o">()))</span> <span class="o">{</span>
 			<span class="k">return</span><span class="o">;</span>
 		<span class="o">}</span><span class="c1">// 避免報錯</span>
 		<span class="c1">// 在文件点击选择的时候，如果不选择，那么文件不存在，会报错 retrun可以避免报错</span>
-	<span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span>
+	<span class="nc">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">FileInputStream</span><span class="o">(</span>
 			<span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">name</span><span class="o">)));</span>
 			<span class="c1">// 从文件中获取图片，然后解析为bitmanp</span>
 
-	<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Options</span><span class="o">();</span>
-	<span class="n">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
-	<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
+	<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Options</span><span class="o">();</span>
+	<span class="nc">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayOutputStream</span><span class="o">();</span>
+	<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
 	<span class="c1">// 对图片压缩处理输出为 outputstream</span>
 
 	<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span><span class="c1">// 设置true 不会返回图片</span>
 
 	<span class="c1">// BitmapFactory.decodeStream(new ByteArrayInputStream(</span>
 	<span class="c1">// outputStream.toByteArray()), null, options);</span>
-	<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
+	<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
 			<span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">options</span><span class="o">);</span>
 				<span class="c1">// 解析图片bitmap，返回bitmap的长宽高</span>
 	<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
 	<span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span> <span class="o">=</span> <span class="n">simple</span><span class="o">(</span><span class="n">options</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
 				<span class="c1">// 返回inSampleSize壓縮比例</span>
-	<span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="n">ByteArrayInputStream</span><span class="o">(</span>
+	<span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeStream</span><span class="o">(</span><span class="k">new</span> <span class="nc">ByteArrayInputStream</span><span class="o">(</span>
 				<span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">()),</span> <span class="kc">null</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
 				
-	<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span><span class="c1">//保存文件</span>
-	<span class="n">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
+	<span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span><span class="c1">//保存文件</span>
+	<span class="nc">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span><span class="n">file</span><span class="o">);</span>
 	<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
 				<span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
 	<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
 	<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 				<span class="c1">//保存可以正常显示的图片bitmap</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"成功"</span><span class="o">);</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"成功"</span><span class="o">);</span>
 	<span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
-			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"找不到文件"</span><span class="o">);</span>
+			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"找不到文件"</span><span class="o">);</span>
 				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
-				<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"io报错"</span><span class="o">);</span>
+			<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+				<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"io报错"</span><span class="o">);</span>
 				<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
 			<span class="o">}</span>
 </code></pre></div></div>
@@ -415,26 +415,26 @@ uri 是从 getData中获取。但 String name 这个文件还是可以使用的�
 </blockquote>
 
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">else</span> <span class="o">{</span><span class="c1">// 對gallery的處理</span>
-	<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+	<span class="nc">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
 	<span class="k">try</span> <span class="o">{</span>
-		<span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">MediaStore</span><span class="o">.</span><span class="na">Images</span><span class="o">.</span><span class="na">Media</span><span class="o">.</span><span class="na">getBitmap</span><span class="o">(</span>
+		<span class="nc">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="nc">MediaStore</span><span class="o">.</span><span class="na">Images</span><span class="o">.</span><span class="na">Media</span><span class="o">.</span><span class="na">getBitmap</span><span class="o">(</span>
 					<span class="k">this</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">(),</span> <span class="n">uri</span><span class="o">);</span>
 
-		<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Options</span><span class="o">();</span>
-		<span class="n">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ByteArrayOutputStream</span><span class="o">();</span>
-		<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
+		<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Options</span><span class="o">();</span>
+		<span class="nc">ByteArrayOutputStream</span> <span class="n">outputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ByteArrayOutputStream</span><span class="o">();</span>
+		<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">Bitmap</span><span class="o">.</span><span class="na">CompressFormat</span><span class="o">.</span><span class="na">JPEG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
 		<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span><span class="c1">// 设置true 不会返回图片</span>
 
 				<span class="c1">// BitmapFactory.decodeStream(new ByteArrayInputStream(</span>
 				<span class="c1">// outputStream.toByteArray()), null, options);</span>
 
-		<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
+		<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
 				<span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">options</span><span class="o">);</span>
 
 		<span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span> <span class="o">=</span> <span class="n">simple</span><span class="o">(</span><span class="n">options</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
 
 		<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
-		<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"inSampleSize 大小为"</span> <span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span>
+		<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"inSampleSize 大小为"</span> <span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span>
 				<span class="o">+</span> <span class="s">"  outHeight"</span> <span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">outHeight</span> <span class="o">+</span> <span class="s">"  "</span> <span class="o">+</span> <span class="s">"outWidth"</span>
 				<span class="o">+</span> <span class="n">options</span><span class="o">.</span><span class="na">outWidth</span><span class="o">);</span>
 
@@ -443,19 +443,19 @@ uri 是从 getData中获取。但 String name 这个文件还是可以使用的�
 				<span class="c1">// new ByteArrayInputStream(outputStream</span>
 				<span class="c1">// .toByteArray()), null, options);</span>
 
-		<span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span>
+		<span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeByteArray</span><span class="o">(</span>
 				<span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span>
 				<span class="n">options</span><span class="o">);</span>
 
 		<span class="k">if</span> <span class="o">(</span><span class="n">bitmap</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
 
-			<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="n">CompressFormat</span><span class="o">.</span><span class="na">PNG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
+			<span class="n">bitmap</span><span class="o">.</span><span class="na">compress</span><span class="o">(</span><span class="nc">CompressFormat</span><span class="o">.</span><span class="na">PNG</span><span class="o">,</span> <span class="mi">50</span><span class="o">,</span> <span class="n">outputStream</span><span class="o">);</span>
 
 			<span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
-			<span class="n">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="n">TAG</span><span class="o">,</span> <span class="s">"Bitmap2的ByteCount为： "</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getByteCount</span><span class="o">()</span>
+			<span class="nc">Log</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="no">TAG</span><span class="o">,</span> <span class="s">"Bitmap2的ByteCount为： "</span> <span class="o">+</span> <span class="n">bitmap</span><span class="o">.</span><span class="na">getByteCount</span><span class="o">()</span>
 							<span class="o">+</span> <span class="s">"  ||"</span><span class="o">);</span>
-			<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-			<span class="n">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FileOutputStream</span><span class="o">(</span>
+			<span class="nc">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+			<span class="nc">FileOutputStream</span> <span class="n">dFileOutputStream</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">FileOutputStream</span><span class="o">(</span>
 					<span class="n">file</span><span class="o">);</span>
 
 			<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">outputStream</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(),</span> <span class="mi">0</span><span class="o">,</span>
@@ -464,9 +464,9 @@ uri 是从 getData中获取。但 String name 这个文件还是可以使用的�
 			<span class="n">dFileOutputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
 		<span class="o">}</span>
 
-	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">FileNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
-	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 		<span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
 	<span class="o">}</span>
 <span class="o">}</span>
@@ -475,13 +475,13 @@ uri 是从 getData中获取。但 String name 这个文件还是可以使用的�
 <h6 id="缩放bitmap代码">缩放bitmap代码</h6>
 <blockquote>
   <p>下面的代码 是 获取好的缩放比例 <br />
-从思维惯性而言，好的缩放比例能更好的节约内存。
+从思维惯性而言，好的缩放比例能更好的节约内存。<br />
 ```java 
 private int simple(BitmapFactory.Options options, int h, int w) {
 	int i = 1;</p>
 </blockquote>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (options.outHeight &gt; h || options.outWidth &gt; w) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (options.outHeight &gt; h || options.outWidth &gt; w) {
 
 	int hh = options.outHeight / h;
 	int ww = options.outWidth / w;
@@ -513,18 +513,18 @@ return i; } ```
 <h6 id="相机图片的某些代码优化">相机图片的某些代码优化</h6>
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	<span class="k">if</span> <span class="o">(</span><span class="n">data</span><span class="o">==</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
 	<span class="k">try</span> <span class="o">{</span>
-		<span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">exists</span><span class="o">()))</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(!(</span><span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">name</span><span class="o">).</span><span class="na">exists</span><span class="o">()))</span> <span class="o">{</span>
 		<span class="k">return</span><span class="o">;</span>
 		<span class="o">}</span>
-	<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Options</span><span class="o">();</span>
+	<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">Options</span> <span class="n">options</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Options</span><span class="o">();</span>
 	<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="o">;</span>
-	<span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
+	<span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
 	<span class="n">options</span><span class="o">.</span><span class="na">inJustDecodeBounds</span> <span class="o">=</span> <span class="kc">false</span><span class="o">;</span>
 	<span class="n">options</span><span class="o">.</span><span class="na">inSampleSize</span> <span class="o">=</span> <span class="n">simple</span><span class="o">(</span><span class="n">options</span><span class="o">,</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
-	<span class="n">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="n">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
+	<span class="nc">Bitmap</span> <span class="n">bitmap</span> <span class="o">=</span> <span class="nc">BitmapFactory</span><span class="o">.</span><span class="na">decodeFile</span><span class="o">(</span><span class="n">name</span><span class="o">,</span> <span class="n">options</span><span class="o">);</span>
 	<span class="n">imageView</span><span class="o">.</span><span class="na">setImageBitmap</span><span class="o">(</span><span class="n">bitmap</span><span class="o">);</span>
 				
-	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+	<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 		<span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
@@ -552,11 +552,11 @@ uri 是由file 转换而来的，换言之，file记录了图片的地址<br />
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -606,7 +606,7 @@ uri 是由file 转换而来的，换言之，file记录了图片的地址<br />
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

@@ -91,24 +91,24 @@
 <h1 id="2下面是我们讲解的排序">2:下面是我们讲解的排序</h1>
 
 <h3 id="a直接插入排序">a:直接插入排序</h3>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//插入排序</span><span class="x">
-</span><span class="k">func</span><span class="x"> </span><span class="n">insertSort</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
-    </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">,</span><span class="x"> </span><span class="m">0</span><span class="x">
-    </span><span class="n">n</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">n</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
-        </span><span class="n">temp</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">                </span><span class="c">//选取基点</span><span class="x">
-        </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="m">1</span><span class="x">                         </span><span class="c">//i的上一个点</span><span class="x">
-        </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="c">//5 12 17 3 10 7 14 9 11 15 0 19 2 1 13 4 16 6 18 8</span><span class="x">
-            </span><span class="c">//temp = 12 ,i=1;j=0; number[j]=5;temp=12; 就是把大的数据移到后面去</span><span class="x">
-            </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="c">//循环 把 j后面的数字 移到前面去，只要</span><span class="x">
-            </span><span class="n">j</span><span class="o">--</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-        </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">temp</span><span class="x">
-    </span><span class="p">}</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//插入排序</span>
+<span class="k">func</span> <span class="n">insertSort</span><span class="p">(</span><span class="n">numbers</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">:=</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span>
+    <span class="n">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="m">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+        <span class="n">temp</span> <span class="o">:=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>                <span class="c">//选取基点</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="m">1</span>                         <span class="c">//i的上一个点</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="m">0</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span> <span class="c">//5 12 17 3 10 7 14 9 11 15 0 19 2 1 13 4 16 6 18 8</span>
+            <span class="c">//temp = 12 ,i=1;j=0; number[j]=5;temp=12; 就是把大的数据移到后面去</span>
+            <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="c">//循环 把 j后面的数字 移到前面去，只要</span>
+            <span class="n">j</span><span class="o">--</span>
+        <span class="p">}</span>
+        <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="m">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+    <span class="p">}</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
 
-</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+<span class="p">}</span>
+</code></pre></div></div>
 <p>插入排序（Insertion Sort）的算法描述是一种简单直观的排序算法。它的工作原理是通过构建有序序列，对于未排序数据，在已排序序列中从后向前扫描，找到相应位置并插入。插入排序在实现上，通常采用in-place排序（即只需用到O(1)的额外空间的排序），因而在从后向前扫描过程中，需要反复把已排序元素逐步向后挪位，为最新元素提供插入空间。</p>
 
 <p>步骤：</p>
@@ -125,26 +125,26 @@
 <hr />
 
 <h3 id="b希尔排序">b:希尔排序</h3>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//希尔排序</span><span class="x">
-</span><span class="k">func</span><span class="x"> </span><span class="n">shellSort</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
-    </span><span class="n">n</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-    </span><span class="k">var</span><span class="x"> </span><span class="n">i</span><span class="p">,</span><span class="x"> </span><span class="n">j</span><span class="p">,</span><span class="x"> </span><span class="n">gap</span><span class="p">,</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="kt">int</span><span class="x">
-    </span><span class="n">gap</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">n</span><span class="x"> </span><span class="o">/</span><span class="x"> </span><span class="m">2</span><span class="x">
-    </span><span class="k">for</span><span class="x"> </span><span class="n">gap</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="p">{</span><span class="x">
-        </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">gap</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">n</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x">
-            </span><span class="n">temp</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">
-            </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="n">gap</span><span class="x">
-            </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;=</span><span class="x"> </span><span class="m">0</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="p">{</span><span class="x">
-                </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">gap</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x">
-                </span><span class="n">j</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="n">gap</span><span class="x">
-            </span><span class="p">}</span><span class="x">
-            </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">gap</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">temp</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-        </span><span class="n">gap</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">gap</span><span class="x"> </span><span class="o">/</span><span class="x"> </span><span class="m">2</span><span class="x">
-    </span><span class="p">}</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//希尔排序</span>
+<span class="k">func</span> <span class="n">shellSort</span><span class="p">(</span><span class="n">numbers</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">n</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+    <span class="k">var</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">gap</span><span class="p">,</span> <span class="n">temp</span> <span class="kt">int</span>
+    <span class="n">gap</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="m">2</span>
+    <span class="k">for</span> <span class="n">gap</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="n">gap</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">gap</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="m">0</span> <span class="o">&amp;&amp;</span> <span class="n">temp</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">{</span>
+                <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">gap</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="n">gap</span>
+            <span class="p">}</span>
+            <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="n">gap</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+        <span class="p">}</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="n">gap</span> <span class="o">/</span> <span class="m">2</span>
+    <span class="p">}</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <p>介绍：</p>
 
 <p>希尔排序，也称递减增量排序算法，是插入排序的一种高速而稳定的改进版本。</p>
@@ -163,8 +163,8 @@
 <hr />
 
 <h3 id="c简单选择排序">c:简单选择排序</h3>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">暂时无代码</span><span class="x">
-</span></code></pre></div></div>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">暂时无代码</span>
+</code></pre></div></div>
 <p>介绍：</p>
 
 <p>选择排序(Selection sort)是一种简单直观的排序算法。它的工作原理如下。
@@ -180,23 +180,23 @@
 <hr />
 
 <h3 id="d冒泡排序">d:冒泡排序</h3>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//冒泡排序 交换排序</span><span class="x">
-</span><span class="k">func</span><span class="x"> </span><span class="n">defaultsoft</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="kt">int</span><span class="p">)</span><span class="x"> </span><span class="p">{</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-    </span><span class="n">temp</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="m">0</span><span class="p">]</span><span class="x">
-    </span><span class="n">len_number</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-    </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="m">0</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">len_number</span><span class="o">-</span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">i</span><span class="o">++</span><span class="x"> </span><span class="p">{</span><span class="x"> </span><span class="c">//注意数据越界</span><span class="x">
-        </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">:=</span><span class="x"> </span><span class="n">len_number</span><span class="x"> </span><span class="o">-</span><span class="x"> </span><span class="m">1</span><span class="p">;</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">i</span><span class="p">;</span><span class="x"> </span><span class="n">j</span><span class="o">--</span><span class="x"> </span><span class="p">{</span><span class="x">
-            </span><span class="k">if</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="p">{</span><span class="x">
-                </span><span class="n">temp</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x">
-                </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x">
-                </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">temp</span><span class="x">
-            </span><span class="p">}</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-    </span><span class="p">}</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//冒泡排序 交换排序</span>
+<span class="k">func</span> <span class="n">defaultsoft</span><span class="p">(</span><span class="n">numbers</span> <span class="p">[]</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+    <span class="n">temp</span> <span class="o">:=</span> <span class="n">numbers</span><span class="p">[</span><span class="m">0</span><span class="p">]</span>
+    <span class="n">len_number</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="o">:=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len_number</span><span class="o">-</span><span class="m">1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span> <span class="p">{</span> <span class="c">//注意数据越界</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="o">:=</span> <span class="n">len_number</span> <span class="o">-</span> <span class="m">1</span><span class="p">;</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">;</span> <span class="n">j</span><span class="o">--</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">{</span>
+                <span class="n">temp</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <p>介绍：</p>
 
 <p>冒泡排序（Bubble Sort，台湾译为：泡沫排序或气泡排序）是一种简单的排序算法。它重复地走访过要排序的数列，一次比较两个元素，如果他们的顺序错误就把他们交换过来。走访数列的工作是重复地进行直到没有再需要交换，也就是说该数列已经排序完成。这个算法的名字由来是因为越小的元素会经由交换慢慢“浮”到数列的顶端。</p>
@@ -216,31 +216,31 @@
 <hr />
 
 <h3 id="e快速排序">e:快速排序</h3>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//快速排序 在某一段范围内排序 [s,t]</span><span class="x">
-</span><span class="k">func</span><span class="x"> </span><span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="x"> </span><span class="p">[]</span><span class="x"> </span><span class="kt">int</span><span class="p">,</span><span class="n">s</span><span class="x"> </span><span class="kt">int</span><span class="x"> </span><span class="p">,</span><span class="n">t</span><span class="x"> </span><span class="kt">int</span><span class="p">){</span><span class="x">
-    </span><span class="n">i</span><span class="o">:=</span><span class="n">s</span><span class="x">
-    </span><span class="n">j</span><span class="o">:=</span><span class="n">t</span><span class="x">
-    </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="x">
-    </span><span class="k">var</span><span class="x"> </span><span class="n">temp</span><span class="x"> </span><span class="kt">int</span><span class="x">
-    </span><span class="k">if</span><span class="x"> </span><span class="n">s</span><span class="x"> </span><span class="o">&lt;</span><span class="x"> </span><span class="n">t</span><span class="p">{</span><span class="c">//区间内至少存在俩个元素的情况</span><span class="x">
-        </span><span class="n">temp</span><span class="x"> </span><span class="o">=</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">s</span><span class="p">];</span><span class="c">//用区间的第一个记录作为基准</span><span class="x">
-        </span><span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"基准"</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span><span class="x">
-        </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">{</span><span class="c">//从俩端交替向中间扫描，直到i=j为止</span><span class="x">
-            </span><span class="k">for</span><span class="x"> </span><span class="n">j</span><span class="x"> </span><span class="o">&gt;</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="x"> </span><span class="o">&gt;</span><span class="n">temp</span><span class="p">{</span><span class="c">//从右向左扫描，找到第一个小于temp的number[j]</span><span class="x">
-                </span><span class="n">j</span><span class="o">--</span><span class="x">
-            </span><span class="p">}</span><span class="x">
-            </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="c">//找到这样的number[j],number[j]/number[i]交换</span><span class="x">
-            </span><span class="k">for</span><span class="x"> </span><span class="n">i</span><span class="x"> </span><span class="o">&lt;</span><span class="n">j</span><span class="x"> </span><span class="o">&amp;&amp;</span><span class="x"> </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="x"> </span><span class="o">&lt;</span><span class="n">temp</span><span class="p">{</span><span class="c">//从左向右扫描，找到第一个大于temp的number[i]</span><span class="x">
-                </span><span class="n">i</span><span class="o">++</span><span class="x">
-            </span><span class="p">}</span><span class="x">
-            </span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="c">//找到这样的number[i],number[i]/number[j]交换</span><span class="x">
-        </span><span class="p">}</span><span class="x">
-        </span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">temp</span><span class="x">
-        </span><span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="m">1</span><span class="p">)</span><span class="c">//对左区间递归排序</span><span class="x">
-        </span><span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="m">1</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="c">//对右区间递归排序</span><span class="x">
-    </span><span class="p">}</span><span class="x">
-</span><span class="p">}</span><span class="x">
-</span></code></pre></div></div>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">//快速排序 在某一段范围内排序 [s,t]</span>
+<span class="k">func</span> <span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span> <span class="p">[]</span> <span class="kt">int</span><span class="p">,</span><span class="n">s</span> <span class="kt">int</span> <span class="p">,</span><span class="n">t</span> <span class="kt">int</span><span class="p">){</span>
+    <span class="n">i</span><span class="o">:=</span><span class="n">s</span>
+    <span class="n">j</span><span class="o">:=</span><span class="n">t</span>
+    <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+    <span class="k">var</span> <span class="n">temp</span> <span class="kt">int</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">&lt;</span> <span class="n">t</span><span class="p">{</span><span class="c">//区间内至少存在俩个元素的情况</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">s</span><span class="p">];</span><span class="c">//用区间的第一个记录作为基准</span>
+        <span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"基准"</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="o">!=</span><span class="n">j</span><span class="p">{</span><span class="c">//从俩端交替向中间扫描，直到i=j为止</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="n">i</span> <span class="o">&amp;&amp;</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span><span class="n">temp</span><span class="p">{</span><span class="c">//从右向左扫描，找到第一个小于temp的number[j]</span>
+                <span class="n">j</span><span class="o">--</span>
+            <span class="p">}</span>
+            <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="c">//找到这样的number[j],number[j]/number[i]交换</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="o">&lt;</span><span class="n">j</span> <span class="o">&amp;&amp;</span> <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span><span class="n">temp</span><span class="p">{</span><span class="c">//从左向右扫描，找到第一个大于temp的number[i]</span>
+                <span class="n">i</span><span class="o">++</span>
+            <span class="p">}</span>
+            <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">=</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="c">//找到这样的number[i],number[i]/number[j]交换</span>
+        <span class="p">}</span>
+        <span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">=</span><span class="n">temp</span>
+        <span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">i</span><span class="o">-</span><span class="m">1</span><span class="p">)</span><span class="c">//对左区间递归排序</span>
+        <span class="n">quickSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span><span class="n">i</span><span class="o">+</span><span class="m">1</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="c">//对右区间递归排序</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <p>介绍：</p>
 
 <p>快速排序是由东尼·霍尔所发展的一种排序算法。在平均状况下，排序 n 个项目要Ο(n log n)次比较。在最坏状况下则需要Ο(n2)次比较，但这种状况并不常见。事实上，快速排序通常明显比其他Ο(n log n) 算法更快，因为它的内部循环（inner loop）可以在大部分的架构上很有效率地被实现出来，且在大部分真实世界的数据，可以决定设计的选择，减少所需时间的二次方项之可能性。</p>
@@ -263,8 +263,8 @@
 <hr />
 
 <h3 id="f堆排序">f:堆排序</h3>
-<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">暂无代码</span><span class="x">
-</span></code></pre></div></div>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">暂无代码</span>
+</code></pre></div></div>
 <p>介绍：</p>
 
 <p>堆积排序（Heapsort）是指利用堆这种数据结构所设计的一种排序算法。堆是一个近似完全二叉树的结构，并同时满足堆性质：即子结点的键值或索引总是小于（或者大于）它的父节点。</p>
@@ -340,7 +340,7 @@
 
 <p>1）当n较大，则应采用时间复杂度为O(nlog2n)的排序方法：快速排序、堆排序或归并排序序。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>快速排序：是目前基于比较的内部排序中被认为是最好的方法，当待排序的关键字是随机分布时，快速排序的平均时间最短；
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>快速排序：是目前基于比较的内部排序中被认为是最好的方法，当待排序的关键字是随机分布时，快速排序的平均时间最短；
 堆排序 ：  如果内存空间允许且要求稳定性的，   
 归并排序：它有一定数量的数据移动，所以我们可能过与插入排序组合，先获得一定长度的序列，然后再合并，在效率上将有所提高。  
 </code></pre></div></div>
@@ -349,7 +349,7 @@
 
 <p>3）当n较小，可采用直接插入或直接选择排序。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>直接插入排序：当元素分布有序，直接插入排序将大大减少比较次数和移动记录的次数。   
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>直接插入排序：当元素分布有序，直接插入排序将大大减少比较次数和移动记录的次数。   
 直接选择排序 ：元素分布有序，如果不要求稳定性，选择直接选择排序   
 </code></pre></div></div>
 
@@ -358,7 +358,7 @@
 <p>6）基数排序 <br />
 它是一种稳定的排序算法，但有一定的局限性：</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、关键字可分解。   
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1、关键字可分解。   
 2、记录的关键字位数较少，如果密集更好   
 3、如果是数字时，最好是无符号的，否则将增加相应的映射复杂度，可先将其正负分开排序。    
 </code></pre></div></div>
@@ -377,11 +377,11 @@
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -431,7 +431,7 @@
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

@@ -106,7 +106,7 @@
 <h3 id="5减少defer-的使用">5:减少defer 的使用</h3>
 <p>defer 看起来很方便简洁的处理关闭资源的事情。但在内存的操作中，是类似于堆栈的形式，先入后出的调用。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func BenchmarkDefer1(t *testing.B) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func BenchmarkDefer1(t *testing.B) {
 	l := 0
 	for i := 0; i &lt; t.N; i++ {
 		func() {
@@ -117,7 +117,7 @@
 } //2.26 ns/op
 </code></pre></div></div>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func BenchmarkDefer2(t *testing.B) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func BenchmarkDefer2(t *testing.B) {
 	l := 0
 	for i := 0; i &lt; t.N; i++ {
 		func() {
@@ -159,11 +159,11 @@
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -213,7 +213,7 @@
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

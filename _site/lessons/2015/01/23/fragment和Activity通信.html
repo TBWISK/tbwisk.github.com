@@ -115,22 +115,22 @@ Though a Fragment’s lifecycle is tied to its owning activity, it has its own w
 activity 向 fragment 传递 信息 是通过setArguments(Bundle bundle)传递。Bundle 可用储存传递的数据结构类型。</p>
 
 <p>回调的使用：</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dialog1</span> <span class="kd">extends</span> <span class="n">DialogFragment</span> <span class="o">{</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dialog1</span> <span class="kd">extends</span> <span class="nc">DialogFragment</span> <span class="o">{</span>
 	<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">OnitemClick</span> <span class="o">{</span>
-		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdittext</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">string</span><span class="o">);</span>
+		<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdittext</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">string</span><span class="o">);</span>
 	<span class="o">}</span>
-	<span class="kd">private</span> <span class="n">OnitemClick</span> <span class="n">onitemClick</span><span class="o">;</span><span class="c1">//回调的东西</span>
+	<span class="kd">private</span> <span class="nc">OnitemClick</span> <span class="n">onitemClick</span><span class="o">;</span><span class="c1">//回调的东西</span>
 	<span class="o">......</span>
-	<span class="n">onitemClick</span><span class="o">.</span><span class="na">setEdittext</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">edittext_sex</span><span class="o">,</span> <span class="n">sex</span><span class="o">);</span><span class="c1">//传递数据</span>
+	<span class="n">onitemClick</span><span class="o">.</span><span class="na">setEdittext</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="no">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">edittext_sex</span><span class="o">,</span> <span class="n">sex</span><span class="o">);</span><span class="c1">//传递数据</span>
 	<span class="o">......</span>
 		<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAttach</span><span class="o">(</span><span class="n">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAttach</span><span class="o">(</span><span class="nc">Activity</span> <span class="n">activity</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kd">super</span><span class="o">.</span><span class="na">onAttach</span><span class="o">(</span><span class="n">activity</span><span class="o">);</span>
 		<span class="k">try</span> <span class="o">{</span>
-			<span class="n">onitemClick</span> <span class="o">=</span> <span class="o">(</span><span class="n">OnitemClick</span><span class="o">)</span> <span class="n">activity</span><span class="o">;</span>
+			<span class="n">onitemClick</span> <span class="o">=</span> <span class="o">(</span><span class="nc">OnitemClick</span><span class="o">)</span> <span class="n">activity</span><span class="o">;</span>
 			<span class="c1">//对implements interface OnitemClick</span>
 			<span class="c1">//进行绑定，如果调用 Dialog1 的 Activity 没有 声明接口，那么会报错</span>
-		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+		<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 			<span class="k">throw</span> <span class="k">new</span> <span class="nf">ClassCastException</span><span class="o">(</span><span class="n">activity</span><span class="o">.</span><span class="na">toString</span><span class="o">()</span>
 					<span class="o">+</span> <span class="s">"must implement OnitemClick"</span><span class="o">);</span>
 		<span class="o">}</span>
@@ -139,25 +139,25 @@ activity 向 fragment 传递 信息 是通过setArguments(Bundle bundle)传递�
 
 
   
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GetThePatientHardwareList</span> <span class="kd">extends</span> <span class="n">BaseActivity</span> <span class="kd">implements</span>
-		 <span class="n">OnitemClick</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GetThePatientHardwareList</span> <span class="kd">extends</span> <span class="nc">BaseActivity</span> <span class="kd">implements</span>
+		 <span class="nc">OnitemClick</span> <span class="o">{</span>
 	<span class="nd">@Override</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdittext</span><span class="o">(</span><span class="n">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span><span class="c1">//数据接口</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setEdittext</span><span class="o">(</span><span class="nc">View</span> <span class="n">view</span><span class="o">,</span> <span class="kt">int</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span><span class="c1">//数据接口</span>
 	<span class="c1">// 对方法的实现</span>
 	
 	<span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
 <p>Activity 向fragment 传递数据</p>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Dialog1</span> <span class="n">dia</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Dialog1</span><span class="o">();</span>
-<span class="n">Bundle</span> <span class="n">bundle</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Bundle</span><span class="o">();</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Dialog1</span> <span class="n">dia</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dialog1</span><span class="o">();</span>
+<span class="nc">Bundle</span> <span class="n">bundle</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Bundle</span><span class="o">();</span>
 <span class="n">bundle</span><span class="o">.</span><span class="na">putInt</span><span class="o">(</span><span class="s">"Type"</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
 <span class="n">bundle</span><span class="o">.</span><span class="na">putInt</span><span class="o">(</span><span class="s">"position"</span><span class="o">,</span> <span class="n">position</span><span class="o">);</span>
 <span class="n">dia</span><span class="o">.</span><span class="na">setArguments</span><span class="o">(</span><span class="n">bundle</span><span class="o">);</span><span class="c1">//bundle 就是传递的数据</span>
 <span class="n">getSupportFragmentManager</span><span class="o">().</span><span class="na">beginTransaction</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">dia</span><span class="o">,</span> <span class="s">""</span><span class="o">).</span><span class="na">commit</span><span class="o">();</span>
 
-<span class="n">Fragment</span> <span class="err">如何接受数据呢</span>    
-<span class="err">直接简单粗暴</span>
+<span class="nc">Fragment</span> <span class="n">如何接受数据呢</span>    
+<span class="n">直接简单粗暴</span>
 <span class="kt">int</span> <span class="n">type</span> <span class="o">=</span> <span class="n">getArguments</span><span class="o">().</span><span class="na">getInt</span><span class="o">(</span><span class="s">"Type"</span><span class="o">);</span>
 <span class="c1">//在对type的接受 可实现 Fragment 的多态性和复用性</span>
 </code></pre></div></div>
@@ -175,11 +175,11 @@ activity 向 fragment 传递 信息 是通过setArguments(Bundle bundle)传递�
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -229,7 +229,7 @@ activity 向 fragment 传递 信息 是通过setArguments(Bundle bundle)传递�
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 

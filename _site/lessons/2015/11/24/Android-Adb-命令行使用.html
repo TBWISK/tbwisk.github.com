@@ -83,7 +83,7 @@
 <p>使用这个命令可以显示链接到电脑设备上的手机设备和手机设备id <br />
 <strong>adb devices</strong></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>List of devices attached
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>List of devices attached
 7C5A07B48684	device
 </code></pre></div></div>
 <p>如果多个设备一起连接，可以使用__adb -s DEVICE_ID__ 来指定一个特别的设备。</p>
@@ -93,7 +93,7 @@
 <h3 id="3安装一个apk">3：安装一个apk</h3>
 <p>使用命令 <strong>install</strong> 命令来安装apk，可选 __-r__参数 如果程序已经安装，那么将会重新安装并保持任何的数据不变。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb install -r APK_FILE
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb install -r APK_FILE
 example
 adb install -r ~/application.apk
 </code></pre></div></div>
@@ -102,7 +102,7 @@ adb install -r ~/application.apk
 
 <h3 id="4卸载一个应用程序">4：卸载一个应用程序</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb uninstall PACKAGE_NAME  
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb uninstall PACKAGE_NAME  
 example  
 adb uninstall com.tencent.mm
 </code></pre></div></div>
@@ -111,7 +111,7 @@ adb uninstall com.tencent.mm
 
 <h3 id="5开始一个activty">5:开始一个activty</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell am start PACKAGE_NAME/ACTIVITY_IN_PACKAGE   
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell am start PACKAGE_NAME/ACTIVITY_IN_PACKAGE   
 adb shell am start PACKAGE_NAME/FULL_QUALIFIED_ACTIVITY   
 
 example   
@@ -123,21 +123,21 @@ adb shell am start -n com.tencent.mm/com.tencent.mm.ui.LauncherUI
 
 <h3 id="6进入设备的shell命令行">6:进入设备的shell命令行</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell
 </code></pre></div></div>
 
 <hr />
 
 <h3 id="6屏幕截图">6:屏幕截图</h3>
 <p>这个命令用于把手机屏幕截图然后保存到当前终端的目录下面。</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' &gt; screen.png
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell screencap -p | perl -pe 's/\x0D\x0A/\x0A/g' &gt; screen.png
 </code></pre></div></div>
 
 <hr />
 
 <h3 id="7屏幕开关">7：屏幕开关</h3>
 <p>这个命令是用于发送事件给设备，然后开关屏幕。</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell input keyevent 26
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell input keyevent 26
 </code></pre></div></div>
 
 <hr />
@@ -146,20 +146,20 @@ adb shell am start -n com.tencent.mm/com.tencent.mm.ui.LauncherUI
 
 <p>这个命令是用于解锁屏幕，可和上面的屏幕电源开关一起使用。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell input keyevent 82
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell input keyevent 82
 </code></pre></div></div>
 <hr />
 
 <h3 id="9打印手机上安装的包">9：打印手机上安装的包</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell pm list packages -f
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell pm list packages -f
 </code></pre></div></div>
 
 <hr />
 
 <h3 id="10清空应用程序的数据">10:清空应用程序的数据</h3>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell pm clear PACKAGE_NAME
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adb shell pm clear PACKAGE_NAME
 
 //example
 adb shell pm clear com.tencent.mm
@@ -170,7 +170,7 @@ adb shell pm clear com.tencent.mm
 <h3 id="11打印日志信息">11:打印日志信息</h3>
 <p>显示log 的输入流在我们的屏幕上</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>根据 tagname拦截 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>根据 tagname拦截 
 adb logcat -s TAG_NAME
 adb logcat -s TAG_NAME_1 TAG_NAME_2
 
@@ -237,11 +237,11 @@ adb logcat -c
 <section class="author-detail">
     <section class="post-footer-item author-card">
         <div class="avatar">
-            <img src="http://imgs.txrdb.xyz/author.png" alt="">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
         </div>
         <div class="author-name" rel="author">方伟强</div>
         <div class="bio">
-            <p>Python开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
         </div>
         
         <ul class="sns-links">
@@ -291,7 +291,7 @@ adb logcat -c
 </section>
 
 <footer class="g-footer">
-    <section>方伟强的独立博客 © 2019</section>
+    <section>方伟强的独立博客 © 2020</section>
     <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
 </footer>
 
