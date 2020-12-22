@@ -6,7 +6,7 @@ url: 'http://tbwisk.github.com' # your host
 
 # if you don't need baseurl, you should leave this value blank.
 baseurl: ''
-qiniu_url: 'http://imgs.txrdb.xyz/'
+qiniu_url: 'https://imgs.txrdb.xyz/'
 github_markdown_url: 'assets/css/github-markdown.css'
 prism_url: 'assets/css/prism.css'
 share_url: 'assets/css/share.min.css'
