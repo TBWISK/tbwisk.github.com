@@ -8,9 +8,9 @@ tags: golang
 
 # 背景  
 在使用goroutine的时候，有时候需要控制goroutine执行的时间。这时候需要使用到 一些技巧。 
-这个时候可以使用 __select__ 和 __time.After__ 进行处理。
+这个时候可以使用 __select__ 和 __time.After__ 进行处理。  
 [来源](https://github.com/golang/go/wiki/Timeouts)  
-```
+```go 
 import "time"
 
 c := make(chan error, 1)
