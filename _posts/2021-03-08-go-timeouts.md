@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 'go timeouts'
-date: 2021-03-02
+date: 2021-03-08
 author: tbwisk
 tags: golang
 ---
