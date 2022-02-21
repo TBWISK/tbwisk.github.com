@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go errors - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="go errors">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="go errors - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2021/03/09/go-errors.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/prism.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/share.min.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>go errors</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="21-03-09"><i class="iconfont icon-date"></i>09 Mar 2021</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="背景">背景</h1>
+<p>go 的错误在一些场景上面的使用。</p>
+
+<h2 id="errors">Errors</h2>
+<p>错误是通过返回一个 <strong>error</strong> 作为函数的额外返回值来表示的。如果返回 <strong>nil</strong> 意味着没有错误。 <br />
+<a href="https://github.com/golang/go/wiki/Errors">来源</a> <br />
+通过调用 <strong>errors.New</strong> ，可以从字符串创建错误。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">failure</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"inverse tachyon pulse failed"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>或者使用 <strong>fmt.Errorf</strong></p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">failure</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Errorf</span><span class="p">(</span><span class="s">"inverse tachyon pulse failed"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>因为它们通常会在打印前加前缀，所以错误字符串不应该以大写字母开头</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">err</span> <span class="o">:=</span> <span class="n">TryInverseTachyonPulse</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"failed to solve problem: %s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>如果希望调用代码能够处理错误，则可以通过返回特殊值或新的类型来区分错误类型。<br />
+这时候只需要区分调用代码可以通过这种方式处理的差异，因为字符串允许通信错误的细节。<br />
+<strong>io.EOF</strong> 是一个特殊的值表示流的结束.你可以直接比较误差值 <strong>io.EOF</strong><br />
+如果你想携带额外的错误数据，你可以使用一个新的类型</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">ParseError</span> <span class="k">struct</span> <span class="p">{</span>
+	<span class="n">Line</span><span class="p">,</span> <span class="n">Col</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">p</span> <span class="n">ParseError</span><span class="p">)</span> <span class="n">Error</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"parse error on line %d, column %d"</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">Line</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">Col</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>如果你想创建一个常量字符串错误，你可以使用一个命名类型string:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span> <span class="n">errorConst</span> <span class="kt">string</span>
+
+<span class="k">const</span> <span class="n">ErrTooManyErrors</span> <span class="n">errorConst</span> <span class="o">=</span> <span class="s">"too many errors found."</span>
+
+<span class="k">func</span> <span class="p">(</span><span class="n">e</span> <span class="n">errorConst</span><span class="p">)</span> <span class="n">Error</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="kt">string</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>可以调用代码 <strong>switch</strong> 来判断不同类型的错误信息</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">switch</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">err</span><span class="o">.</span><span class="p">(</span><span class="k">type</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">case</span> <span class="n">ParseError</span><span class="o">:</span>
+	<span class="n">PrintParseError</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="naming-命名规则">Naming 命名规则</h2>
+<p>错误类型以”Error”结束，错误的变量以”Err”或”Err”开头:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">somepkg</span>
+
+<span class="c">// ParseError is type of error returned when there's a parsing problem.</span>
+<span class="k">type</span> <span class="n">ParseError</span> <span class="k">struct</span> <span class="p">{</span>
+  <span class="n">Line</span><span class="p">,</span> <span class="n">Col</span> <span class="kt">int</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="n">ErrBadAction</span> <span class="o">=</span> <span class="n">errors</span><span class="o">.</span><span class="n">New</span><span class="p">(</span><span class="s">"somepkg: a bad action was performed"</span><span class="p">)</span>
+
+<span class="c">// -----</span>
+
+<span class="k">package</span> <span class="n">foo</span>
+
+<span class="k">func</span> <span class="n">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">res</span><span class="p">,</span> <span class="n">err</span> <span class="o">:=</span> <span class="n">somepkgAction</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">err</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">err</span> <span class="o">==</span> <span class="n">somepkg</span><span class="o">.</span><span class="n">ErrBadAction</span> <span class="p">{</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">pe</span><span class="p">,</span> <span class="n">ok</span> <span class="o">:=</span> <span class="n">err</span><span class="o">.</span><span class="p">(</span><span class="o">*</span><span class="n">somepkg</span><span class="o">.</span><span class="n">ParseError</span><span class="p">);</span> <span class="n">ok</span> <span class="p">{</span>
+             <span class="n">line</span><span class="p">,</span> <span class="n">col</span> <span class="o">:=</span> <span class="n">pe</span><span class="o">.</span><span class="n">Line</span><span class="p">,</span> <span class="n">pe</span><span class="o">.</span><span class="n">Col</span>
+             <span class="c">// ....</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="总结">总结</h2>
+<p>在处理不同错误的时候，在业务逻辑上，需要声明各个错误的内容，在使用上面和调度上需要注意好使用错误的规范，明确返回什么错误才能很好的进行错误的排除。避免因为错误内容的混淆导致无法找到问题的所在。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2021/03/09/go-switch.html" class="read-next-link"></a>
+            <section>
+                <span>go switch</span>
+                <p>背景go switch 在一些场景上面的介绍。来源switchGo的switch语句非常简洁。首先，您不需要在每一...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/2021/03/08/go-timeouts.html" class="read-next-link"></a>
+            <section>
+                <span>go timeouts</span>
+                <p>背景在使用goroutine的时候，有时候需要控制goroutine执行的时间。这时候需要使用到 一些技巧。 这个...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2022</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'http://tbwisk.github.io/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://tbwisk.github.io/assets/js/prism.js"></script>
+<script src="https://tbwisk.github.io/assets/js/index.min.js"></script>
+</body>
+</html>

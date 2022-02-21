@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go switch - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="go switch">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="go switch - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2021/03/09/go-switch.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/prism.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/share.min.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>go switch</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="21-03-09"><i class="iconfont icon-date"></i>09 Mar 2021</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="背景">背景</h1>
+<p>go switch 在一些场景上面的介绍。<br />
+<a href="https://github.com/golang/go/wiki/Switch">来源</a></p>
+<h2 id="switch">switch</h2>
+<p>Go的switch语句非常简洁。首先，您不需要在每一种情况结束时中断。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">switch</span> <span class="n">c</span> <span class="p">{</span>
+<span class="k">case</span> <span class="sc">'&amp;'</span><span class="o">:</span>
+	<span class="n">esc</span> <span class="o">=</span> <span class="s">"&amp;amp;"</span>
+<span class="k">case</span> <span class="sc">'\'</span><span class="err">'</span><span class="o">:</span>
+	<span class="n">esc</span> <span class="o">=</span> <span class="s">"&amp;apos;"</span>
+<span class="k">case</span> <span class="sc">'&lt;'</span><span class="o">:</span>
+	<span class="n">esc</span> <span class="o">=</span> <span class="s">"&amp;lt;"</span>
+<span class="k">case</span> <span class="sc">'&gt;'</span><span class="o">:</span>
+	<span class="n">esc</span> <span class="o">=</span> <span class="s">"&amp;gt;"</span>
+<span class="k">case</span> <span class="sc">'"'</span><span class="o">:</span>
+	<span class="n">esc</span> <span class="o">=</span> <span class="s">"&amp;quot;"</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="nb">panic</span><span class="p">(</span><span class="s">"unrecognized escape character"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="not-just-integers-不是只有int类型">Not just integers 不是只有int类型</h3>
+<p><strong>switch</strong> 作用于任何类型的值。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">switch</span> <span class="n">syscall</span><span class="o">.</span><span class="n">OS</span> <span class="p">{</span>
+<span class="k">case</span> <span class="s">"windows"</span><span class="o">:</span>
+	<span class="n">sd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">sysDir</span><span class="p">{</span>
+		<span class="n">Getenv</span><span class="p">(</span><span class="s">"SystemRoot"</span><span class="p">)</span> <span class="o">+</span> <span class="s">`\system32\drivers\etc`</span><span class="p">,</span>
+		<span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+			<span class="s">"hosts"</span><span class="p">,</span>
+			<span class="s">"networks"</span><span class="p">,</span>
+			<span class="s">"protocol"</span><span class="p">,</span>
+			<span class="s">"services"</span><span class="p">,</span>
+		<span class="p">},</span>
+	<span class="p">}</span>
+<span class="k">case</span> <span class="s">"plan9"</span><span class="o">:</span>
+	<span class="n">sd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">sysDir</span><span class="p">{</span>
+		<span class="s">"/lib/ndb"</span><span class="p">,</span>
+		<span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+			<span class="s">"common"</span><span class="p">,</span>
+			<span class="s">"local"</span><span class="p">,</span>
+		<span class="p">},</span>
+	<span class="p">}</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="n">sd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">sysDir</span><span class="p">{</span>
+		<span class="s">"/etc"</span><span class="p">,</span>
+		<span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+			<span class="s">"group"</span><span class="p">,</span>
+			<span class="s">"hosts"</span><span class="p">,</span>
+			<span class="s">"passwd"</span><span class="p">,</span>
+		<span class="p">},</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="missing-expression-表达式的问题">Missing expression 表达式的问题</h3>
+<p>switch没有值表示“switch true”，使其成为if-else链的更简洁版本，如Effective Go的示例:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">unhex</span><span class="p">(</span><span class="n">c</span> <span class="kt">byte</span><span class="p">)</span> <span class="kt">byte</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="sc">'0'</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">'9'</span><span class="o">:</span>
+		<span class="k">return</span> <span class="n">c</span> <span class="o">-</span> <span class="sc">'0'</span>
+	<span class="k">case</span> <span class="sc">'a'</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">'f'</span><span class="o">:</span>
+		<span class="k">return</span> <span class="n">c</span> <span class="o">-</span> <span class="sc">'a'</span> <span class="o">+</span> <span class="m">10</span>
+	<span class="k">case</span> <span class="sc">'A'</span> <span class="o">&lt;=</span> <span class="n">c</span> <span class="o">&amp;&amp;</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="sc">'F'</span><span class="o">:</span>
+		<span class="k">return</span> <span class="n">c</span> <span class="o">-</span> <span class="sc">'A'</span> <span class="o">+</span> <span class="m">10</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="m">0</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="break">Break</h3>
+<p>Go的switch语句虽然是隐式中断，但break仍然在函数中会有用:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">command</span> <span class="o">:=</span> <span class="n">ReadCommand</span><span class="p">()</span>
+<span class="n">argv</span> <span class="o">:=</span> <span class="n">strings</span><span class="o">.</span><span class="n">Fields</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+<span class="k">switch</span> <span class="n">argv</span><span class="p">[</span><span class="m">0</span><span class="p">]</span> <span class="p">{</span>
+<span class="k">case</span> <span class="s">"echo"</span><span class="o">:</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+<span class="k">case</span> <span class="s">"cat"</span><span class="o">:</span>
+	<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="m">1</span> <span class="p">{</span>
+		<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Usage: cat &lt;filename&gt;"</span><span class="p">)</span>
+		<span class="k">break</span>
+	<span class="p">}</span>
+	<span class="n">PrintFile</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="m">1</span><span class="p">])</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"Unknown command; try 'echo' or 'cat'"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="fall-through">Fall through</h3>
+<p>当满足switch的条件后想要进入后续的模块，请使用fallthrough关键字:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">v</span> <span class="o">:=</span> <span class="m">42</span>
+<span class="k">switch</span> <span class="n">v</span> <span class="p">{</span>
+<span class="k">case</span> <span class="m">100</span><span class="o">:</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="m">100</span><span class="p">)</span>
+	<span class="k">fallthrough</span>
+<span class="k">case</span> <span class="m">42</span><span class="o">:</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="m">42</span><span class="p">)</span>
+	<span class="k">fallthrough</span>
+<span class="k">case</span> <span class="m">1</span><span class="o">:</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="m">1</span><span class="p">)</span>
+	<span class="k">fallthrough</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"default"</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="c">// Output:</span>
+<span class="c">// 42</span>
+<span class="c">// 1</span>
+<span class="c">// default</span>
+
+</code></pre></div></div>
+<p>其他例子:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Unpack 4 bytes into uint32 to repack into base 85 5-byte.</span>
+<span class="k">var</span> <span class="n">v</span> <span class="kt">uint32</span>
+<span class="k">switch</span> <span class="nb">len</span><span class="p">(</span><span class="n">src</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="n">v</span> <span class="o">|=</span> <span class="kt">uint32</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="m">3</span><span class="p">])</span>
+	<span class="k">fallthrough</span>
+<span class="k">case</span> <span class="m">3</span><span class="o">:</span>
+	<span class="n">v</span> <span class="o">|=</span> <span class="kt">uint32</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="m">2</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="m">8</span>
+	<span class="k">fallthrough</span>
+<span class="k">case</span> <span class="m">2</span><span class="o">:</span>
+	<span class="n">v</span> <span class="o">|=</span> <span class="kt">uint32</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="m">1</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="m">16</span>
+	<span class="k">fallthrough</span>
+<span class="k">case</span> <span class="m">1</span><span class="o">:</span>
+	<span class="n">v</span> <span class="o">|=</span> <span class="kt">uint32</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="m">0</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="m">24</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><strong>fallthrough</strong> 一定在代码的最后;你不能写这样的代码:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">switch</span> <span class="p">{</span>
+<span class="k">case</span> <span class="n">f</span><span class="p">()</span><span class="o">:</span>
+	<span class="k">if</span> <span class="n">g</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">fallthrough</span> <span class="c">// Does not work!</span>
+	<span class="p">}</span>
+	<span class="n">h</span><span class="p">()</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="kt">error</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>然而，你可以通过使用 <strong>labeled</strong> 来解决这个问题:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">switch</span> <span class="p">{</span>
+<span class="k">case</span> <span class="n">f</span><span class="p">()</span><span class="o">:</span>
+	<span class="k">if</span> <span class="n">g</span><span class="p">()</span> <span class="p">{</span>
+		<span class="k">goto</span> <span class="n">nextCase</span> <span class="c">// Works now!</span>
+	<span class="p">}</span>
+	<span class="n">h</span><span class="p">()</span>
+    <span class="k">break</span>
+<span class="n">nextCase</span><span class="o">:</span>
+    <span class="k">fallthrough</span>
+<span class="k">default</span><span class="o">:</span>
+	<span class="kt">error</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>注意 <strong>fallthrough</strong> 在switch不生效的场景。</p>
+
+<h3 id="multiple-cases">Multiple cases</h3>
+<p>如果想在同一情况下使用多个值，请使用逗号分隔的列表:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">letterOp</span><span class="p">(</span><span class="n">code</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="n">chars</span><span class="p">[</span><span class="n">code</span><span class="p">]</span><span class="o">.</span><span class="n">category</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="s">"Lu"</span><span class="p">,</span> <span class="s">"Ll"</span><span class="p">,</span> <span class="s">"Lt"</span><span class="p">,</span> <span class="s">"Lm"</span><span class="p">,</span> <span class="s">"Lo"</span><span class="o">:</span>
+		<span class="k">return</span> <span class="no">true</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="no">false</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="type-switch">Type switch</h3>
+<p>通过switch 可以进行类型的判断，获取 <strong>interface{}</strong> 的类型</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">typeName</span><span class="p">(</span><span class="n">v</span> <span class="k">interface</span><span class="p">{})</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="n">v</span><span class="o">.</span><span class="p">(</span><span class="k">type</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="kt">int</span><span class="o">:</span>
+		<span class="k">return</span> <span class="s">"int"</span>
+	<span class="k">case</span> <span class="kt">string</span><span class="o">:</span>
+		<span class="k">return</span> <span class="s">"string"</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="k">return</span> <span class="s">"unknown"</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>你可以声明一个函数，它将具有处理每种类型传值的类型:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">do</span><span class="p">(</span><span class="n">v</span> <span class="k">interface</span><span class="p">{})</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="k">switch</span> <span class="n">u</span> <span class="o">:=</span> <span class="n">v</span><span class="o">.</span><span class="p">(</span><span class="k">type</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="kt">int</span><span class="o">:</span>
+		<span class="k">return</span> <span class="n">strconv</span><span class="o">.</span><span class="n">Itoa</span><span class="p">(</span><span class="n">u</span><span class="o">*</span><span class="m">2</span><span class="p">)</span> <span class="c">// u has type int</span>
+	<span class="k">case</span> <span class="kt">string</span><span class="o">:</span>
+		<span class="n">mid</span> <span class="o">:=</span> <span class="nb">len</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="o">/</span> <span class="m">2</span> <span class="c">// split - u has type string</span>
+		<span class="k">return</span> <span class="n">u</span><span class="p">[</span><span class="n">mid</span><span class="o">:</span><span class="p">]</span> <span class="o">+</span> <span class="n">u</span><span class="p">[</span><span class="o">:</span><span class="n">mid</span><span class="p">]</span> <span class="c">// join</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="s">"unknown"</span>
+<span class="p">}</span>
+
+<span class="n">do</span><span class="p">(</span><span class="m">21</span><span class="p">)</span> <span class="o">==</span> <span class="s">"42"</span>
+<span class="n">do</span><span class="p">(</span><span class="s">"bitrab"</span><span class="p">)</span> <span class="o">==</span> <span class="s">"rabbit"</span>
+<span class="n">do</span><span class="p">(</span><span class="m">3.142</span><span class="p">)</span> <span class="o">==</span> <span class="s">"unknown"</span>
+</code></pre></div></div>
+<h3 id="noop-case-没有操作">Noop case 没有操作</h3>
+<p>有时不需要采取行动的情况是有用的。这个得看具体的场景和应用需要做什么事情。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">pluralEnding</span><span class="p">(</span><span class="n">n</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">string</span> <span class="p">{</span>
+	<span class="n">ending</span> <span class="o">:=</span> <span class="s">""</span>
+
+	<span class="k">switch</span> <span class="n">n</span> <span class="p">{</span>
+	<span class="k">case</span> <span class="m">1</span><span class="o">:</span>
+	<span class="k">default</span><span class="o">:</span>
+		<span class="n">ending</span> <span class="o">=</span> <span class="s">"s"</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">ending</span>
+<span class="p">}</span>
+
+<span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"foo%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pluralEnding</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>  <span class="o">==</span> <span class="s">"foo"</span> <span class="c">//false</span>
+<span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"bar%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">pluralEnding</span><span class="p">(</span><span class="m">2</span><span class="p">))</span>  <span class="o">==</span> <span class="s">"bars"</span> <span class="c">//false</span>
+<span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"foo%s"</span><span class="p">,</span> <span class="n">pluralEnding</span><span class="p">(</span><span class="m">1</span><span class="p">))</span>  <span class="o">==</span> <span class="s">"foo"</span> <span class="c">//true</span>
+<span class="n">fmt</span><span class="o">.</span><span class="n">Sprintf</span><span class="p">(</span><span class="s">"bar%s"</span><span class="p">,</span> <span class="n">pluralEnding</span><span class="p">(</span><span class="m">2</span><span class="p">))</span>  <span class="o">==</span> <span class="s">"bars"</span> <span class="c">//true</span>
+<span class="c">//上述的\n导致字符串不一致</span>
+</code></pre></div></div>
+
+<h3 id="总结">总结</h3>
+<p>上述介绍了switch的使用，有时候场景都是在断言的情况，判断这个值是什么类型。<br />
+以及某些数据链路上简化了if else 的使用。避免if else 过多的问题。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2021/03/18/go-InterfaceSlice.html" class="read-next-link"></a>
+            <section>
+                <span>go InterfaceSlice</span>
+                <p>背景interface slice 的一些 介绍  来源</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/2021/03/09/go-errors.html" class="read-next-link"></a>
+            <section>
+                <span>go errors</span>
+                <p>背景go 的错误在一些场景上面的使用。</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2022</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'http://tbwisk.github.io/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://tbwisk.github.io/assets/js/prism.js"></script>
+<script src="https://tbwisk.github.io/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go timeouts - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="go timeouts">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="go timeouts - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2021/03/08/go-timeouts.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/prism.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/share.min.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>go timeouts</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="21-03-08"><i class="iconfont icon-date"></i>08 Mar 2021</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="背景">背景</h1>
+<p>在使用goroutine的时候，有时候需要控制goroutine执行的时间。这时候需要使用到 一些技巧。 
+这个时候可以使用 <strong>select</strong> 和 <strong>time.After</strong> 进行处理。<br />
+<a href="https://github.com/golang/go/wiki/Timeouts">来源</a></p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="s">"time"</span>
+
+<span class="n">c</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="k">chan</span> <span class="kt">error</span><span class="p">,</span> <span class="m">1</span><span class="p">)</span>
+<span class="k">go</span> <span class="k">func</span><span class="p">()</span> <span class="p">{</span> <span class="n">c</span> <span class="o">&lt;-</span> <span class="n">client</span><span class="o">.</span><span class="n">Call</span><span class="p">(</span><span class="s">"Service.Method"</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">reply</span><span class="p">)</span> <span class="p">}</span> <span class="p">()</span>
+<span class="k">select</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="n">err</span> <span class="o">:=</span> <span class="o">&lt;-</span><span class="n">c</span><span class="o">:</span>
+    <span class="c">// use err and reply</span>
+  <span class="k">case</span> <span class="o">&lt;-</span><span class="n">time</span><span class="o">.</span><span class="n">After</span><span class="p">(</span><span class="n">timeoutNanoseconds</span><span class="p">)</span><span class="o">:</span>
+    <span class="c">// call timed out</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><strong>注意</strong>: 通道c的缓冲区大小是1。如果是非缓冲通道和客户端。调用方法所花费的时间超过了 <strong>timeoutNanoseconds</strong>，通道发送将永远阻塞，goroutine将永远不会被销毁。</p>
+
+<p>上述是涉及到的超时控制在后续的版本中可以使用 <strong>context</strong> 进行超时控制。以及使用 <strong>sync.WaitGroup</strong> 控制 goroutine的完成情况。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2021/03/09/go-errors.html" class="read-next-link"></a>
+            <section>
+                <span>go errors</span>
+                <p>背景go 的错误在一些场景上面的使用。</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/2021/03/07/go-comments.html" class="read-next-link"></a>
+            <section>
+                <span>go comments</span>
+                <p>背景go comments 注释，能让代码可阅读性更强。</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2022</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'http://tbwisk.github.io/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://tbwisk.github.io/assets/js/prism.js"></script>
+<script src="https://tbwisk.github.io/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go comments - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="go comments">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="go comments - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2021/03/07/go-comments.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/prism.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/share.min.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>go comments</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="21-03-07"><i class="iconfont icon-date"></i>07 Mar 2021</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="背景">背景</h1>
+<p>go comments 注释，能让代码可阅读性更强。</p>
+
+<h3 id="comments">Comments</h3>
+<p>每个包都应该有一个包注释。<br />
+它应该在包中的一个文件中的包语句的前面。(它只需要出现在一个文件中。)<br />
+它应该以 <strong>Package packagename</strong> 开头的单句开头，并对包的功能进行简明的总结。<br />
+这个介绍性的句子将在 <strong>godoc</strong> 的所有软件包列表中使用。<br />
+后续的内容会给出更多的细节</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// Package superman implements methods for saving the world.</span>
+<span class="c">//</span>
+<span class="c">// Experience has shown that a small number of procedures can prove</span>
+<span class="c">// helpful when attempting to save the world.</span>
+<span class="k">package</span> <span class="n">superman</span>
+</code></pre></div></div>
+<p>几乎每个顶级类型，const、var和func都应该有注释。<br />
+这部分的注释应该是这样的:注释在代码的上面。对应对象的描述第一个字母不应该大写，除非在代码中它是大写的。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// enterOrbit causes Superman to fly into low Earth orbit, a position</span>
+<span class="c">// that presents several possibilities for planet salvation.</span>
+<span class="k">func</span> <span class="n">enterOrbit</span><span class="p">()</span> <span class="n">os</span><span class="o">.</span><span class="n">Error</span> <span class="p">{</span>
+  <span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>在注释中缩进的所有文本，godoc将呈现为预先格式化的块。这会让代码看起来更简洁。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// fight can be used on any enemy and returns whether Superman won.</span>
+<span class="c">//</span>
+<span class="c">// Examples:</span>
+<span class="c">//</span>
+<span class="c">//  fight("a random potato")</span>
+<span class="c">//  fight(LexLuthor{})</span>
+<span class="c">//</span>
+<span class="k">func</span> <span class="n">fight</span><span class="p">(</span><span class="n">enemy</span> <span class="k">interface</span><span class="p">{})</span> <span class="kt">bool</span> <span class="p">{</span>
+  <span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="总结">总结</h3>
+<p>上述比较简单的说一下注释的作用，以及如何做注释。<br />
+在类似Java的项目中，函数的传值和返回值也是需要通过注释来描述对应的数据。
+方便其他人看你的代码，以及方便后续的维护性。避免每次调用的时候，都得重新看代码，才能知道对应函数的作用。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2021/03/08/go-timeouts.html" class="read-next-link"></a>
+            <section>
+                <span>go timeouts</span>
+                <p>背景在使用goroutine的时候，有时候需要控制goroutine执行的时间。这时候需要使用到 一些技巧。 这个...</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/2021/03/02/go%E5%88%87%E7%89%87%E7%9A%84%E6%8A%80%E5%B7%A7.html" class="read-next-link"></a>
+            <section>
+                <span>go切片的技巧</span>
+                <p>背景go在内置中有 append ，使用 append 和 copy 可以模仿使用 container/vecto...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2022</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'http://tbwisk.github.io/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://tbwisk.github.io/assets/js/prism.js"></script>
+<script src="https://tbwisk.github.io/assets/js/index.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go cgo - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="go cgo">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="go cgo - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2021/03/19/go-cgo.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/prism.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/share.min.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>go cgo</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="21-03-19"><i class="iconfont icon-date"></i>19 Mar 2021</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="背景">背景</h1>
+<p>cgo，在使用场景上使用 c编写的代码。运行c的代码，得到执行的结果。</p>
+
+<h2 id="介绍">介绍</h2>
+<p>首先，<a href="http://golang.org/cmd/cgo">http://golang.org/cmd/cgo</a>是主要的cgo文档。<br />
+在<a href="http://golang.org/doc/articles/c_go_cgo.html">http://golang.org/doc/articles/c_go_cgo.html</a>上也有一篇很好的介绍文章。</p>
+<h3 id="基础">基础</h3>
+<p>如果一个Go源文件导入了” <strong>C</strong> “，那么它正在使用 <strong>cgo</strong> 。Go文件将访问在导入“C”行之前的注释中出现的任何内容，并将链接到其他Go文件中的所有其他cgo注释，以及构建过程中包含的所有C文件。
+注意，cgo注释和import语句之间必须没有空行。
+要访问源自C端的符号，请使用包名C。也就是说，如果您想从Go代码中调用C函数printf()，则需要编写C.printf()。由于像printf这样的变量参数方法还不被支持，我们将它包装在C方法“myprint”中:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="c">/*
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void myprint(char* s) {
+	printf("%s\n", s);
+}
+*/</span>
+<span class="k">import</span> <span class="s">"C"</span>
+
+<span class="k">import</span> <span class="s">"unsafe"</span>
+
+<span class="k">func</span> <span class="n">Example</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">cs</span> <span class="o">:=</span> <span class="n">C</span><span class="o">.</span><span class="n">CString</span><span class="p">(</span><span class="s">"Hello from stdio</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+	<span class="n">C</span><span class="o">.</span><span class="n">myprint</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+	<span class="n">C</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">unsafe</span><span class="o">.</span><span class="n">Pointer</span><span class="p">(</span><span class="n">cs</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="k">func</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="n">Example</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<h3 id="从c调用go函数">从C调用Go函数</h3>
+<p>使用cgo从Go代码调用C代码，可以同时调用顶级Go函数和函数变量。</p>
+
+<h4 id="全局函数">全局函数</h4>
+<p>Go通过使用一个特殊的//导出注释使它的函数对C代码可用。 
+注意:如果你在使用exports，你不能在前言中定义任何C函数。 
+例如，有两个文件，foo.c和foo.go 
+<strong>foo.go</strong>  如下</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">gocallback</span>
+
+<span class="k">import</span> <span class="s">"fmt"</span>
+
+<span class="c">/*
+#include &lt;stdio.h&gt;
+extern void ACFunction();
+*/</span>
+<span class="k">import</span> <span class="s">"C"</span>
+
+<span class="c">//export AGoFunction</span>
+<span class="k">func</span> <span class="n">AGoFunction</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"AGoFunction()"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">Example</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">C</span><span class="o">.</span><span class="n">ACFunction</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><strong>foo.c</strong> 如下</p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include "_cgo_export.h"
+</span><span class="kt">void</span> <span class="nf">ACFunction</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"ACFunction()</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="n">AGoFunction</span><span class="p">();</span>
+<span class="p">}</span> 
+</code></pre></div></div>
+<p>最后我这边编译失败…报错如下;后续想办法解决一下</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># command-line-arguments</span>
+Undefined symbols <span class="k">for </span>architecture x86_64:
+  <span class="s2">"_ACFunction"</span>, referenced from:
+      __cgo_5c1dc23bd62c_Cfunc_ACFunction <span class="k">in </span>_x002.o
+     <span class="o">(</span>maybe you meant: __cgo_5c1dc23bd62c_Cfunc_ACFunction<span class="o">)</span>
+ld: symbol<span class="o">(</span>s<span class="o">)</span> not found <span class="k">for </span>architecture x86_64
+clang: error: linker <span class="nb">command </span>failed with <span class="nb">exit </span>code 1 <span class="o">(</span>use <span class="nt">-v</span> to see invocation<span class="o">)</span>
+</code></pre></div></div>
+<h4 id="函数变量">函数变量</h4>
+<p>下面的代码显示了从C代码调用Go回调的示例。由于指针传递规则，Go代码不能直接将函数值传递给c，而需要使用间接传递。<br />
+本例使用了一个带有互斥锁的注册表，但是还有许多其他方法可以将可以传递给C的值映射到Go函数。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="k">import</span> <span class="p">(</span>
+	<span class="s">"fmt"</span>
+	<span class="s">"sync"</span>
+<span class="p">)</span>
+
+<span class="c">/*
+extern void go_callback_int(int foo, int p1);
+
+// normally you will have to define function or variables
+// in another separate C file to avoid the multiple definition
+// errors, however, using "static inline" is a nice workaround
+// for simple functions like this one.
+static inline void CallMyFunction(int foo) {
+	go_callback_int(foo, 5);
+}
+*/</span>
+<span class="k">import</span> <span class="s">"C"</span>
+
+<span class="c">//export go_callback_int</span>
+<span class="k">func</span> <span class="n">go_callback_int</span><span class="p">(</span><span class="n">foo</span> <span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">,</span> <span class="n">p1</span> <span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">fn</span> <span class="o">:=</span> <span class="n">lookup</span><span class="p">(</span><span class="kt">int</span><span class="p">(</span><span class="n">foo</span><span class="p">))</span>
+	<span class="n">fn</span><span class="p">(</span><span class="n">p1</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">MyCallback</span><span class="p">(</span><span class="n">x</span> <span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Println</span><span class="p">(</span><span class="s">"callback with"</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">Example</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">i</span> <span class="o">:=</span> <span class="n">register</span><span class="p">(</span><span class="n">MyCallback</span><span class="p">)</span>
+	<span class="n">C</span><span class="o">.</span><span class="n">CallMyFunction</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+	<span class="n">unregister</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="n">mu</span> <span class="n">sync</span><span class="o">.</span><span class="n">Mutex</span>
+<span class="k">var</span> <span class="n">index</span> <span class="kt">int</span>
+<span class="k">var</span> <span class="n">fns</span> <span class="o">=</span> <span class="nb">make</span><span class="p">(</span><span class="k">map</span><span class="p">[</span><span class="kt">int</span><span class="p">]</span><span class="k">func</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">))</span>
+
+<span class="k">func</span> <span class="n">register</span><span class="p">(</span><span class="n">fn</span> <span class="k">func</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">))</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="n">mu</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="n">mu</span><span class="o">.</span><span class="n">Unlock</span><span class="p">()</span>
+	<span class="n">index</span><span class="o">++</span>
+	<span class="k">for</span> <span class="n">fns</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">!=</span> <span class="no">nil</span> <span class="p">{</span>
+		<span class="n">index</span><span class="o">++</span>
+	<span class="p">}</span>
+	<span class="n">fns</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">fn</span>
+	<span class="k">return</span> <span class="n">index</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">lookup</span><span class="p">(</span><span class="n">i</span> <span class="kt">int</span><span class="p">)</span> <span class="k">func</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">mu</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="n">mu</span><span class="o">.</span><span class="n">Unlock</span><span class="p">()</span>
+	<span class="k">return</span> <span class="n">fns</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">unregister</span><span class="p">(</span><span class="n">i</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">mu</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+	<span class="k">defer</span> <span class="n">mu</span><span class="o">.</span><span class="n">Unlock</span><span class="p">()</span>
+	<span class="nb">delete</span><span class="p">(</span><span class="n">fns</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">func</span> <span class="n">main</span><span class="p">(){</span>
+	<span class="n">Example</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>执行结果:</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>callback with 5
+</code></pre></div></div>
+<h4 id="回调函数指针">回调函数指针</h4>
+<p>C代码可以调用带有显式名称的导出Go函数。但是，如果c程序需要函数指针，就必须编写网关函数。这是因为我们不能把Go函数的地址交给C代码，因为cgo工具会在C中生成一个应该被调用的存根。下面的例子展示了如何与需要给定类型的函数指针的C代码集成。<br />
+为了更好的了解，在 这个文件 下面创建 <strong>$GOPATH/src/ccallbacks/.</strong> 下面的代码，并且编译和运行他们。</p>
+
+<p><strong>goprog.go</strong></p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="c">/*
+#cgo CFLAGS: -I .
+#cgo LDFLAGS: -L . -lclibrary
+
+#include "clibrary.h"
+
+int callOnMeGo_cgo(int in); // Forward declaration.
+*/</span>
+<span class="k">import</span> <span class="s">"C"</span>
+
+<span class="k">import</span> <span class="p">(</span>
+	<span class="s">"fmt"</span>
+	<span class="s">"unsafe"</span>
+<span class="p">)</span>
+
+<span class="c">//export callOnMeGo</span>
+<span class="k">func</span> <span class="n">callOnMeGo</span><span class="p">(</span><span class="n">in</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">int</span> <span class="p">{</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Go.callOnMeGo(): called with arg = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">in</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">in</span> <span class="o">+</span> <span class="m">1</span>
+<span class="p">}</span>
+
+<span class="k">func</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">fmt</span><span class="o">.</span><span class="n">Printf</span><span class="p">(</span><span class="s">"Go.main(): calling C function with callback to us</span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+	<span class="n">C</span><span class="o">.</span><span class="n">some_c_func</span><span class="p">((</span><span class="n">C</span><span class="o">.</span><span class="n">callback_fcn</span><span class="p">)(</span><span class="n">unsafe</span><span class="o">.</span><span class="n">Pointer</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">callOnMeGo_cgo</span><span class="p">)))</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><strong>cfuncs.go</strong></p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="n">main</span>
+
+<span class="c">/*
+
+#include &lt;stdio.h&gt;
+
+// The gateway function
+int callOnMeGo_cgo(int in)
+{
+	printf("C.callOnMeGo_cgo(): called with arg = %d\n", in);
+	int callOnMeGo(int);
+	return callOnMeGo(in);
+}
+*/</span>
+<span class="k">import</span> <span class="s">"C"</span>
+</code></pre></div></div>
+<p><strong>clibrary.h</strong></p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#ifndef CLIBRARY_H
+#define CLIBRARY_H
+</span><span class="k">typedef</span> <span class="nf">int</span> <span class="p">(</span><span class="o">*</span><span class="n">callback_fcn</span><span class="p">)(</span><span class="kt">int</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">some_c_func</span><span class="p">(</span><span class="n">callback_fcn</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+<p><strong>clibrary.c</strong></p>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;stdio.h&gt;
+</span>
+<span class="cp">#include "clibrary.h"
+</span>
+<span class="kt">void</span> <span class="nf">some_c_func</span><span class="p">(</span><span class="n">callback_fcn</span> <span class="n">callback</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">arg</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"C.some_c_func(): calling callback with arg = %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">arg</span><span class="p">);</span>
+	<span class="kt">int</span> <span class="n">response</span> <span class="o">=</span> <span class="n">callback</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"C.some_c_func(): callback responded with %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">response</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>拥有上述代码后，还得执行相关的操作；如下</p>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>gcc <span class="nt">-c</span> clibrary.c
+<span class="nv">$ </span>ar cru libclibrary.a clibrary.o
+<span class="nv">$ </span>go build
+<span class="nv">$ </span>./ccallbacks
+Go.main<span class="o">()</span>: calling C <span class="k">function </span>with callback to us
+C.some_c_func<span class="o">()</span>: calling callback with arg <span class="o">=</span> 2
+C.callOnMeGo_cgo<span class="o">()</span>: called with arg <span class="o">=</span> 2
+Go.callOnMeGo<span class="o">()</span>: called with arg <span class="o">=</span> 2
+C.some_c_func<span class="o">()</span>: callback responded with 3
+</code></pre></div></div>
+<h4 id="go-strings-和-c-strings">Go strings 和 C strings</h4>
+<p>Go 字符串 和C字符串是不同的。 
+Go字符串是长度和指向字符串中第一个字符的指针的组合。C字符串只是指向第一个字符的指针，以null字符’\0’的第一个实例结束。 
+Go以以下三种功能的形式提供了从一个地方到另一个地方的途径:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">C</span><span class="o">.</span><span class="n">CString</span><span class="p">(</span><span class="n">goString</span> <span class="kt">string</span><span class="p">)</span> <span class="o">*</span><span class="n">C</span><span class="o">.</span><span class="n">char</span>
+<span class="k">func</span> <span class="n">C</span><span class="o">.</span><span class="n">GoString</span><span class="p">(</span><span class="n">cString</span> <span class="o">*</span><span class="n">C</span><span class="o">.</span><span class="n">char</span><span class="p">)</span> <span class="kt">string</span>
+<span class="k">func</span> <span class="n">C</span><span class="o">.</span><span class="n">GoStringN</span><span class="p">(</span><span class="n">cString</span> <span class="o">*</span><span class="n">C</span><span class="o">.</span><span class="n">char</span><span class="p">,</span> <span class="n">length</span> <span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">)</span> <span class="kt">string</span>
+</code></pre></div></div>
+<p>需要记住的一件重要事情是C.CString()将分配一个合适长度的新字符串，并返回它。这意味着C字符串不会被垃圾收集，而是由您来释放它。下面是一种标准的方法。</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">// #include &lt;stdlib.h&gt;</span>
+<span class="k">import</span> <span class="s">"C"</span>
+<span class="k">import</span> <span class="s">"unsafe"</span>
+<span class="o">...</span>
+	<span class="k">var</span> <span class="n">cmsg</span> <span class="o">*</span><span class="n">C</span><span class="o">.</span><span class="n">char</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">CString</span><span class="p">(</span><span class="s">"hi"</span><span class="p">)</span>
+	<span class="k">defer</span> <span class="n">C</span><span class="o">.</span><span class="n">free</span><span class="p">(</span><span class="n">unsafe</span><span class="o">.</span><span class="n">Pointer</span><span class="p">(</span><span class="n">cmsg</span><span class="p">))</span>
+	<span class="c">// do something with the C string</span>
+</code></pre></div></div>
+<p>当然，您不需要使用defer来调用C.free()。您可以在任何时候释放C字符串，但确保释放这个是你的工作。</p>
+<h4 id="将c数组转换为go切片">将C数组转换为Go切片</h4>
+<p>C数组通常要么以空结尾，要么在其他地方保留长度。
+Go提供以下函数来从C数组中创建一个新的Go字节片:</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">func</span> <span class="n">C</span><span class="o">.</span><span class="n">GoBytes</span><span class="p">(</span><span class="n">cArray</span> <span class="n">unsafe</span><span class="o">.</span><span class="n">Pointer</span><span class="p">,</span> <span class="n">length</span> <span class="n">C</span><span class="o">.</span><span class="kt">int</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span>
+</code></pre></div></div>
+<p>要创建一个由C数组支持的Go切片(而不复制原始数据)，需要在运行时获取这个长度，然后使用类型转换到一个非常大的数组的指针，然后将其切片到你想要的长度</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="s">"C"</span>
+<span class="k">import</span> <span class="s">"unsafe"</span>
+<span class="o">...</span>
+        <span class="k">var</span> <span class="n">theCArray</span> <span class="o">*</span><span class="n">C</span><span class="o">.</span><span class="n">YourType</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">getTheArray</span><span class="p">()</span>
+        <span class="n">length</span> <span class="o">:=</span> <span class="n">C</span><span class="o">.</span><span class="n">getTheArrayLength</span><span class="p">()</span>
+        <span class="n">slice</span> <span class="o">:=</span> <span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="m">1</span> <span class="o">&lt;&lt;</span> <span class="m">28</span><span class="p">]</span><span class="n">C</span><span class="o">.</span><span class="n">YourType</span><span class="p">)(</span><span class="n">unsafe</span><span class="o">.</span><span class="n">Pointer</span><span class="p">(</span><span class="n">theCArray</span><span class="p">))[</span><span class="o">:</span><span class="n">length</span><span class="o">:</span><span class="n">length</span><span class="p">]</span>
+</code></pre></div></div>
+<p>重要的是要记住，Go垃圾收集器不会与这个数据交互，如果它从C端释放出来，使用这个片的任何Go代码的行为都是不确定的。</p>
+
+<h4 id="常见的陷阱">常见的陷阱</h4>
+<h5 id="结构体对齐的问题">结构体对齐的问题</h5>
+<p>因为Go不支持打包结构(例如，最大对齐为1字节的结构)，你不能在Go中使用打包的C结构。即使你的程序通过了编译，它也不会做你想做的事情。要使用它，您必须以字节数组/片的形式读写该结构体。<br />
+另一个问题是，有些类型的对齐要求低于Go中的对应类型，如果该类型恰好在C中对齐，但在Go规则中没有对齐，那么该结构就无法在Go中表示</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">T</span> <span class="p">{</span>
+    <span class="n">uint32_t</span> <span class="n">pad</span><span class="p">;</span>
+    <span class="nb">complex</span> <span class="n">float</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>Go的complex64有一个8字节的对齐，而as C只有4字节(因为C在内部将复杂的float作为一个结构体{float real;浮动图像放大;}，不是一个基本类型)，这个T结构体没有Go表示。在这种情况下，如果你控制结构的布局，移动复杂的浮动，使它也对齐到8字节会更好，如果你不愿意移动它，使用这个形式将强制它对齐到8字节(并浪费4字节):</p>
+<div class="language-go highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">T</span> <span class="p">{</span>
+   <span class="n">uint32_t</span> <span class="n">pad</span><span class="p">;</span>
+   <span class="n">__attribute__</span><span class="p">((</span><span class="n">align</span><span class="p">(</span><span class="m">8</span><span class="p">)))</span> <span class="nb">complex</span> <span class="n">float</span> <span class="n">x</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+<p>然而，如果你不能控制struct布局，你将不得不为该struct定义访问器C函数，因为cgo无法将该struct转换为等效的Go结构。</p>
+<h5 id="export-和定义的问题">//export 和定义的问题</h5>
+<p>如果Go源文件使用了任何//export指令，那么注释中的C代码可能只包含声明(extern int f();)，而不包含定义(int f() {return 1;}或int n;)。<br />
+注意:对于序言中定义的小函数，可以使用静态内联技巧来绕过这一限制。</p>
+
+<h5 id="windows">Windows</h5>
+<p>为了在Windows上使用cgo，你还需要首先安装一个gcc编译器(例如，mingw-w64)，并在使用cgo编译之前在你的PATH环境变量中拥有gcc.exe(等等)。</p>
+
+<h5 id="环境变量">环境变量</h5>
+<p>Go os.Getenv()没有看到C.setenv()设置的变量。变量设置不是共享的。</p>
+
+<h5 id="tests-测试">tests 测试</h5>
+<p>_test.go 文件 不能使用 cgo。</p>
+
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        
+        <div class="read-next-item">
+            <a href="/2021/03/18/go-InterfaceSlice.html" class="read-next-link"></a>
+            <section>
+                <span>go InterfaceSlice</span>
+                <p>背景interface slice 的一些 介绍  来源</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2022</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'http://tbwisk.github.io/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://tbwisk.github.io/assets/js/prism.js"></script>
+<script src="https://tbwisk.github.io/assets/js/index.min.js"></script>
+</body>
+</html>

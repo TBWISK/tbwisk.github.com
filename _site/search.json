@@ -1,6 +1,48 @@
 [
   
     {
+      "title"    : "go cgo",
+      "tags"     : "golang",
+      "url"      : "/2021/03/19/go-cgo.html"
+    } ,
+  
+    {
+      "title"    : "go InterfaceSlice",
+      "tags"     : "golang",
+      "url"      : "/2021/03/18/go-InterfaceSlice.html"
+    } ,
+  
+    {
+      "title"    : "go switch",
+      "tags"     : "golang",
+      "url"      : "/2021/03/09/go-switch.html"
+    } ,
+  
+    {
+      "title"    : "go errors",
+      "tags"     : "golang",
+      "url"      : "/2021/03/09/go-errors.html"
+    } ,
+  
+    {
+      "title"    : "go timeouts",
+      "tags"     : "golang",
+      "url"      : "/2021/03/08/go-timeouts.html"
+    } ,
+  
+    {
+      "title"    : "go comments",
+      "tags"     : "golang",
+      "url"      : "/2021/03/07/go-comments.html"
+    } ,
+  
+    {
+      "title"    : "go切片的技巧",
+      "tags"     : "golang",
+      "url"      : "/2021/03/02/go%E5%88%87%E7%89%87%E7%9A%84%E6%8A%80%E5%B7%A7.html"
+    } ,
+  
+    {
       "title"    : "go如何选取使用redis的库",
       "tags"     : "golang",
       "url"      : "/2020/04/28/redigo%E7%9A%84%E4%BD%BF%E7%94%A8.html"
@@ -182,7 +224,7 @@
   
     {
       "title"    : "关于go的小脚本运用",
-      "tags"     : "go",
+      "tags"     : "golang",
       "url"      : "/lessons/2015/05/11/%E5%85%B3%E4%BA%8Ego%E7%9A%84%E5%B0%8F%E8%84%9A%E6%9C%AC%E8%BF%90%E7%94%A8.html"
     } ,
   

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>go切片的技巧 - 方伟强的独立博客</title>
+    <meta name="author"  content="方伟强">
+    <meta name="description" content="go切片的技巧">
+    <meta name="keywords"  content="golang">
+    <!-- Open Graph -->
+    <meta property="og:title" content="go切片的技巧 - 方伟强的独立博客">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="http://localhost:4000/2021/03/02/go%E5%88%87%E7%89%87%E7%9A%84%E6%8A%80%E5%B7%A7.html">
+    <meta property="og:description" content="tbwisk，热爱技术&生活。很高兴能在这里与你分享我对技术和生活的思考。">
+    <meta property="og:site_name" content="方伟强的独立博客">
+    <link rel="stylesheet" href="//cdn.staticfile.org/normalize/6.0.0/normalize.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_roc50gemkxpw4s4i.css">
+    <!-- <link rel="stylesheet" href="assets/css/github-markdown.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/prism.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/share.min.css"> -->
+    <!-- <link rel="stylesheet" href="assets/css/app.min.css"> -->
+
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/github-markdown.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/prism.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/share.min.css">
+    <link rel="stylesheet" href="https://tbwisk.github.io/assets/css/app.min.css">
+</head>
+<body>
+    <!--[if lt IE 10]>
+<div class="alert-danger" role="alert">你的浏览器实在太太太旧了，放学别走，升级完浏览器再说！<a target="_blank" class="alert-link" href="http://browsehappy.com">立即升级</a></div>
+<![endif]-->
+<input id="nm-switch" type="hidden" value="true">
+
+<header class="g-header">
+    <div class="g-logo">
+      <a href="/"></a>
+    </div>
+    <i id="menu-toggle" class="iconfont icon-menu"></i>
+    <nav class="g-nav">
+        <ul>
+            
+            <li><a href="/">home</a></li>
+            
+            <li><a href="/tags.html">tags</a></li>
+            
+        </ul>
+    </nav>
+</header>
+
+
+<header class="g-banner post-header post-pattern-circuitBoard bgcolor-default post-no-cover" data-theme="default">
+    <div class="post-wrapper">
+        <div class="post-tags">
+            
+            
+            <a href="http://localhost:4000/tags#golang" class="post-tag">golang</a>
+            
+            
+        </div>
+        <h1>go切片的技巧</h1>
+        <div class="post-meta">
+            <span class="post-meta-item"><i class="iconfont icon-author"></i><a href="http://localhost:4000" target="_blank" rel="author">tbwisk</a></></span>
+            <time class="post-meta-item" datetime="21-03-02"><i class="iconfont icon-date"></i>02 Mar 2021</time>
+        </div>
+    </div>
+    
+</header>
+
+<div class="post-content">
+    
+    <article class="markdown-body">
+        <h1 id="背景">背景</h1>
+<p>go在内置中有 <strong>append</strong> ，使用 <strong>append</strong> 和 <strong>copy</strong> 可以模仿使用 <strong>container/vector</strong> 包里面的大部分功能。<br />
+下述的内容来源是 <a href="https://github.com/golang/go/wiki/SliceTricks#filtering-without-allocating">golang wiki</a></p>
+
+<h2 id="下面是向量方法和它们的切片操作类似方法">下面是向量方法和它们的切片操作类似方法</h2>
+
+<h3 id="appendvector">AppendVector</h3>
+<p>添加向量列表的数据</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a, b...)
+</code></pre></div></div>
+<h3 id="copy">Copy</h3>
+<p>复制;切片的复制，避免指针的引用问题。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b = make([]T, len(a))
+copy(b, a)
+
+// These two are often a little slower than the above one,
+// but they would be more efficient if there are more
+// elements to be appended to b after copying.
+b = append([]T(nil), a...)
+b = append(a[:0:0], a...)
+</code></pre></div></div>
+<h3 id="cut">Cut</h3>
+<p>剪切;用于移除部分的数据</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a[:i], a[j:]...)
+例如用于移除下标i的数据
+a = append(a[:i], a[i+1:]...)
+</code></pre></div></div>
+<h3 id="delete">Delete</h3>
+<p>删除</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a[:i], a[i+1:]...)
+// or
+a = a[:i+copy(a[i:], a[i+1:])]
+删除的技巧可 Cut的类似
+</code></pre></div></div>
+<h3 id="delete-without-preserving-order">Delete without preserving order</h3>
+<p>不确保顺序的删除</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a[i] = a[len(a)-1] 
+a = a[:len(a)-1]
+将切片最后一位下标的值赋值到i下标中
+然后删除最后一位的数据;确保下标i的数据被替换删除
+</code></pre></div></div>
+<p><strong>注意</strong> 如果元素是一个指针的类型或结构体指针字段,需要垃圾收集,上面的实现削减和删除一个潜在的内存泄漏问题:一些元素值仍引用的部分,因此不能被收集。
+下面的代码可以修复这个问题:</p>
+
+<h3 id="cut-1">Cut</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>copy(a[i:], a[j:])
+for k, n := len(a)-j+i, len(a); k &lt; n; k++ {
+	a[k] = nil // or the zero value of T
+}
+a = a[:len(a)-j+i]
+把 j 后面的数据复制到 i 下标后面
+对需要剪切的数据 赋值为 nil 进行处理
+重新切片处理;移除多余的nil引用
+</code></pre></div></div>
+<h4 id="delete-1">Delete</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>copy(a[i:], a[i+1:])
+a[len(a)-1] = nil // or the zero value of T
+a = a[:len(a)-1]
+</code></pre></div></div>
+<h4 id="delete-without-preserving-order-1">Delete without preserving order</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a[i] = a[len(a)-1]
+a[len(a)-1] = nil
+a = a[:len(a)-1]
+</code></pre></div></div>
+<p>上述的避免内存泄露的问题的解决方案，只要是把对应的指针指向nil。从而减少对象的引用，在gc扫描的时候，可以扫描到被剔除的对应。因此而避免内存泄露。</p>
+
+<h3 id="expand">Expand</h3>
+<p>切片扩大</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a[:i], append(make([]T, j), a[i:]...)...)
+在下标i 中间 扩大 j 的切片数据
+</code></pre></div></div>
+<h3 id="extend">Extend</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a, make([]T, j)...)
+在尾部新增j的容量空间的切片
+</code></pre></div></div>
+<h3 id="filter-in-place">Filter (in place)</h3>
+<p>在适当位置的拦截器</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n := 0
+for _, x := range a {
+	if keep(x) {
+		a[n] = x
+		n++
+	}
+}
+a = a[:n]
+</code></pre></div></div>
+<h3 id="insert">Insert</h3>
+<p>插入</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a[:i], append([]T{x}, a[i:]...)...)
+</code></pre></div></div>
+<p>注意:第二个append使用自己的底层存储创建一个新的slice，并将a[i:]中的元素复制到该slice中，然后将这些元素复制回slice a(通过第一个append)。
+可以使用另外的方便来避免创建新的分片和元素</p>
+<h4 id="insert-1">Insert</h4>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>s = append(s, 0 /* use the zero value of the element type */)
+copy(s[i+1:], s[i:])
+s[i] = x
+</code></pre></div></div>
+<h3 id="insertvector">InsertVector</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a[:i], append(b, a[i:]...)...)
+</code></pre></div></div>
+<p>注意:为了获得最佳效率，最好不使用append进行插入操作，特别是当插入元素的数量已知时</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Assume element type is int.
+func Insert(s []int, k int, vs ...int) []int {
+	if n := len(s) + len(vs); n &lt;= cap(s) {
+		s2 := s[:n]
+		copy(s2[k+len(vs):], s[k:])
+		copy(s2[k:], vs)
+		return s2
+	}
+	s2 := make([]int, len(s) + len(vs))
+	copy(s2, s[:k])
+	copy(s2[k:], vs)
+	copy(s2[k+len(vs):], s[k:])
+	return s2
+}
+
+a = Insert(a, i, b...)
+</code></pre></div></div>
+<h3 id="push">Push</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append(a, x)
+</code></pre></div></div>
+<h3 id="pop">Pop</h3>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x, a = a[len(a)-1], a[:len(a)-1]
+选取最后一个元素
+移除最后一个元素
+</code></pre></div></div>
+<h3 id="push-frontunshift">Push Front/Unshift</h3>
+<p>在开头插入元素</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = append([]T{x}, a...)
+</code></pre></div></div>
+<h3 id="pop-frontshift">Pop Front/Shift</h3>
+<p>移除首位元素</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>x, a = a[0], a[1:]
+</code></pre></div></div>
+<h2 id="additional-tricks-额外的技巧">Additional Tricks 额外的技巧</h2>
+<h3 id="filtering-without-allocating">Filtering without allocating</h3>
+<p>这个技巧利用了一个切片与原始切片共享相同的后备数组和容量这一事实，因此存储被过滤后的切片重用。当然，原始内容会被修改。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>b := a[:0]
+for _, x := range a {
+	if f(x) {
+		b = append(b, x)
+	}
+}
+</code></pre></div></div>
+<p>对于必须被垃圾回收的元素，可以随后包含以下代码:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i := len(b); i &lt; len(a); i++ {
+	a[i] = nil // or the zero value of T
+}
+</code></pre></div></div>
+<h3 id="reversing-反转">Reversing 反转</h3>
+<p>将一个切片的内容替换为相同的元素，但顺序相反:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i := len(a)/2-1; i &gt;= 0; i-- {
+	opp := len(a)-1-i
+	a[i], a[opp] = a[opp], a[i]
+}
+</code></pre></div></div>
+<p>同样是反转</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for left, right := 0, len(a)-1; left &lt; right; left, right = left+1, right-1 {
+	a[left], a[right] = a[right], a[left]
+}
+</code></pre></div></div>
+<h3 id="shuffling-洗牌">Shuffling 洗牌</h3>
+<p>把一个数组乱序处理</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for i := len(a) - 1; i &gt; 0; i-- {
+    j := rand.Intn(i + 1)
+    a[i], a[j] = a[j], a[i]
+}
+</code></pre></div></div>
+<h3 id="batching-with-minimal-allocation-使用最小分配进行批处理">Batching with minimal allocation 使用最小分配进行批处理</h3>
+<p>如果您想对大型片进行批处理，这很有用。
+分片处理,把一个大分片切割成小的分片。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>actions := []int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
+batchSize := 3
+batches := make([][]int, 0, (len(actions) + batchSize - 1) / batchSize)
+
+for batchSize &lt; len(actions) {
+    actions, batches = actions[batchSize:], append(batches, actions[0:batchSize:batchSize])
+}
+batches = append(batches, actions)
+</code></pre></div></div>
+<p>结果如下</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[[0 1 2] [3 4 5] [6 7 8] [9]]
+</code></pre></div></div>
+<h3 id="in-place-deduplicate-comparable">In-place deduplicate (comparable)</h3>
+<p>合并去重处理 ;剔除重复的数据</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import "sort"
+
+in := []int{3,2,1,4,3,2,1,4,1} // any item can be sorted
+sort.Ints(in)
+j := 0
+for i := 1; i &lt; len(in); i++ {
+	if in[j] == in[i] {
+		continue
+	}
+	j++
+	// preserve the original data
+	// in[i], in[j] = in[j], in[i]
+	// only set what is required
+	in[j] = in[i]
+}
+result := in[:j+1]
+fmt.Println(result) // [1 2 3 4]
+</code></pre></div></div>
+<h3 id="move-to-front-or-prepend-if-not-present-in-place-if-possible">Move to front, or prepend if not present, in place if possible.</h3>
+<p>移动到前面，如果不存在，则在适当的位置新增元素。</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// moveToFront moves needle to the front of haystack, in place if possible.
+func moveToFront(needle string, haystack []string) []string {
+	if len(haystack) != 0 &amp;&amp; haystack[0] == needle {
+		return haystack
+	}
+	prev := needle
+	for i, elem := range haystack {
+		switch {
+		case i == 0:
+			haystack[0] = needle
+			prev = elem
+		case elem == needle:
+			haystack[i] = prev
+			return haystack
+		default:
+			haystack[i] = prev
+			prev = elem
+		}
+	}
+	return append(haystack, prev)
+}
+
+haystack := []string{"a", "b", "c", "d", "e"} // [a b c d e]
+haystack = moveToFront("c", haystack)         // [c a b d e]
+haystack = moveToFront("f", haystack)         // [f c a b d e]
+</code></pre></div></div>
+<h3 id="sliding-window-滑动窗口">Sliding Window 滑动窗口</h3>
+<p>类似于窗口分片处理</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func slidingWindow(size int, input []int) [][]int {
+	// returns the input slice as the first element
+	if len(input) &lt;= size {
+		return [][]int{input}
+	}
+
+	// allocate slice at the precise size we need
+	r := make([][]int, 0, len(input)-size+1)
+
+	for i, j := 0, size; j &lt;= len(input); i, j = i+1, j+1 {
+		r = append(r, input[i:j])
+	}
+
+	return r
+}
+</code></pre></div></div>
+<p>结果如下</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>result := slidingWindow(3, []int{1, 2, 3, 4,5,6,7,8})
+fmt.Println(result) //[[1 2 3] [2 3 4] [3 4 5] [4 5 6] [5 6 7] [6 7 8]]
+</code></pre></div></div>
+
+<h2 id="总结">总结</h2>
+<p>擅用 slice 切片 以及避免 slice引用导致的bug。</p>
+
+    </article>
+    
+    <div class="social-share-wrapper">
+        <div class="social-share"></div>
+    </div>
+    
+</div>
+
+<section class="author-detail">
+    <section class="post-footer-item author-card">
+        <div class="avatar">
+            <img src="https://imgs.txrdb.xyz/author.png" alt="">
+        </div>
+        <div class="author-name" rel="author">方伟强</div>
+        <div class="bio">
+            <p>Python&Go开发者&Android，热爱技术&设计，简单乐观爱创造</p>
+        </div>
+        
+        <ul class="sns-links">
+            
+            <li>
+                <a href="//weibo.com/maxexpower" target="_blank">
+                    <i class="iconfont icon-weibo"></i>
+                </a>
+            </li>
+            
+            <li>
+                <a href="//github.com/tbwisk" target="_blank">
+                    <i class="iconfont icon-github"></i>
+                </a>
+            </li>
+            
+        </ul>
+        
+    </section>
+    <section class="post-footer-item read-next">
+        
+        <div class="read-next-item">
+            <a href="/2021/03/07/go-comments.html" class="read-next-link"></a>
+            <section>
+                <span>go comments</span>
+                <p>背景go comments 注释，能让代码可阅读性更强。</p>
+            </section>
+            
+        </div>
+        
+        
+        <div class="read-next-item">
+            <a href="/2020/04/28/redigo%E7%9A%84%E4%BD%BF%E7%94%A8.html" class="read-next-link"></a>
+            <section>
+                <span>go如何选取使用redis的库</span>
+                <p>背景当我们遇到问题的时候，如何去选择一个库呢？ 首先可以找 github上面 的 go awesome例如 htt...</p>
+            </section>
+            
+        </div>
+        
+    </section>
+    
+    <section class="post-footer-item comment">
+        <div id="disqus_thread"></div>
+    </section>
+    
+</section>
+
+<footer class="g-footer">
+    <section>方伟强的独立博客 © 2022</section>
+    <!-- <section>Powered by <a href="//jekyllrb.com">Jekyll</a> | <a href="https://github.com/kaeyleo/jekyll-theme-H2O">Theme H2O</a></section> -->
+</footer>
+
+<script src="/assets/js/social-share.min.js"></script>
+<script>
+    socialShare('.social-share', {
+        sites: ['wechat','weibo','douban','twitter'],
+        wechatQrcodeTitle: "分享到微信朋友圈",
+        wechatQrcodeHelper: '<p>扫码后点击右上角</p><p>将本文分享至朋友圈</p>'
+    });
+</script>
+<script>
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+/*写入自己的disqus信息*/
+s.src = 'http://tbwisk.github.io/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://tbwisk.github.io/assets/js/prism.js"></script>
+<script src="https://tbwisk.github.io/assets/js/index.min.js"></script>
+</body>
+</html>
